@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Header from "next/head";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -26,12 +27,12 @@ export default function Home() {
         <p className="text-lg md:text-xl text-center max-w-2xl mb-8 leading-relaxed">
           Discover amazing products at unbeatable prices. Your one-stop online shop for everything you need.
         </p>
-        <button
+        <Link href="/men"><button
           aria-label="Shop Now"
           className="bg-[#fffdfd] text-pink-600 font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-pink-100 hover:scale-105 transition-transform"
         >
           Shop Now
-        </button>
+        </button></Link>
       </div>
       <div className='bg-[#aba4a4] h-0.5 w-full rounded-full'></div>
       <section class="text-gray-400 body-font bg-[#ededed]">
