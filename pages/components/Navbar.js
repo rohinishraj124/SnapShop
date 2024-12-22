@@ -58,7 +58,7 @@ const Navbar = ({ cart, addCart, removeFromCart, total, clearCart }) => {
           </a>
         </div>
 
-        {/* Center: Navigation Links */}
+        {/* Center: Navigation Links (Desktop) */}
         <div className="hidden md:flex space-x-8 mx-auto">
           <a href="/men" className="text-gray-600 hover:text-pink-500">Men</a>
           <a href="/women" className="text-gray-600 hover:text-pink-500">Women</a>
@@ -75,6 +75,28 @@ const Navbar = ({ cart, addCart, removeFromCart, total, clearCart }) => {
           >
             <FaShoppingCart className="w-6 h-6" />
           </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu (Sliding from Left) */}
+      <div
+        className={`fixed left-0 top-0 w-64 bg-white h-full transform transition-transform duration-300 ease-in-out z-50 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+      >
+        <div className="flex p-4 border-b">
+          <Link href="/"><div className="text-gray-800 text-2xl font-bold">SnapShop</div></Link>
+          <button
+            className="text-gray-600 focus:outline-none ml-auto"
+            onClick={() => setMenuOpen(false)}
+          >
+            <HiX className="w-6 h-6" />
+          </button>
+        </div>
+        <div className=" flex flex-col p-4 space-y-4">
+          <a href="/men" className="text-gray-600 hover:text-pink-500">Men</a>
+          <a href="/women" className="text-gray-600 hover:text-pink-500">Women</a>
+          <a href="/kids" className="text-gray-600 hover:text-pink-500">Kids</a>
+          <a href="/beauty" className="text-gray-600 hover:text-pink-500">Beauty</a>
+          <a href="/home&living" className="text-gray-600 hover:text-pink-500">Home & Living</a>
         </div>
       </div>
 
@@ -130,7 +152,6 @@ const Navbar = ({ cart, addCart, removeFromCart, total, clearCart }) => {
           <p className="text-gray-800 font-bold text-right">
             Total: ${total(cart).toFixed(2)}
           </p>
-          {/* Conditionally disable the checkout button if cart is empty */}
           <Link href="/checkout">
             <button
               className={`w-full bg-pink-500 text-white py-2 rounded hover:bg-pink-600 ${Object.keys(cart).length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
