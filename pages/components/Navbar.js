@@ -1,31 +1,30 @@
-'use client'
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import React from 'react';
-import { FaShoppingCart, FaTrash } from 'react-icons/fa';
+import { FaShoppingCart } from 'react-icons/fa';
 import { HiMenu, HiX } from 'react-icons/hi';
+import Link from 'next/link';
 
-const Navbar = ({ toggleDarkMode, darkMode }) => {
+const Navbar = ({ cart, addCart, removeFromCart, total, clearCart }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([
-    { id: 1, name: 'Men’s Jacket', price: 49.99, quantity: 1 },
-    { id: 2, name: 'Women’s Dress', price: 39.99, quantity: 2 },
-    { id: 3, name: 'Kids’ Shoes', price: 29.99, quantity: 1 },
-  ]);
+  const cartRef = useRef(null); // Create a ref for the cart sidebar
 
-  const updateQuantity = (id, change) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + change) }
-          : item
-      )
-    );
-  };
+  // Close the cart if a click occurs outside the cart
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (cartRef.current && !cartRef.current.contains(event.target)) {
+        setCartOpen(false);
+      }
+    };
 
-  const deleteItem = (id) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
-  };
+    // Add event listener
+    document.addEventListener('mousedown', handleClickOutside);
+
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <nav className="bg-white shadow-md w-full z-50 h-14 sticky top-0">
@@ -79,39 +78,9 @@ const Navbar = ({ toggleDarkMode, darkMode }) => {
         </div>
       </div>
 
-      {/* Mobile Menu - Toggle based on `menuOpen` state */}
-      <div
-        className={`fixed inset-0 bg-gray-800 bg-opacity-50 transition-opacity duration-300 ease-in-out z-40 ${menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-        onClick={() => setMenuOpen(false)} // Close menu when clicking outside
-      />
-      <div
-        className={`fixed left-0 top-0 h-full bg-white w-64 transform transition-transform duration-300 ease-in-out z-50 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
-      >
-        <div className="flex p-4 border-b">
-          <h3 className="font-bold text-xl">SnapShop</h3>
-          <button
-            className="text-gray-600 focus:outline-none ml-auto"
-            onClick={() => setMenuOpen(false)}
-          >
-            <HiX className="w-6 h-6" />
-          </button>
-        </div>
-        {/* Mobile Menu Links (Vertical) */}
-        <div className="p-4 space-y-4">
-          <a href="/men" className="text-gray-600 hover:text-pink-500 block">Men</a>
-          <a href="/women" className="text-gray-600 hover:text-pink-500 block">Women</a>
-          <a href="/kids" className="text-gray-600 hover:text-pink-500 block">Kids</a>
-          <a href="/beauty" className="text-gray-600 hover:text-pink-500 block">Beauty</a>
-          <a href="/home&living" className="text-gray-600 hover:text-pink-500 block">Home & Living</a>
-        </div>
-      </div>
-
       {/* Cart Sidebar */}
       <div
-        className={`fixed inset-0 bg-gray-800 bg-opacity-50 transition-opacity duration-300 ease-in-out z-40 ${cartOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-        onClick={() => setCartOpen(false)} // Close cart when clicking outside
-      />
-      <div
+        ref={cartRef} // Attach the ref to the cart sidebar
         className={`fixed right-0 top-0 h-full bg-white w-80 transform transition-transform duration-300 ease-in-out z-50 ${cartOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
         <div className="flex p-4 border-b">
@@ -124,34 +93,32 @@ const Navbar = ({ toggleDarkMode, darkMode }) => {
           </button>
         </div>
         <div className="p-4 space-y-4">
-          {cartItems.length === 0 ? (
+          {Object.keys(cart).length === 0 ? (
             <p className="text-gray-600 text-center">Your Cart is empty</p>
           ) : (
-            cartItems.map((item) => (
-              <div key={item.id} className="flex justify-between items-center">
+            Object.keys(cart).map((key) => (
+              <div key={key} className="flex justify-between items-center">
                 <div>
-                  <p className="text-gray-800 font-bold">{item.name}</p>
-                  <p className="text-gray-600 text-sm font-semibold">${item.price.toFixed(2)}</p>
+                  <p className="text-gray-800 font-bold">{cart[key].name}</p>
+                  <p className="text-gray-600 text-sm font-semibold">
+                    ${cart[key].price.toFixed(2)} x {cart[key].qty}
+                  </p>
                 </div>
                 <div className="flex items-center space-x-2">
                   <button
                     className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
-                    onClick={() => updateQuantity(item.id, -1)}
+                    onClick={() => removeFromCart(key, 1)}
                   >
                     –
                   </button>
-                  <span>{item.quantity}</span>
+                  <span>{cart[key].qty}</span>
                   <button
                     className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
-                    onClick={() => updateQuantity(item.id, 1)}
+                    onClick={() => {
+                      addCart(key, 1, cart[key].price, cart[key].name, cart[key].size, cart[key].variant);
+                    }}
                   >
                     +
-                  </button>
-                  <button
-                    className="text-red-500 hover:text-red-700 focus:outline-none"
-                    onClick={() => deleteItem(item.id)}
-                  >
-                    <FaTrash className="w-5 h-5" />
                   </button>
                 </div>
               </div>
@@ -160,12 +127,21 @@ const Navbar = ({ toggleDarkMode, darkMode }) => {
         </div>
 
         <div className="p-4 border-t">
-          <button className="w-full bg-pink-500 text-white py-2 rounded hover:bg-pink-600">
-            Checkout
-          </button>
+          <p className="text-gray-800 font-bold text-right">
+            Total: ${total(cart).toFixed(2)}
+          </p>
+          {/* Conditionally disable the checkout button if cart is empty */}
+          <Link href="/checkout">
+            <button
+              className={`w-full bg-pink-500 text-white py-2 rounded hover:bg-pink-600 ${Object.keys(cart).length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+              disabled={Object.keys(cart).length === 0}
+            >
+              Checkout
+            </button>
+          </Link>
           <button
             className="w-full mt-4 bg-pink-500 text-white py-2 rounded hover:bg-pink-600"
-            onClick={() => setCartItems([])}
+            onClick={clearCart}
           >
             Clear Cart
           </button>
