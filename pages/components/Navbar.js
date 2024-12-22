@@ -88,7 +88,7 @@ const Navbar = ({ toggleDarkMode, darkMode }) => {
         className={`fixed left-0 top-0 h-full bg-white w-64 transform transition-transform duration-300 ease-in-out z-50 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
         <div className="flex p-4 border-b">
-          <h3 className='font-bold text-xl'>SnapShop</h3>
+          <h3 className="font-bold text-xl">SnapShop</h3>
           <button
             className="text-gray-600 focus:outline-none ml-auto"
             onClick={() => setMenuOpen(false)}
@@ -112,7 +112,7 @@ const Navbar = ({ toggleDarkMode, darkMode }) => {
         onClick={() => setCartOpen(false)} // Close cart when clicking outside
       />
       <div
-        className={`fixed left-0 top-0 h-full bg-white w-80 transform transition-transform duration-300 ease-in-out z-50 ${cartOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        className={`fixed right-0 top-0 h-full bg-white w-80 transform transition-transform duration-300 ease-in-out z-50 ${cartOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
         <div className="flex p-4 border-b">
           <div className="text-gray-800 text-2xl font-bold">Cart</div>
