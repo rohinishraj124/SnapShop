@@ -79,13 +79,40 @@ const Navbar = ({ toggleDarkMode, darkMode }) => {
         </div>
       </div>
 
+      {/* Mobile Menu - Toggle based on `menuOpen` state */}
+      <div
+        className={`fixed inset-0 bg-gray-800 bg-opacity-50 transition-opacity duration-300 ease-in-out z-40 ${menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        onClick={() => setMenuOpen(false)} // Close menu when clicking outside
+      />
+      <div
+        className={`fixed left-0 top-0 h-full bg-white w-64 transform transition-transform duration-300 ease-in-out z-50 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+      >
+        <div className="flex p-4 border-b">
+          <h3 className='font-bold text-xl'>SnapShop</h3>
+          <button
+            className="text-gray-600 focus:outline-none ml-auto"
+            onClick={() => setMenuOpen(false)}
+          >
+            <HiX className="w-6 h-6" />
+          </button>
+        </div>
+        {/* Mobile Menu Links (Vertical) */}
+        <div className="p-4 space-y-4">
+          <a href="/men" className="text-gray-600 hover:text-pink-500 block">Men</a>
+          <a href="/women" className="text-gray-600 hover:text-pink-500 block">Women</a>
+          <a href="/kids" className="text-gray-600 hover:text-pink-500 block">Kids</a>
+          <a href="/beauty" className="text-gray-600 hover:text-pink-500 block">Beauty</a>
+          <a href="/home&living" className="text-gray-600 hover:text-pink-500 block">Home & Living</a>
+        </div>
+      </div>
+
       {/* Cart Sidebar */}
       <div
         className={`fixed inset-0 bg-gray-800 bg-opacity-50 transition-opacity duration-300 ease-in-out z-40 ${cartOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         onClick={() => setCartOpen(false)} // Close cart when clicking outside
       />
       <div
-        className={`fixed right-0 top-0 h-full bg-white w-80 transform transition-transform duration-300 ease-in-out z-50 ${cartOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed left-0 top-0 h-full bg-white w-80 transform transition-transform duration-300 ease-in-out z-50 ${cartOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
         <div className="flex p-4 border-b">
           <div className="text-gray-800 text-2xl font-bold">Cart</div>
@@ -97,40 +124,40 @@ const Navbar = ({ toggleDarkMode, darkMode }) => {
           </button>
         </div>
         <div className="p-4 space-y-4">
-  {cartItems.length === 0 ? (
-    <p className="text-gray-600 text-center">Your Cart is empty</p>
-  ) : (
-    cartItems.map((item) => (
-      <div key={item.id} className="flex justify-between items-center">
-        <div>
-          <p className="text-gray-800 font-bold">{item.name}</p>
-          <p className="text-gray-600 text-sm font-semibold">${item.price.toFixed(2)}</p>
+          {cartItems.length === 0 ? (
+            <p className="text-gray-600 text-center">Your Cart is empty</p>
+          ) : (
+            cartItems.map((item) => (
+              <div key={item.id} className="flex justify-between items-center">
+                <div>
+                  <p className="text-gray-800 font-bold">{item.name}</p>
+                  <p className="text-gray-600 text-sm font-semibold">${item.price.toFixed(2)}</p>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <button
+                    className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                    onClick={() => updateQuantity(item.id, -1)}
+                  >
+                    –
+                  </button>
+                  <span>{item.quantity}</span>
+                  <button
+                    className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                    onClick={() => updateQuantity(item.id, 1)}
+                  >
+                    +
+                  </button>
+                  <button
+                    className="text-red-500 hover:text-red-700 focus:outline-none"
+                    onClick={() => deleteItem(item.id)}
+                  >
+                    <FaTrash className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
         </div>
-        <div className="flex items-center space-x-2">
-          <button
-            className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
-            onClick={() => updateQuantity(item.id, -1)}
-          >
-            –
-          </button>
-          <span>{item.quantity}</span>
-          <button
-            className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
-            onClick={() => updateQuantity(item.id, 1)}
-          >
-            +
-          </button>
-          <button
-            className="text-red-500 hover:text-red-700 focus:outline-none"
-            onClick={() => deleteItem(item.id)}
-          >
-            <FaTrash className="w-5 h-5" />
-          </button>
-        </div>
-      </div>
-    ))
-  )}
-</div>
 
         <div className="p-4 border-t">
           <button className="w-full bg-pink-500 text-white py-2 rounded hover:bg-pink-600">
