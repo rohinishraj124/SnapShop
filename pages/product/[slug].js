@@ -12,14 +12,16 @@ export default function Page() {
   const checkServiceAvailability = async () => {
     if (!pin || isNaN(pin)) return;
   
-    let response = await fetch('http://localhost:3000/api/pincode');
+    let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/pincode`);
     let pinjson = await response.json();
     console.log(pinjson);
     const enteredPin = Number(pin);
     if (pinjson.includes(enteredPin)) {
       setService(true); 
+      setPin('');
     } else {
       setService(false); 
+      setPin('');
     }
     setShowFlash(true);
   
@@ -173,6 +175,9 @@ export default function Page() {
               placeholder="Enter Pin Code"
               className="w-40 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-300 focus:outline-none"
               onChange={onChange}
+              maxLength="6"
+              minLength="6"
+
             />
             <button
               onClick={checkServiceAvailability}
