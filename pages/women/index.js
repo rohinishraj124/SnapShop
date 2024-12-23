@@ -19,93 +19,109 @@ const women = () => {
       <div className="container px-5 py-16 mx-auto">
         {/* Adjust grid layout for small and large screens */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          <Link href={'/women/tshirts'}>
+          <Link href={'/women/ethnic'}>
             <div className="cursor-pointer shadow-lg p-4 w-full h-full">
               <div className="block relative h-48 rounded overflow-hidden">
                 <img
                   alt="ecommerce"
                   className="m-auto h-[30vh] md:h-[36vh] block"
-                  src="https://m.media-amazon.com/images/I/612Rl6GKHoL._AC_UL480_FMwebp_QL65_.jpg" // Updated image link
+                  src="https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/31141456/2024/11/19/c2199616-b230-41d2-b2ad-7911a8502cc71732013802268-GoSriKi-Ethnic-Motifs-Printed-Pleated-Mirror-Work-Anarkali-K-1.jpg" // Updated image link
                 />
               </div>
               <div className="text-center mt-4">
                 <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">women</h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">T-shirts</h2>
+                <h2 className="text-gray-900 title-font text-lg font-medium">Ethnic Wear</h2>
               </div>
             </div>
           </Link>
-          <Link href={'/women/shirts'}>
+          <Link href={'/women/casualwear'}>
             <div className="cursor-pointer shadow-lg p-4 w-full h-full">
               <div className="block relative h-48 rounded overflow-hidden">
                 <img
                   alt="ecommerce"
                   className="m-auto h-[30vh] md:h-[36vh] block"
-                  src="https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQgHhByJHFj5WEl70x6A9szuqPfKjGoU4txq04SywTzH8WtarUsArYaKn3XAcpV5eCpVcnupCxyHgdjLgm9jTP99OTpdxvcTcojjefKSwmOsDPIFXUc5zlj&usqp=CAE" // Updated image link
+                  src="https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/12221932/2023/9/7/b2f738cc-7837-43f5-aafd-815d26ac01a61694083281119SASSAFRASBlackHighNeckCroppedTop1.jpg" // Updated image link
                 />
               </div>
               <div className="text-center mt-4">
                 <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">women</h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">Shirts</h2>
+                <h2 className="text-gray-900 title-font text-lg font-medium">Casual Wear</h2>
               </div>
             </div>
           </Link>
-          <Link href={'/women/jeans'}>
+          <Link href={'/women/western'}>
             <div className="cursor-pointer shadow-lg p-4 w-full h-full">
               <div className="block relative h-48 rounded overflow-hidden">
                 <img
                   alt="ecommerce"
                   className="m-auto h-[30vh] md:h-[36vh] block"
-                  src="https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRevRCxEnapOx-Oa0JKEtW06Ggc9fAPMrbRLr-eCMRHTYY2_UmzmDcp-taj6qSzfJ_Dznax6O0EehdLupH8vp-jBoFdxouIeIP5q8SLvNnrt2EcvfSQ4upv&usqp=CAE" // Updated image link
+                  src="https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/2024/NOVEMBER/12/sRv0QM0Z_06dc3d2c107842a49dc854d5e2b83293.jpg" // Updated image link
                 />
               </div>
               <div className="text-center mt-4">
                 <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">women</h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">Jeans</h2>
+                <h2 className="text-gray-900 title-font text-lg font-medium">Western Wear</h2>
               </div>
             </div>
           </Link>
-          <Link href={'/women/shorts'}>
+          <Link href={'/women/innerwear'}>
             <div className="cursor-pointer shadow-lg p-4 w-full h-full">
               <div className="block relative h-48 rounded overflow-hidden">
                 <img
                   alt="ecommerce"
                   className="m-auto h-[30vh] md:h-[36vh] block"
-                  src="https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQSlGMXtbDUKCmd33Oe2PFqox4M7XGEiQnXdrvHmBRNbbspbFl3BlF_Bhfk6hICSPUEAq_FTv_ihpRTIk2-hTFrrJQecnc5QeYLouKpYUg&usqp=CAE" // Updated image link
+                  src="https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/25114674/2023/9/22/411b3f52-01ff-472b-bd0e-e207a0b2af2d1695388415253MashaWomenRedPinkPrintedNightsuit1.jpg" // Updated image link
                 />
               </div>
               <div className="text-center mt-4">
                 <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">women</h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">Shorts</h2>
+                <h2 className="text-gray-900 title-font text-lg font-medium">Innerwear and Sleepwear</h2>
               </div>
             </div>
           </Link>
-          <Link href={'/women/shoes'}>
+          <Link href={'/women/footwear'}>
             <div className="cursor-pointer shadow-lg p-4 w-full h-full">
               <div className="block relative h-48 rounded overflow-hidden">
                 <img
                   alt="ecommerce"
-                  className="m-auto h-[30vh] md:h-[36vh] block"
-                  src="https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcStaex7SFDWZgW9xdtRJ_AhsoTU7HFtE7Jh2-OVvlWCN5DrHEts5cofjzK_05leRPp6KOm5E5s7Z2jgUVVAUsaC13z5-LdiNw_nDsyKnx59dgIBPV7aJ4ggGQ" // Updated image link
+                  className="m-auto h-[36vh] md:h-[36vh] block object-cover object-bottom"
+                  src="https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/30849918/2024/9/23/3c9ddf37-36e6-4c36-9b16-605bd007c1fa1727050403375-Lavie-Women-Solid-Open-Toe-Platform-Sandals-2611727050403007-2.jpg"
                 />
               </div>
+
               <div className="text-center mt-4">
                 <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">women</h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">Shoes & Trousers</h2>
+                <h2 className="text-gray-900 title-font text-lg font-medium">Footwear</h2>
               </div>
             </div>
           </Link>
-          <Link href={'/women/infant'}>
+          <Link href={'/women/kids'}>
             <div className="cursor-pointer shadow-lg p-4 w-full h-full">
               <div className="block relative h-48 rounded overflow-hidden">
                 <img
                   alt="ecommerce"
                   className="m-auto h-[30vh] md:h-[36vh] block"
-                  src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTTMUtHjPilml8RemwvRq7EX3yOpyKDxmd9RnSSXe_BzgsmnLdhOZrZKrLgUw2pC8tGJw783Vard8F2dq_fRG3pZjQ2qjJn4Uehiqskx8s&usqp=CAE" // Updated image link
+                  src="https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/26563830/2023/12/21/3eadc80a-38f4-49aa-af6a-80f74400f48c1703131101959DoubleLayerOffShoulderKidsJumpsuit1.jpg" // Updated image link
                 />
               </div>
               <div className="text-center mt-4">
                 <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">women</h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">Infant Necessities</h2>
+                <h2 className="text-gray-900 title-font text-lg font-medium">Kids Wear</h2>
+              </div>
+            </div>
+          </Link>
+          <Link href={'/women/jewellery'}>
+            <div className="cursor-pointer shadow-lg p-4 w-full h-full">
+              <div className="block relative h-48 rounded overflow-hidden">
+                <img
+                  alt="ecommerce"
+                  className="m-auto h-[30vh] md:h-[36vh] block"
+                  src="https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/29979838/2024/6/17/f09ffb9d-ed35-4043-888e-e86fc2d8e7381718613422437Bracelet1.jpg" // Updated image link
+                />
+              </div>
+              <div className="text-center mt-4">
+                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">women</h3>
+                <h2 className="text-gray-900 title-font text-lg font-medium">Jewellery</h2>
               </div>
             </div>
           </Link>

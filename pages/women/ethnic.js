@@ -1,12 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
 
-const jeans = () => {
+const Ethnic = () => {
   const products = Array(8).fill({
     category: 'CATEGORY',
     title: 'The Catalyzer',
     price: '₹399',
-    image: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRevRCxEnapOx-Oa0JKEtW06Ggc9fAPMrbRLr-eCMRHTYY2_UmzmDcp-taj6qSzfJ_Dznax6O0EehdLupH8vp-jBoFdxouIeIP5q8SLvNnrt2EcvfSQ4upv&usqp=CAE',
+    image: 'https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/31141456/2024/11/19/c2199616-b230-41d2-b2ad-7911a8502cc71732013802268-GoSriKi-Ethnic-Motifs-Printed-Pleated-Mirror-Work-Anarkali-K-1.jpg',
     href: '/product/wear-the-tshirts',
   });
 
@@ -46,4 +46,4 @@ const jeans = () => {
   );
 };
 
-export default jeans;
+export default Ethnic;

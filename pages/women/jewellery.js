@@ -1,12 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
 
-const jeans = () => {
+const jewellery = () => {
   const products = Array(8).fill({
     category: 'CATEGORY',
     title: 'The Catalyzer',
     price: '₹399',
-    image: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRevRCxEnapOx-Oa0JKEtW06Ggc9fAPMrbRLr-eCMRHTYY2_UmzmDcp-taj6qSzfJ_Dznax6O0EehdLupH8vp-jBoFdxouIeIP5q8SLvNnrt2EcvfSQ4upv&usqp=CAE',
+    image: 'https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/29979838/2024/6/17/f09ffb9d-ed35-4043-888e-e86fc2d8e7381718613422437Bracelet1.jpg',
     href: '/product/wear-the-tshirts',
   });
 
@@ -46,4 +46,4 @@ const jeans = () => {
   );
 };
 
-export default jeans;
+export default jewellery;

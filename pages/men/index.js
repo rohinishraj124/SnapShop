@@ -13,7 +13,7 @@ const men = () => {
           width={400} // Adjust the width as needed
           height={200}
           className="object-contain"
-        /> */}
+        /> */} 
         <img className='mt-5 rounded-4 p-6' src="https://img.freepik.com/premium-vector/50-percent-off-discount-creative-composition-summer-sale-banner-with-watermelon-sale-banner-poster_3482-7242.jpg" alt="" />
       </div>
       <div className="container px-5 py-16 mx-auto">
@@ -64,6 +64,21 @@ const men = () => {
               </div>
             </div>
           </Link>
+          <Link href={'/men/jeans'}>
+            <div className="cursor-pointer shadow-lg p-4 w-full h-full">
+              <div className="block relative h-48 rounded overflow-hidden">
+                <img
+                  alt="ecommerce"
+                  className="m-auto h-[30vh] md:h-[36vh] block"
+                  src="https://imgs.search.brave.com/QL2jsWBQTs_5N-VUcGm5yudP3lSGJQtwpCeM6dOdxvc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLmV0/c3lzdGF0aWMuY29t/LzIyOTY5MDg5L2Mv/NTY0LzU2NC8wLzAv/aWwvZWQxNDUwLzQz/NDg5NzkyNDYvaWxf/NjAweDYwMC40MzQ4/OTc5MjQ2X293ODEu/anBn" // Updated image link
+                />
+              </div>
+              <div className="text-center mt-4">
+                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">Men</h3>
+                <h2 className="text-gray-900 title-font text-lg font-medium">Ethnic Wear</h2>
+              </div>
+            </div>
+          </Link>
           <Link href={'/men/shorts'}>
             <div className="cursor-pointer shadow-lg p-4 w-full h-full">
               <div className="block relative h-48 rounded overflow-hidden">
@@ -75,7 +90,7 @@ const men = () => {
               </div>
               <div className="text-center mt-4">
                 <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">Men</h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">Shorts</h2>
+                <h2 className="text-gray-900 title-font text-lg font-medium">Shorts & Trousers </h2>
               </div>
             </div>
           </Link>
@@ -90,7 +105,7 @@ const men = () => {
               </div>
               <div className="text-center mt-4">
                 <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">Men</h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">Shoes & Trousers</h2>
+                <h2 className="text-gray-900 title-font text-lg font-medium">Shoes </h2>
               </div>
             </div>
           </Link>

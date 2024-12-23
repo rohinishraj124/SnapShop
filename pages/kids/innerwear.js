@@ -1,12 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
 
-const jeans = () => {
+const Innerwear = () => {
   const products = Array(8).fill({
     category: 'CATEGORY',
     title: 'The Catalyzer',
     price: '₹399',
-    image: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRevRCxEnapOx-Oa0JKEtW06Ggc9fAPMrbRLr-eCMRHTYY2_UmzmDcp-taj6qSzfJ_Dznax6O0EehdLupH8vp-jBoFdxouIeIP5q8SLvNnrt2EcvfSQ4upv&usqp=CAE',
+    image: 'https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQXyIAq-6G-sWWVr5_6IkfA__2WYUEYT23-X-IQW8YG5Xbj4AQzSJ9-0PzqkYdlvh1yBSxz6nt5WSeQ0C1xN6qQoWEyuZCDFLIWpqNcgkM&usqp=CAE',
     href: '/product/wear-the-tshirts',
   });
 
@@ -46,4 +46,4 @@ const jeans = () => {
   );
 };
 
-export default jeans;
+export default Innerwear;
