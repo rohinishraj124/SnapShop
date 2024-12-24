@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-const women = () => {
+const WomenCategory = () => {
   return (
     <section className="flex flex-col justify-center items-center text-gray-600 body-font">
       <h3 className="text-2xl font-bold text-center mt-6">Categories To Bag</h3>
@@ -29,7 +29,7 @@ const women = () => {
                 />
               </div>
               <div className="text-center mt-4">
-                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">women</h3>
+                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">Women</h3>
                 <h2 className="text-gray-900 title-font text-lg font-medium">Ethnic Wear</h2>
               </div>
             </div>
@@ -44,7 +44,7 @@ const women = () => {
                 />
               </div>
               <div className="text-center mt-4">
-                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">women</h3>
+                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">Women</h3>
                 <h2 className="text-gray-900 title-font text-lg font-medium">Casual Wear</h2>
               </div>
             </div>
@@ -59,7 +59,7 @@ const women = () => {
                 />
               </div>
               <div className="text-center mt-4">
-                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">women</h3>
+                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">Women</h3>
                 <h2 className="text-gray-900 title-font text-lg font-medium">Western Wear</h2>
               </div>
             </div>
@@ -74,7 +74,7 @@ const women = () => {
                 />
               </div>
               <div className="text-center mt-4">
-                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">women</h3>
+                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">Women</h3>
                 <h2 className="text-gray-900 title-font text-lg font-medium">Innerwear and Sleepwear</h2>
               </div>
             </div>
@@ -90,7 +90,7 @@ const women = () => {
               </div>
 
               <div className="text-center mt-4">
-                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">women</h3>
+                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">Women</h3>
                 <h2 className="text-gray-900 title-font text-lg font-medium">Footwear</h2>
               </div>
             </div>
@@ -105,7 +105,7 @@ const women = () => {
                 />
               </div>
               <div className="text-center mt-4">
-                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">women</h3>
+                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">Women</h3>
                 <h2 className="text-gray-900 title-font text-lg font-medium">Kids Wear</h2>
               </div>
             </div>
@@ -120,7 +120,7 @@ const women = () => {
                 />
               </div>
               <div className="text-center mt-4">
-                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">women</h3>
+                <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">Women</h3>
                 <h2 className="text-gray-900 title-font text-lg font-medium">Jewellery</h2>
               </div>
             </div>
@@ -131,4 +131,4 @@ const women = () => {
   );
 };
 
-export default women;
+export default WomenCategory;

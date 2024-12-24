@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import React from 'react';
-import { FaShoppingCart } from 'react-icons/fa';
+import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { HiMenu, HiX } from 'react-icons/hi';
 import Link from 'next/link';
 
@@ -67,8 +67,16 @@ const Navbar = ({ cart, addCart, removeFromCart, total, clearCart }) => {
           <a href="/home&living" className="text-gray-600 hover:text-pink-500">Home & Living</a>
         </div>
 
-        {/* Right: Cart Icon */}
+        {/* Right: Profile and Cart Icons */}
         <div className="flex items-center ml-auto">
+          {/* Profile Icon */}
+          <Link href="/login">
+            <button className="text-gray-600 hover:text-pink-500 flex items-center">
+              <FaUser className="w-6 h-6" />
+            </button>
+          </Link>
+
+          {/* Cart Icon */}
           <button
             className="text-gray-600 hover:text-pink-500 flex items-center ml-4"
             onClick={() => setCartOpen(!cartOpen)}
@@ -91,7 +99,7 @@ const Navbar = ({ cart, addCart, removeFromCart, total, clearCart }) => {
             <HiX className="w-6 h-6" />
           </button>
         </div>
-        <div className=" flex flex-col p-4 space-y-4">
+        <div className="flex flex-col p-4 space-y-4">
           <a href="/men" className="text-gray-600 hover:text-pink-500">Men</a>
           <a href="/women" className="text-gray-600 hover:text-pink-500">Women</a>
           <a href="/kids" className="text-gray-600 hover:text-pink-500">Kids</a>
