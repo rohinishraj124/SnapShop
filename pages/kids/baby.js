@@ -6,7 +6,7 @@ const baby = () => {
     category: 'CATEGORY',
     title: 'The Catalyzer',
     price: '₹399',
-    image: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSojmIbMljJI0FpbjQIYsxOmPBGIewHN1NXAoJ3SzTqskHwQmn6_rL_COHIvFv949GMuXjA-49H-csUdVw4ShHEMtEfUg13j7fHseIs0m8&usqp=CAE',
+    image: 'https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcR3CwMpbMcLbiGVvE_tMbIyruRxC3RDbmRdpOaua28INzCcfN8Ap5UpWzx2A0HwAbWupNqqSqNkesKKmJphUud9V86JBtRLf5HgTeRHAp2P_HDZRb_JN5vWuQ&usqp=CAE',
     href: '/product/wear-the-tshirts',
   });
 

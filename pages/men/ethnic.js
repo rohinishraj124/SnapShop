@@ -47,7 +47,7 @@ export async function getServerSideProps() {
   }
 
   // Fetch products from the database
-  let products = await Product.find({ category: 'innerwear', genre: 'women' });
+  let products = await Product.find({ category: 'ethnic', genre: 'men' });
 
   // Optionally, you can add a virtual field `href` if it's not in your schema
   products = products.map(product => ({
