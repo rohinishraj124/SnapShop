@@ -42,19 +42,19 @@ const AddProduct = () => {
 
       if (response.ok) {
         alert('Product added successfully!');
-        setForm({
-          title: '',
-          slug: '',
-          price: '',
-          desc: 'SnapShop: Where Every Click Leads to Style!',
-          genre: '',
-          category: '',
-          img: '',
-          size: 'M',
-          color: 'red',
-          rating: 5,
-          availableQty: '50',
-        });
+        // setForm({
+        //   title: '',
+        //   slug: '',
+        //   price: '',
+        //   desc: 'SnapShop: Where Every Click Leads to Style!',
+        //   genre: '',
+        //   category: '',
+        //   img: '',
+        //   size: 'M',
+        //   color: 'red',
+        //   rating: 5,
+        //   availableQty: '50',
+        // });
       } else {
         setError(data.error || 'Failed to add product.');
       }

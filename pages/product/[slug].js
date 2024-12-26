@@ -1,26 +1,88 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
+import mongoose from 'mongoose';
 
-export default function Page({ addCart }) {
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
+import Product from '../../models/Product';
+
+export default function Page({ addCart, product, variants, clearCart }) {
   const [quantity, setQuantity] = useState(1);
-  const [pin, setPin] = useState('');
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [image, setImage] = useState(product.img); // Initialize with the default image
   const [service, setService] = useState(null);
-  const [showFlash, setShowFlash] = useState(false); // State to control flash visibility
+  const [pin, setPin] = useState('');
+  const [showFlash, setShowFlash] = useState(false);
+  
+  const router = useRouter();
+
+  // Update image based on selected color and size
+  useEffect(() => {
+    if (selectedColor) {
+      const colorVariants = variants[selectedColor];
+      if (colorVariants && selectedSize) {
+        setImage(colorVariants[selectedSize]?.img || product.img); // Default to product image if no variant image found
+      }
+    }
+  }, [selectedColor, selectedSize]);
+
+  const handleColorSelect = (color) => {
+    setSelectedColor(color);
+    const availableSizes = Object.keys(variants[color]);
+    if (availableSizes.length > 0) {
+      setSelectedSize(availableSizes[0]);
+    } else {
+      setSelectedSize(null);
+    }
+  };
+
+  const handleSizeSelect = (e) => {
+    setSelectedSize(e.target.value);
+  };
+
+  const handleQuantityChange = (event) => {
+    setQuantity(Number(event.target.value));
+  };
+
+  const handleAddToCart = () => {
+    addCart(
+      product._id,
+      quantity,
+      product.price,
+      product.title,
+      selectedSize,
+      selectedColor
+    );
+  };
+
+  const handleBuyNow = () => {
+    clearCart();
+    addCart(
+      product._id,
+      quantity,
+      product.price,
+      product.title,
+      selectedSize,
+      selectedColor
+    );
+    router.push('/checkout');
+  };
+
+  const onChange = (e) => {
+    setPin(e.target.value);
+  };
 
   const checkServiceAvailability = async () => {
     if (!pin || isNaN(pin)) return;
 
     let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/pincode`);
     let pinjson = await response.json();
-    console.log(pinjson);
     const enteredPin = Number(pin);
     if (pinjson.includes(enteredPin)) {
-      setService(true); 
+      setService(true);
       setPin('');
     } else {
-      setService(false); 
+      setService(false);
       setPin('');
     }
     setShowFlash(true);
@@ -30,112 +92,58 @@ export default function Page({ addCart }) {
     }, 1500);
   };
 
-  const onChange = (e) => {
-    setPin(e.target.value);
-  };
-
-  const handleQuantityChange = (event) => {
-    setQuantity(Number(event.target.value));
-  };
-
-  const handleAddToCart = () => {
-    // Ensure you're passing the correct arguments to addCart
-    addCart(
-      product.name, // Assuming product.name is your itemCode or slug
-      quantity,
-      product.price,
-      product.name,
-      'M', // Placeholder for the selected size (you can replace this with dynamic size)
-      'Red' // Placeholder for the selected variant (you can replace this with dynamic variant)
-    );
-  };
-
-  const router = useRouter();
-  const { slug } = router.query;
-
-  useEffect(() => {
-    if (!slug) return;
-
-    const fetchProduct = async () => {
-      setLoading(true);
-      const data = {
-        name: 'The Catcher in the Rye',
-        brand: 'BRAND NAME',
-        price: 499,
-        description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ut ratione corporis ducimus tempore odit, hic velit voluptatem voluptate id necessitatibus modi quis repellat blanditiis excepturi. Velit odio incidunt eaque voluptas quisquam.",
-        image: 'https://m.media-amazon.com/images/I/612Rl6GKHoL._AC_UL480_FMwebp_QL65_.jpg',
-        reviews: 4,
-        colors: ['#ffffff', '#4a4a4a', '#d90429'],
-        sizes: ['SM', 'M', 'L', 'XL'],
-      };
-      setProduct(data);
-      setLoading(false);
-    };
-
-    fetchProduct();
-  }, [slug]);
-
-  if (loading) return <div>Loading...</div>;
+  // Check if buttons should be disabled
+  const isButtonDisabled = !selectedColor || !selectedSize;
 
   return (
     <section className="text-gray-600 body-font overflow-hidden">
       <div className="container px-5 py-14 mx-auto">
-        <div className="lg:w-full mx-auto flex lg:flex-nowrap flex-wrap"> {/* Prevent wrapping at lg and above */}
+        <div className="lg:w-full mx-auto flex lg:flex-nowrap flex-wrap">
           <img
             alt="ecommerce"
-            className="lg:w-1/2 w-full p-24 -mt-4 lg:h-auto object-cover object-center rounded"
-            src={product.image}
+            className="lg:w-[30em] w-[30em] m-auto p-14 -mt-4 lg:h-auto object-cover object-center rounded"
+            src={image} 
           />
           <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-            <h2 className="text-sm title-font text-gray-500 tracking-widest">{product.brand}</h2>
-            <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{product.name}</h1>
-            <div className="flex mb-4">
-              <span className="flex items-center">
-                {[...Array(5)].map((_, index) => (
-                  <svg
-                    key={index}
-                    fill={index < product.reviews ? 'currentColor' : 'none'}
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="w-4 h-4 text-pink-500"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                  </svg>
-                ))}
-                <span className="text-gray-600 ml-3">{product.reviews} Reviews</span>
-              </span>
-            </div>
-            <p className="leading-relaxed">{product.description}</p>
+            <h2 className="text-xl title-font text-gray-500 tracking-widest">SnapShop</h2>
+            <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{product.title} ({selectedSize}/{selectedColor})</h1>
+
             <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
               <div className="flex">
                 <span className="mr-3">Color</span>
-                {product.colors.map((color, index) => (
+                {Object.keys(variants || {}).map((color, index) => (
                   <button
                     key={index}
-                    className="border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none"
+                    className={`border-2 rounded-full w-6 h-6 focus:outline-none ${selectedColor === color ? 'border-black' : 'border-gray-300'}`}
                     style={{ backgroundColor: color }}
+                    onClick={() => handleColorSelect(color)}
                   ></button>
                 ))}
               </div>
+
               <div className="flex ml-6 items-center">
                 <span className="mr-3">Size</span>
                 <div className="relative">
-                  <select className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-pink-500 text-base pl-3 pr-10">
-                    {product.sizes.map((size, index) => (
-                      <option key={index}>{size}</option>
-                    ))}
+                  <select
+                    className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-pink-500 text-base pl-3 pr-10"
+                    onChange={handleSizeSelect}
+                    value={selectedSize || ''}
+                  >
+                    <option value="" disabled>
+                      Select Size
+                    </option>
+                    {selectedColor &&
+                      variants[selectedColor] &&
+                      Object.keys(variants[selectedColor]).map((size, index) => (
+                        <option key={index} value={size}>
+                          {size}
+                        </option>
+                      ))}
                   </select>
-                  <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
-                    <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4" viewBox="0 0 24 24">
-                      <path d="M6 9l6 6 6-6"></path>
-                    </svg>
-                  </span>
                 </div>
               </div>
             </div>
+
             <div className="flex flex-col sm:flex-row items-center mt-6">
               <span className="title-font font-semibold text-2xl text-gray-900 m-4">₹{product.price.toFixed(2)}</span>
 
@@ -160,18 +168,24 @@ export default function Page({ addCart }) {
                   +
                 </button>
               </div>
+
+              {/* Add to Cart Button */}
               <button
                 onClick={handleAddToCart}
-                className="ml-auto mt-4 sm:mt-0 w-full sm:w-auto bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-pink-300 sm:h-auto"
+                className={`ml-auto mt-4 sm:mt-0 w-full sm:w-auto bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-pink-300 sm:h-auto ${isButtonDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={isButtonDisabled}
               >
                 Add to Cart
               </button>
-              <button
-                onClick={handleAddToCart}
-                className="ml-auto mt-4 sm:mt-0 w-full sm:w-auto bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white font-bold py-2.5 px-5 rounded-lg shadow-md transition duration-300 transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-pink-300 sm:h-auto"
+
+              {/* Buy Now Button */}
+              <Link
+                className={`ml-auto text-center mt-4 sm:mt-0 w-full sm:w-auto bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white font-bold py-2.5 px-5 rounded-lg shadow-md transition duration-300 transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-pink-300 sm:h-auto ${isButtonDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                href="#"
+                onClick={handleBuyNow}
               >
                 Buy Now
-              </button>
+              </Link>
             </div>
 
             <div className="mt-8">
@@ -184,18 +198,18 @@ export default function Page({ addCart }) {
                   onChange={onChange}
                   maxLength="6"
                   minLength="6"
+                  value={pin}
                 />
                 <button
+                  className="bg-pink-500 text-white px-4 py-2 rounded-lg"
                   onClick={checkServiceAvailability}
-                  className="bg-pink-500 hover:bg-pink-600 text-white py-2 px-6 rounded-lg focus:outline-none"
                 >
                   Check
                 </button>
               </div>
-
               {showFlash && (
-                <div className={`mt-4 p-2 text-white rounded-lg ${service ? 'bg-green-500' : 'bg-red-500'}`}>
-                  {service ? 'Service is available' : 'Service is not available'}
+                <div className={`mt-4 ${service ? 'text-green-600' : 'text-red-600'}`}>
+                  {service ? 'Service available in your area.' : 'Sorry, we do not deliver to this area.'}
                 </div>
               )}
             </div>
@@ -204,4 +218,47 @@ export default function Page({ addCart }) {
       </div>
     </section>
   );
+}
+
+
+
+
+
+export async function getServerSideProps(context) {
+  // Connect to MongoDB if not already connected
+  if (!mongoose.connections[0].readyState) {
+    await mongoose.connect(process.env.MONGO_URI);
+  }
+
+  // Fetch the product based on the slug
+  let products = await Product.findOne({ slug: context.query.slug });
+  let variants = await Product.find({ title: products.title });
+  console.log("Variants:", variants);
+  console.log("Product:", products);
+
+  let colorSizeSlug = {};
+
+  // Organize variants by color and size, and add the img field for each color
+  for (let item of variants) {
+    if (Object.keys(colorSizeSlug).includes(item.color)) {
+      colorSizeSlug[item.color][item.size] = { 
+        slug: item.slug,
+        img: item.img // Add the image for each variant
+      };
+    } else {
+      colorSizeSlug[item.color] = {};
+      colorSizeSlug[item.color][item.size] = { 
+        slug: item.slug,
+        img: item.img // Add the image for each variant
+      };
+    }
+  }
+
+  // Return product and organized variants as props
+  return {
+    props: { 
+      product: JSON.parse(JSON.stringify(products)), 
+      variants: JSON.parse(JSON.stringify(colorSizeSlug)) 
+    },
+  };
 }

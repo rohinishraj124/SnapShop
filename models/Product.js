@@ -10,15 +10,15 @@ const ProductSchema = new Schema(
     genre: { type: String, required: true },
     category: { type: String, required: true },
     img: { type: String, required: true },
-    size: { type: String, default: 'M' },
-    color: { type: String},
+    size: { type: String, default: ['S','M','L','XL'] }, // Updated to an array of strings
+    color: { type: String, default: ['red','blue','green','black'] },  // Updated to an array of strings
     rating: { type: Number, default: 0 },
     availableQty: { type: Number, required: true },
   },
   { timestamps: true } // Automatically adds `createdAt` and `updatedAt` fields
 );
 
-// You can remove the `mongoose.models = {};` line if you're not facing redefinition issues
+// Define the model only if it has not already been defined
 const Product = mongoose.models.Product || mongoose.model('Product', ProductSchema);
 
 module.exports = Product;

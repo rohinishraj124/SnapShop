@@ -111,7 +111,7 @@ const Navbar = ({ cart, addCart, removeFromCart, total, clearCart }) => {
       {/* Cart Sidebar */}
       <div
         ref={cartRef} // Attach the ref to the cart sidebar
-        className={`fixed right-0 top-0 h-full bg-white w-80 transform transition-transform duration-300 ease-in-out z-50 ${cartOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed right-0 top-0 h-full bg-white w-80 overflow-y-scroll transform transition-transform duration-300 ease-in-out z-50 ${cartOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
         <div className="flex p-4 border-b">
           <div className="text-gray-800 text-2xl font-bold">Cart</div>

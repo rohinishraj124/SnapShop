@@ -2,11 +2,13 @@ import '../styles/globals.css';
 import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import { useRouter } from 'next/router';
+import { set } from 'mongoose';
 
 function MyApp({ Component, pageProps }) {
   const [cart, setCart] = useState({});
   const [subtotal, setSubtotal] = useState(0);
-
+  const router  = useRouter();
   useEffect(() => {
     try {
       if (typeof window !== 'undefined' && localStorage.getItem('cart')) {
@@ -58,7 +60,7 @@ function MyApp({ Component, pageProps }) {
     for (let item in myCart) {
       sum += myCart[item].price * myCart[item].qty;
     }
-    console.log('Cart total:', sum);  // Debugging log
+    // console.log('Cart total:', sum);  // Debugging log
     return sum;
   };
 
