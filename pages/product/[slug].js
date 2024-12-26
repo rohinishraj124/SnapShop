@@ -2,26 +2,24 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import mongoose from 'mongoose';
-
 import Product from '../../models/Product';
+import { ToastContainer, toast , Slide  } from 'react-toastify';
 
 export default function Page({ addCart, product, variants, clearCart }) {
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
-  const [image, setImage] = useState(product.img); // Initialize with the default image
+  const [image, setImage] = useState(product.img);
   const [service, setService] = useState(null);
   const [pin, setPin] = useState('');
   const [showFlash, setShowFlash] = useState(false);
-
   const router = useRouter();
 
-  // Update image based on selected color and size
   useEffect(() => {
     if (selectedColor) {
       const colorVariants = variants[selectedColor];
       if (colorVariants && selectedSize) {
-        setImage(colorVariants[selectedSize]?.img || product.img); // Default to product image if no variant image found
+        setImage(colorVariants[selectedSize]?.img || product.img);
       }
     }
   }, [selectedColor, selectedSize]);
@@ -74,15 +72,36 @@ export default function Page({ addCart, product, variants, clearCart }) {
 
   const checkServiceAvailability = async () => {
     if (!pin || isNaN(pin)) return;
-
     let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/pincode`);
     let pinjson = await response.json();
     const enteredPin = Number(pin);
     if (pinjson.includes(enteredPin)) {
       setService(true);
+      toast.success('Your Pincode is Serviceable', {
+        position: "bottom-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+      });
       setPin('');
     } else {
       setService(false);
+      toast.error('Sorry ! Your Pincode is not Serviceable', {
+        position: "bottom-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+      });
       setPin('');
     }
     setShowFlash(true);
@@ -97,6 +116,19 @@ export default function Page({ addCart, product, variants, clearCart }) {
 
   return (
     <section className="text-gray-600 body-font overflow-hidden">
+      <ToastContainer
+        position="bottom-center"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="light"
+        transition={Slide}
+      />
       <div className="container px-5 py-14 mx-auto">
         <div className="lg:w-full mx-auto flex lg:flex-nowrap flex-wrap">
           <img
@@ -133,7 +165,6 @@ export default function Page({ addCart, product, variants, clearCart }) {
                 ))}
               </div>
             </div>
-
 
             <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
               <div className="flex">
