@@ -18,7 +18,7 @@ const shirts = ({ products }) => {
                 <div className="relative h-48 rounded overflow-hidden">
                   <img
                     alt="ecommerce"
-                    className="m-auto h-[30vh] md:h-[36vh] block object-cover object-center"
+                    className="m-auto h-[30vh]  block object-cover object-center"
                     src={products[product].img}
                   />
                 </div>

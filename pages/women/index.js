@@ -24,7 +24,7 @@ const WomenCategory = () => {
               <div className="block relative h-48 rounded overflow-hidden">
                 <img
                   alt="ecommerce"
-                  className="m-auto h-[30vh] md:h-[36vh] block"
+                  className="m-auto h-[30vh]  block"
                   src="https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/31141456/2024/11/19/c2199616-b230-41d2-b2ad-7911a8502cc71732013802268-GoSriKi-Ethnic-Motifs-Printed-Pleated-Mirror-Work-Anarkali-K-1.jpg" // Updated image link
                 />
               </div>
@@ -39,7 +39,7 @@ const WomenCategory = () => {
               <div className="block relative h-48 rounded overflow-hidden">
                 <img
                   alt="ecommerce"
-                  className="m-auto h-[30vh] md:h-[36vh] block"
+                  className="m-auto h-[30vh]  block"
                   src="https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/12221932/2023/9/7/b2f738cc-7837-43f5-aafd-815d26ac01a61694083281119SASSAFRASBlackHighNeckCroppedTop1.jpg" // Updated image link
                 />
               </div>
@@ -54,7 +54,7 @@ const WomenCategory = () => {
               <div className="block relative h-48 rounded overflow-hidden">
                 <img
                   alt="ecommerce"
-                  className="m-auto h-[30vh] md:h-[36vh] block"
+                  className="m-auto h-[30vh]  block"
                   src="https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/2024/NOVEMBER/12/sRv0QM0Z_06dc3d2c107842a49dc854d5e2b83293.jpg" // Updated image link
                 />
               </div>
@@ -69,7 +69,7 @@ const WomenCategory = () => {
               <div className="block relative h-48 rounded overflow-hidden">
                 <img
                   alt="ecommerce"
-                  className="m-auto h-[30vh] md:h-[36vh] block"
+                  className="m-auto h-[30vh]  block"
                   src="https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/25114674/2023/9/22/411b3f52-01ff-472b-bd0e-e207a0b2af2d1695388415253MashaWomenRedPinkPrintedNightsuit1.jpg" // Updated image link
                 />
               </div>
@@ -84,7 +84,7 @@ const WomenCategory = () => {
               <div className="block relative h-48 rounded overflow-hidden">
                 <img
                   alt="ecommerce"
-                  className="m-auto h-[36vh] md:h-[36vh] block object-cover object-bottom"
+                  className="m-auto h-[36vh]  block object-cover object-bottom"
                   src="https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/30849918/2024/9/23/3c9ddf37-36e6-4c36-9b16-605bd007c1fa1727050403375-Lavie-Women-Solid-Open-Toe-Platform-Sandals-2611727050403007-2.jpg"
                 />
               </div>
@@ -100,7 +100,7 @@ const WomenCategory = () => {
               <div className="block relative h-48 rounded overflow-hidden">
                 <img
                   alt="ecommerce"
-                  className="m-auto h-[30vh] md:h-[36vh] block"
+                  className="m-auto h-[30vh]  block"
                   src="https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/26563830/2023/12/21/3eadc80a-38f4-49aa-af6a-80f74400f48c1703131101959DoubleLayerOffShoulderKidsJumpsuit1.jpg" // Updated image link
                 />
               </div>
@@ -115,7 +115,7 @@ const WomenCategory = () => {
               <div className="block relative h-48 rounded overflow-hidden">
                 <img
                   alt="ecommerce"
-                  className="m-auto h-[30vh] md:h-[36vh] block"
+                  className="m-auto h-[30vh]  block"
                   src="https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/29979838/2024/6/17/f09ffb9d-ed35-4043-888e-e86fc2d8e7381718613422437Bracelet1.jpg" // Updated image link
                 />
               </div>
