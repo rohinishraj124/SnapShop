@@ -42,10 +42,10 @@ const Footer = () => {
                                 <Link href="/kids" className="text-gray-600 hover:text-pink-800">Kids</Link>
                             </li>
                             <li>
-                                <Link href="/home_living" className="text-gray-600 hover:text-pink-800">Home & Living</Link>
+                                {/* <Link href="/home_living" className="text-gray-600 hover:text-pink-800">Home & Living</Link>
                             </li>
                             <li>
-                                <Link href="/beauty" className="text-gray-600 hover:text-pink-800">Beauty</Link>
+                                <Link href="/beauty" className="text-gray-600 hover:text-pink-800">Beauty</Link> */}
                             </li>
                         </nav>
                     </div>

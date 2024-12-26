@@ -63,8 +63,8 @@ const Navbar = ({ cart, addCart, removeFromCart, total, clearCart }) => {
           <a href="/men" className="text-gray-600 hover:text-pink-500">Men</a>
           <a href="/women" className="text-gray-600 hover:text-pink-500">Women</a>
           <a href="/kids" className="text-gray-600 hover:text-pink-500">Kids</a>
-          <a href="/beauty" className="text-gray-600 hover:text-pink-500">Beauty</a>
-          <a href="/home&living" className="text-gray-600 hover:text-pink-500">Home & Living</a>
+          {/* <a href="/beauty" className="text-gray-600 hover:text-pink-500">Beauty</a>
+          <a href="/home&living" className="text-gray-600 hover:text-pink-500">Home & Living</a> */}
         </div>
 
         {/* Right: Profile and Cart Icons */}
@@ -103,8 +103,8 @@ const Navbar = ({ cart, addCart, removeFromCart, total, clearCart }) => {
           <a href="/men" className="text-gray-600 hover:text-pink-500">Men</a>
           <a href="/women" className="text-gray-600 hover:text-pink-500">Women</a>
           <a href="/kids" className="text-gray-600 hover:text-pink-500">Kids</a>
-          <a href="/beauty" className="text-gray-600 hover:text-pink-500">Beauty</a>
-          <a href="/home&living" className="text-gray-600 hover:text-pink-500">Home & Living</a>
+          {/* <a href="/beauty" className="text-gray-600 hover:text-pink-500">Beauty</a>
+          <a href="/home&living" className="text-gray-600 hover:text-pink-500">Home & Living</a> */}
         </div>
       </div>
 

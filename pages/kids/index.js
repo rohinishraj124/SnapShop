@@ -44,7 +44,7 @@ const Kids = () => {
               </div>
               <div className="text-center mt-4">
                 <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">kids</h3>
-                <h2 className="text-gray-900 title-font text-lg font-medium">Baby Clothes</h2>
+                <h2 className="text-gray-900 title-font text-lg font-medium">Baby Care</h2>
               </div>
             </div>
           </Link>

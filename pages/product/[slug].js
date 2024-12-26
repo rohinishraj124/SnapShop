@@ -13,7 +13,7 @@ export default function Page({ addCart, product, variants, clearCart }) {
   const [service, setService] = useState(null);
   const [pin, setPin] = useState('');
   const [showFlash, setShowFlash] = useState(false);
-  
+
   const router = useRouter();
 
   // Update image based on selected color and size
@@ -102,11 +102,38 @@ export default function Page({ addCart, product, variants, clearCart }) {
           <img
             alt="ecommerce"
             className="lg:w-[30em] w-[30em] m-auto p-14 -mt-4 lg:h-auto object-cover object-center rounded"
-            src={image} 
+            src={image}
           />
           <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-            <h2 className="text-xl title-font text-gray-500 tracking-widest">SnapShop</h2>
-            <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{product.title} ({selectedSize}/{selectedColor})</h1>
+            <h3 className="text-l title-font text-gray-500 tracking-widest">SnapShop</h3>
+            <h2 className="text-gray-900 text-2xl title-font font-medium mb-1">
+              {product.title} ({selectedSize}/{selectedColor})
+            </h2>
+            <p className="leading-relaxed">{product.desc}</p>
+            <div className="flex items-center">
+              <span className="mr-2">Rating:</span>
+              <div className="flex items-center">
+                {Array.from({ length: 5 }, (_, index) => (
+                  <svg
+                    key={index}
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={`w-4 h-4 ${index < product.rating ? 'text-pink-500' : 'text-gray-300'
+                      }`}
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                    />
+                  </svg>
+                ))}
+              </div>
+            </div>
+
 
             <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
               <div className="flex">
@@ -241,13 +268,13 @@ export async function getServerSideProps(context) {
   // Organize variants by color and size, and add the img field for each color
   for (let item of variants) {
     if (Object.keys(colorSizeSlug).includes(item.color)) {
-      colorSizeSlug[item.color][item.size] = { 
+      colorSizeSlug[item.color][item.size] = {
         slug: item.slug,
         img: item.img // Add the image for each variant
       };
     } else {
       colorSizeSlug[item.color] = {};
-      colorSizeSlug[item.color][item.size] = { 
+      colorSizeSlug[item.color][item.size] = {
         slug: item.slug,
         img: item.img // Add the image for each variant
       };
@@ -256,9 +283,9 @@ export async function getServerSideProps(context) {
 
   // Return product and organized variants as props
   return {
-    props: { 
-      product: JSON.parse(JSON.stringify(products)), 
-      variants: JSON.parse(JSON.stringify(colorSizeSlug)) 
+    props: {
+      product: JSON.parse(JSON.stringify(products)),
+      variants: JSON.parse(JSON.stringify(colorSizeSlug))
     },
   };
 }
