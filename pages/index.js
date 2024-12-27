@@ -50,27 +50,27 @@ export default function Home() {
   const featuredCollections = [
     {
       title: "Tshirts",
-      images: ["/tshirt1.jpg", "/tshirt2.jpg", "/tshirt3.jpg"],
+      images: ["/featured/tshirt1.jpg", "/featured/tshirt2.jpg", "/featured/tshirt3.jpg"],
     },
     {
       title: "Jeans",
-      images: ["/jeans1.jpg", "/jeans2.jpg", "/jeans3.jpg"],
+      images: ["/featured/jeans1.jpg", "/featured/jeans2.jpg", "/featured/jeans3.jpg"],
     },
     {
       title: "Shoes",
-      images: ["/shoes1.jpg", "/shoes2.jpg", "/shoes3.jpg"],
+      images: ["/featured/shoes1.jpg", "/featured/shoes2.jpg", "/featured/shoes3.jpg"],
     },
     {
       title: "Ethnic",
-      images: ["/ethnic1.jpg", "/ethnic2.jpg", "/ethnic3.jpg"],
+      images: ["/featured/ethnic1.jpg", "/featured/ethnic2.jpg", "/featured/ethnic3.jpg"],
     },
     {
       title: "Innerwear",
-      images: ["/innerwear1.jpg", "/innerwear2.jpg", "/innerwear3.jpg"],
+      images: ["/featured/innerwear1.jpg", "/featured/innerwear2.jpg", "/featured/innerwear3.jpg"],
     },
     {
       title: "Casual",
-      images: ["/casual1.jpg", "/casual2.jpg", "/casual3.jpg"],
+      images: ["/featured/casual1.jpg", "/featured/casual2.jpg", "/featured/casual3.jpg"],
     },
   ];
 
@@ -99,7 +99,7 @@ export default function Home() {
           <Slider {...sliderSettings}>
             <div className="relative">
               <Image
-                src="/image1.jpg"
+                src="/featured/image1.jpg"
                 alt="Slide 1"
                 width={800}
                 height={400}
@@ -108,7 +108,7 @@ export default function Home() {
             </div>
             <div className="relative">
               <Image
-                src="/image2.jpg"
+                src="/featured/image2.jpg"
                 alt="Slide 2"
                 width={800}
                 height={400}
@@ -117,7 +117,7 @@ export default function Home() {
             </div>
             <div className="relative">
               <Image
-                src="/image3.jpg"
+                src="/featured/image3.jpg"
                 alt="Slide 3"
                 width={800}
                 height={400}
