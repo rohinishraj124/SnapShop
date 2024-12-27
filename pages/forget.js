@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 const ForgotPassword = () => {
@@ -15,12 +15,12 @@ const ForgotPassword = () => {
       setMessage('Please enter a valid email address.');
     }
   };
-    useEffect(() => {
-      const token = localStorage.getItem('token');
-      if (token) {
-        Router.push('/'); 
-      }
-    }, []);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      Router.push('/');
+    }
+  }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-8 px-4">

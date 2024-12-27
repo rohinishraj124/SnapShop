@@ -1,6 +1,8 @@
 import React from 'react';
+import Order from '../models/Order';
+import mongoose from 'mongoose';
 
-const Order = () => {
+const order = () => {
   return (
     <section className="text-gray-600 body-font overflow-hidden bg-[#ededed]">
       <div className="container px-5 py-24 mx-auto">
@@ -73,5 +75,23 @@ const Order = () => {
     </section>
   );
 };
+export async function getServerSideProps(context) {
+  // Connect to MongoDB if not already connected
+  if (!mongoose.connections[0].readyState) {
+    await mongoose.connect(process.env.MONGO_URI);
+  }
 
-export default Order;
+  let orders = await Order.find({});
+
+
+
+
+  // Return product and organized variants as props
+  return {
+    props: {
+      orders: orders
+    },
+  };
+}
+
+export default order;

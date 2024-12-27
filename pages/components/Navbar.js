@@ -11,42 +11,24 @@ const Navbar = ({ user, cart, addCart, removeFromCart, total, clearCart, logout 
   const cartRef = useRef(null);
   const router = useRouter();
 
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (cartRef.current && !cartRef.current.contains(event.target)) {
-        setCartOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
   const AccountDropdown = ({ logout }) => {
     const [isDropdownVisible, setDropdownVisible] = useState(false);
     const dropdownRef = useRef(null);
-
+  
+    // Toggle dropdown visibility
     const toggleDropdown = () => {
       setDropdownVisible((prev) => !prev);
     };
-
-    const handleMouseEnter = () => {
-      setDropdownVisible(true);
+  
+    // Close dropdown when clicking outside
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownVisible(false);
+      }
     };
-
+  
     useEffect(() => {
-      const handleClickOutside = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-          setDropdownVisible(false);
-        }
-      };
-
       document.addEventListener('mousedown', handleClickOutside);
-
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
       };
@@ -71,28 +53,30 @@ const Navbar = ({ user, cart, addCart, removeFromCart, total, clearCart, logout 
 
     return (
       <div className="relative" ref={dropdownRef}>
-        <button
-          className="text-gray-600 hover:text-pink-500 flex items-center"
-          onClick={toggleDropdown}
-          onMouseEnter={handleMouseEnter}
-        >
-          <FaUser className="w-6 h-6" />
-        </button>
-        {isDropdownVisible && (
-          <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg z-50">
-            <ul className="py-2 text-gray-800">
-              <li className="px-4 py-2 hover:bg-pink-200 cursor-pointer">My Account</li>
-              <Link href={'/order'}><li className="px-4 py-2 hover:bg-pink-200 cursor-pointer">Orders</li></Link>
-              <li
-                className="px-4 py-2 hover:bg-pink-200 cursor-pointer"
-                onClick={handleLogout}
-              >
-                Logout
-              </li>
-            </ul>
-          </div>
-        )}
-      </div>
+      <button
+        className="text-gray-600 hover:text-pink-500 flex items-center"
+        onClick={toggleDropdown}
+      >
+        <FaUser className="w-6 h-6" />
+      </button>
+
+      {isDropdownVisible && (
+        <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg z-50">
+          <ul className="py-2 text-gray-800">
+            <li className="px-4 py-2 hover:bg-pink-200 cursor-pointer"><Link href={"/account"}>My Account</Link></li>
+            <li className="px-4 py-2 hover:bg-pink-200 cursor-pointer">
+              <Link href="/order">Orders</Link>
+            </li>
+            <li
+              className="px-4 py-2 hover:bg-pink-200 cursor-pointer"
+              onClick={logout}
+            >
+              Logout
+            </li>
+          </ul>
+        </div>
+      )}
+    </div>
     );
   };
 
