@@ -18,10 +18,10 @@ const Men = () => {
           {/* T-shirts */}
           <Link href={'/men/tshirts'}>
             <div className="cursor-pointer shadow-lg p-4 w-full h-full">
-              <div className="block relative h-[300px] rounded overflow-hidden">
+               <div className="block relative h-48 rounded overflow-hidden">
                 <img
                   alt="ecommerce"
-                  className="w-full h-full object-cover"
+                  className="m-auto h-[30vh]  block"
                   src="https://m.media-amazon.com/images/I/612Rl6GKHoL._AC_UL480_FMwebp_QL65_.jpg"
                 />
               </div>
@@ -35,10 +35,10 @@ const Men = () => {
           {/* Shirts */}
           <Link href={'/men/shirts'}>
             <div className="cursor-pointer shadow-lg p-4 w-full h-full">
-              <div className="block relative h-[300px] rounded overflow-hidden">
+               <div className="block relative h-48 rounded overflow-hidden">
                 <img
                   alt="ecommerce"
-                  className="w-full h-full object-cover"
+                  className="m-auto h-[30vh]  block"
                   src="https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQgHhByJHFj5WEl70x6A9szuqPfKjGoU4txq04SywTzH8WtarUsArYaKn3XAcpV5eCpVcnupCxyHgdjLgm9jTP99OTpdxvcTcojjefKSwmOsDPIFXUc5zlj&usqp=CAE"
                 />
               </div>
@@ -52,10 +52,10 @@ const Men = () => {
           {/* Jeans */}
           <Link href={'/men/jeans'}>
             <div className="cursor-pointer shadow-lg p-4 w-full h-full">
-              <div className="block relative h-[300px] rounded overflow-hidden">
+               <div className="block relative h-48 rounded overflow-hidden">
                 <img
                   alt="ecommerce"
-                  className="w-full h-full object-cover"
+                  className="m-auto h-[30vh]  block"
                   src="https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRevRCxEnapOx-Oa0JKEtW06Ggc9fAPMrbRLr-eCMRHTYY2_UmzmDcp-taj6qSzfJ_Dznax6O0EehdLupH8vp-jBoFdxouIeIP5q8SLvNnrt2EcvfSQ4upv&usqp=CAE"
                 />
               </div>
@@ -69,10 +69,10 @@ const Men = () => {
           {/* Ethnic Wear */}
           <Link href={'/men/ethnic'}>
             <div className="cursor-pointer shadow-lg p-4 w-full h-full">
-              <div className="block relative h-[300px] rounded overflow-hidden">
+               <div className="block relative h-48 rounded overflow-hidden">
                 <img
                   alt="ecommerce"
-                  className="w-full h-full object-cover"
+                  className="m-auto h-[30vh]  block"
                   src="https://imgs.search.brave.com/QL2jsWBQTs_5N-VUcGm5yudP3lSGJQtwpCeM6dOdxvc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLmV0/c3lzdGF0aWMuY29t/LzIyOTY5MDg5L2Mv/NTY0LzU2NC8wLzAv/aWwvZWQxNDUwLzQz/NDg5NzkyNDYvaWxf/NjAweDYwMC40MzQ4/OTc5MjQ2X293ODEu/anBn"
                 />
               </div>
@@ -86,10 +86,10 @@ const Men = () => {
           {/* Shorts & Trousers */}
           <Link href={'/men/shorts'}>
             <div className="cursor-pointer shadow-lg p-4 w-full h-full">
-              <div className="block relative h-[300px] rounded overflow-hidden">
+               <div className="block relative h-48 rounded overflow-hidden">
                 <img
                   alt="ecommerce"
-                  className="w-full h-full object-cover"
+                  className="m-auto h-[30vh]  block"
                   src="https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQSlGMXtbDUKCmd33Oe2PFqox4M7XGEiQnXdrvHmBRNbbspbFl3BlF_Bhfk6hICSPUEAq_FTv_ihpRTIk2-hTFrrJQecnc5QeYLouKpYUg&usqp=CAE"
                 />
               </div>
@@ -103,10 +103,10 @@ const Men = () => {
           {/* Shoes */}
           <Link href={'/men/shoes'}>
             <div className="cursor-pointer shadow-lg p-4 w-full h-full">
-              <div className="block relative h-[300px] rounded overflow-hidden">
+               <div className="block relative h-48 rounded overflow-hidden">
                 <img
                   alt="ecommerce"
-                  className="w-full h-full object-cover"
+                  className="m-auto h-[30vh]  block"
                   src="https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcStaex7SFDWZgW9xdtRJ_AhsoTU7HFtE7Jh2-OVvlWCN5DrHEts5cofjzK_05leRPp6KOm5E5s7Z2jgUVVAUsaC13z5-LdiNw_nDsyKnx59dgIBPV7aJ4ggGQ"
                 />
               </div>
@@ -120,10 +120,10 @@ const Men = () => {
           {/* Infant Necessities */}
           <Link href={'/men/infant'}>
             <div className="cursor-pointer shadow-lg p-4 w-full h-full">
-              <div className="block relative h-[300px] rounded overflow-hidden">
+               <div className="block relative h-48 rounded overflow-hidden">
                 <img
                   alt="ecommerce"
-                  className="w-full h-full object-cover"
+                  className="m-auto h-[30vh]  block"
                   src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTTMUtHjPilml8RemwvRq7EX3yOpyKDxmd9RnSSXe_BzgsmnLdhOZrZKrLgUw2pC8tGJw783Vard8F2dq_fRG3pZjQ2qjJn4Uehiqskx8s&usqp=CAE"
                 />
               </div>
