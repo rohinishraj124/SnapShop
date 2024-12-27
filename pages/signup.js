@@ -1,34 +1,111 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import Link from 'next/link';
+import { ToastContainer, toast, Slide } from 'react-toastify';
+import { set } from 'mongoose';
+
+const Router = require('next/router');
 
 const Signup = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
+    setError(''); // Reset error state
+
     if (password !== confirmPassword) {
-      alert('Passwords do not match!');
+      toast.error('Passwords do not match!', {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+        });
+      setError('Passwords do not match!');
       return;
     }
-    console.log('Sign-Up Submitted', { name, email, password });
+
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/signup`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, email, password }),
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      toast.success('Signup successful! , Redirecting to login page', {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+        });
+        setTimeout(() => {
+          Router.push('/login');
+        }, 2000);
+    } else {
+      setError(result.error || 'Something went wrong!');
+      toast.error(result.error, {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+        });
+    }
   };
+
+    useEffect(() => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        Router.push('/'); 
+      }
+    }, []);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Slide}
+      />
       <div className="w-full max-w-sm p-6 space-y-8 bg-white rounded-lg shadow-md">
         {/* Logo */}
         <div className="flex justify-center">
-        <svg
+          <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="2"
-            className="w-10 h-10 text-pink-500 text-500"
+            className="w-10 h-10 text-pink-500"
             viewBox="0 0 24 24"
           >
             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
@@ -36,6 +113,9 @@ const Signup = () => {
         </div>
         <h2 className="text-2xl font-bold text-center text-gray-800">Create an Account</h2>
         <form className="space-y-4" onSubmit={handleSignup}>
+          {/* Error Message */}
+          {error && <div className="text-sm text-red-600">{error}</div>}
+
           {/* Name Input */}
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">

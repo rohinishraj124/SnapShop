@@ -1,15 +1,17 @@
 import { useState, useEffect, useRef } from 'react';
-import React from 'react';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { HiMenu, HiX } from 'react-icons/hi';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { ToastContainer, toast, Slide } from 'react-toastify';
 
-const Navbar = ({ cart, addCart, removeFromCart, total, clearCart }) => {
+const Navbar = ({ user, cart, addCart, removeFromCart, total, clearCart, logout }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
-  const cartRef = useRef(null); // Create a ref for the cart sidebar
+  const cartRef = useRef(null);
+  const router = useRouter();
 
-  // Close the cart if a click occurs outside the cart
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (cartRef.current && !cartRef.current.contains(event.target)) {
@@ -17,19 +19,99 @@ const Navbar = ({ cart, addCart, removeFromCart, total, clearCart }) => {
       }
     };
 
-    // Add event listener
     document.addEventListener('mousedown', handleClickOutside);
 
-    // Cleanup the event listener when the component unmounts
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
+  const AccountDropdown = ({ logout }) => {
+    const [isDropdownVisible, setDropdownVisible] = useState(false);
+    const dropdownRef = useRef(null);
+
+    const toggleDropdown = () => {
+      setDropdownVisible((prev) => !prev);
+    };
+
+    const handleMouseEnter = () => {
+      setDropdownVisible(true);
+    };
+
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          setDropdownVisible(false);
+        }
+      };
+
+      document.addEventListener('mousedown', handleClickOutside);
+
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, []);
+
+    const handleLogout = () => {
+      logout();
+      toast.success('Logout successful!', {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+        });
+
+      setDropdownVisible(false);
+    };
+
+    return (
+      <div className="relative" ref={dropdownRef}>
+        <button
+          className="text-gray-600 hover:text-pink-500 flex items-center"
+          onClick={toggleDropdown}
+          onMouseEnter={handleMouseEnter}
+        >
+          <FaUser className="w-6 h-6" />
+        </button>
+        {isDropdownVisible && (
+          <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg z-50">
+            <ul className="py-2 text-gray-800">
+              <li className="px-4 py-2 hover:bg-pink-200 cursor-pointer">My Account</li>
+              <Link href={'/order'}><li className="px-4 py-2 hover:bg-pink-200 cursor-pointer">Orders</li></Link>
+              <li
+                className="px-4 py-2 hover:bg-pink-200 cursor-pointer"
+                onClick={handleLogout}
+              >
+                Logout
+              </li>
+            </ul>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
-    <nav className="bg-white shadow-md w-full z-50 h-14 sticky top-0">
+    <nav className="bg-white shadow-md w-full z-50 h-15 sticky top-0">
+      <ToastContainer
+          position="top-center"
+          autoClose={1000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover={false}
+          theme="light"
+          transition={Slide}
+        />
       <div className="container mx-auto px-4 flex items-center py-4">
-        {/* Left: Menu Toggle Button */}
         <div className="flex items-center md:hidden">
           <button
             className="text-gray-600 focus:outline-none"
@@ -38,8 +120,6 @@ const Navbar = ({ cart, addCart, removeFromCart, total, clearCart }) => {
             {menuOpen ? <HiX className="w-6 h-6" /> : <HiMenu className="w-6 h-6" />}
           </button>
         </div>
-
-        {/* Left: Website Icon */}
         <div className="flex items-center ml-2">
           <a href="/" className="flex items-center">
             <svg
@@ -57,26 +137,21 @@ const Navbar = ({ cart, addCart, removeFromCart, total, clearCart }) => {
             <span className="ml-2 font-bold hidden md:inline">SnapShop</span>
           </a>
         </div>
-
-        {/* Center: Navigation Links (Desktop) */}
         <div className="hidden md:flex space-x-8 mx-auto">
-          <a href="/men" className="text-gray-600 hover:text-pink-500">Men</a>
-          <a href="/women" className="text-gray-600 hover:text-pink-500">Women</a>
-          <a href="/kids" className="text-gray-600 hover:text-pink-500">Kids</a>
-          {/* <a href="/beauty" className="text-gray-600 hover:text-pink-500">Beauty</a>
-          <a href="/home&living" className="text-gray-600 hover:text-pink-500">Home & Living</a> */}
+          <Link href="/men" className="text-gray-600 hover:text-pink-500">Men</Link>
+          <Link href="/women" className="text-gray-600 hover:text-pink-500">Women</Link>
+          <Link href="/kids" className="text-gray-600 hover:text-pink-500">Kids</Link>
         </div>
-
-        {/* Right: Profile and Cart Icons */}
         <div className="flex items-center ml-auto">
-          {/* Profile Icon */}
-          <Link href="/login">
-            <button className="text-gray-600 hover:text-pink-500 flex items-center">
-              <FaUser className="w-6 h-6" />
-            </button>
-          </Link>
-
-          {/* Cart Icon */}
+          {!user ? (
+            <Link href="/login">
+              <button className="text-white bg-pink-500 hover:bg-pink-600 active:bg-pink-700 text-sm font-semibold py-1 px-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 ease-in-out flex items-center">
+                Login
+              </button>
+            </Link>
+          ) : (
+            <AccountDropdown logout={logout} />
+          )}
           <button
             className="text-gray-600 hover:text-pink-500 flex items-center ml-4"
             onClick={() => setCartOpen(!cartOpen)}
@@ -85,8 +160,6 @@ const Navbar = ({ cart, addCart, removeFromCart, total, clearCart }) => {
           </button>
         </div>
       </div>
-
-      {/* Mobile Menu (Sliding from Left) */}
       <div
         className={`fixed left-0 top-0 w-64 bg-white h-full transform transition-transform duration-300 ease-in-out z-50 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
@@ -100,17 +173,13 @@ const Navbar = ({ cart, addCart, removeFromCart, total, clearCart }) => {
           </button>
         </div>
         <div className="flex flex-col p-4 space-y-4">
-          <a href="/men" className="text-gray-600 hover:text-pink-500">Men</a>
-          <a href="/women" className="text-gray-600 hover:text-pink-500">Women</a>
-          <a href="/kids" className="text-gray-600 hover:text-pink-500">Kids</a>
-          {/* <a href="/beauty" className="text-gray-600 hover:text-pink-500">Beauty</a>
-          <a href="/home&living" className="text-gray-600 hover:text-pink-500">Home & Living</a> */}
+          <Link href="/men" className="text-gray-600 hover:text-pink-500">Men</Link>
+          <Link href="/women" className="text-gray-600 hover:text-pink-500">Women</Link>
+          <Link href="/kids" className="text-gray-600 hover:text-pink-500">Kids</Link>
         </div>
       </div>
-
-      {/* Cart Sidebar */}
       <div
-        ref={cartRef} // Attach the ref to the cart sidebar
+        ref={cartRef}
         className={`fixed right-0 top-0 h-full bg-white w-80 overflow-y-scroll transform transition-transform duration-300 ease-in-out z-50 ${cartOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
         <div className="flex p-4 border-b">
@@ -144,9 +213,7 @@ const Navbar = ({ cart, addCart, removeFromCart, total, clearCart }) => {
                   <span>{cart[key].qty}</span>
                   <button
                     className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
-                    onClick={() => {
-                      addCart(key, 1, cart[key].price, cart[key].name, cart[key].size, cart[key].variant);
-                    }}
+                    onClick={() => addCart(key, 1, cart[key].price, cart[key].name, cart[key].size, cart[key].variant)}
                   >
                     +
                   </button>
@@ -155,7 +222,6 @@ const Navbar = ({ cart, addCart, removeFromCart, total, clearCart }) => {
             ))
           )}
         </div>
-
         <div className="p-4 border-t">
           <p className="text-gray-800 font-bold text-right">
             Total: ${total(cart).toFixed(2)}

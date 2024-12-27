@@ -51,6 +51,7 @@ export default function Page({ addCart, product, variants, clearCart }) {
       selectedSize,
       selectedColor
     );
+    alert('Product added to cart');
   };
 
   const handleBuyNow = () => {

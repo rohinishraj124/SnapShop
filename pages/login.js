@@ -1,21 +1,104 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { ToastContainer, toast, Slide } from 'react-toastify';
+import { useRouter } from 'next/router';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const Router = useRouter();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    alert('Login successful!');
-    setEmail('');
-    setPassword('');
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('name', data.name);
+        toast.success('Login successful!', {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Slide,
+        });
+        setEmail('');
+        setPassword('');
+        setTimeout(() => {
+          window.location.href = '/'; 
+        }, 1500); // Allow the toast to show before redirecting
+      } else {
+        setError(data.error || 'Login failed. Please try again.');
+        toast.error(data.error || 'Login failed. Please try again.', {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setError('An error occurred. Please try again later.');
+      toast.error('An error occurred. Please try again later.', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      Router.push('/'); 
+    }
+  }, []);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="light"
+        transition={Slide}
+      />
       <div className="w-full max-w-sm p-6 space-y-8 bg-white rounded-lg shadow-md">
-        {/* Logo */}
         <div className="flex justify-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -31,8 +114,8 @@ const Login = () => {
           </svg>
         </div>
         <h2 className="text-2xl font-bold text-center text-gray-800">Login to Your Account</h2>
+        {error && <div className="text-sm text-red-500 text-center">{error}</div>}
         <form className="space-y-4" onSubmit={handleLogin}>
-          {/* Email Input */}
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Email Address
@@ -47,7 +130,6 @@ const Login = () => {
               placeholder="Enter your email"
             />
           </div>
-          {/* Password Input */}
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
               Password
@@ -62,7 +144,6 @@ const Login = () => {
               placeholder="Enter your password"
             />
           </div>
-          {/* Remember Me and Forgot Password */}
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <input
@@ -78,17 +159,16 @@ const Login = () => {
               Forgot password?
             </Link>
           </div>
-          {/* Login Button */}
           <button
             type="submit"
-            className="w-full px-4 py-2 text-sm font-medium text-white bg-pink-500 rounded-lg hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
+            className={`w-full px-4 py-2 text-sm font-medium text-white bg-pink-500 rounded-lg hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            disabled={loading}
           >
-            Login
+            {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
-        {/* Footer */}
         <p className="text-sm text-center text-gray-600">
-          Don’t have an account?{' '}
+          Don't have an account?{' '}
           <Link href="/signup" className="text-pink-500 hover:underline">
             Sign up
           </Link>

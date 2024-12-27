@@ -81,7 +81,7 @@ export default function Home() {
         const nextIndex = (prev.index + 1) % 3; // assuming 3 images in each collection
         return { ...prev, index: nextIndex };
       });
-    }, 5000);
+    }, 3000);
 
     return () => clearInterval(interval); // Clear interval on component unmount
   }, []);
@@ -172,7 +172,7 @@ export default function Home() {
                     <Image
                       src={
                         isHovered
-                          ? item.images[(currentImage.index + 1) % item.images.length]
+                          ? item.images[(currentImage.index) % item.images.length]
                           : item.images[currentImage.index % item.images.length]
                       }
                       alt={item.title}
@@ -214,7 +214,7 @@ export default function Home() {
                     <Image
                       src={
                         isHovered
-                          ? item.images[(currentImage.index + 1) % item.images.length]
+                          ? item.images[(currentImage.index) % item.images.length]
                           : item.images[currentImage.index % item.images.length]
                       }
                       alt={item.title}
