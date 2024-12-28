@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Product from '@/models/Product';
 import showToast from '@/utils/toastfile';
 import mongoose from 'mongoose';
+
 export default function Page({ addCart, product, variants, clearCart, user }) {
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState(null);
@@ -15,20 +16,39 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
   const [showFlash, setShowFlash] = useState(false);
   const router = useRouter();
 
+  // Track toast ID for removal
+  const [toastId, setToastId] = useState(null);
+
   // Trigger toast on page load if no color is selected
   useEffect(() => {
-    if (!selectedColor) {
-      toast.warning('Please select a color!', {
+    if (!selectedColor && !toastId) {
+      const id = toast.warning('Please select a color!', {
         position: "bottom-center",
-        autoClose: 2000,
+        autoClose: 3000, // 3 seconds auto close
         hideProgressBar: true,
         closeOnClick: false,
         pauseOnHover: false,
         draggable: false,
         theme: "light",
+        onClose: () => {
+          // Log when toast is manually closed
+          console.log('Toast closed!');
+          setToastId(null); // Reset toastId once closed
+        }
       });
+
+      // Store the toast ID for manual dismissal
+      setToastId(id);
+
+      // Manually dismiss the toast after 3 seconds
+      setTimeout(() => {
+        if (toastId) {
+          toast.dismiss(toastId); // Dismiss toast after 3 seconds
+          setToastId(null); // Clear the toastId after dismiss
+        }
+      }, 3000);
     }
-  }, [selectedColor]);
+  }, [selectedColor, toastId]);
 
   useEffect(() => {
     if (selectedColor) {
@@ -44,10 +64,14 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
       showToast({ error: 'Please log in to proceed to checkout.' });
       return;
     }
+  
+    // Check if color and size are selected first
     if (!selectedColor || !selectedSize) {
       toast.error('Please select both color and size!');
       return;
     }
+  
+    // Proceed with adding to the cart after validation
     addCart(
       product._id,
       quantity,
@@ -56,10 +80,11 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
       selectedSize,
       selectedColor
     );
-    alert('Product added to cart!');
+  
+    // Show success toast once product is added to the cart
     showToast({ success: 'Product added to cart!' });
   };
-
+  
   const handleBuyNow = () => {
     if (!user) {
       showToast({ error: 'Please log in to proceed to checkout.' });
@@ -134,10 +159,10 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
     <section className="text-gray-600 body-font overflow-hidden">
       <ToastContainer
         position="bottom-center"
-        autoClose={1000}
+        autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
-        closeOnClick={false}
+        closeOnClick={true}
         rtl={false}
         pauseOnFocusLoss
         draggable
@@ -216,10 +241,12 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row items-center mt-6">
-              <span className="title-font font-semibold text-2xl text-gray-900 m-4">₹{product.price.toFixed(2)}</span>
 
-              <div className="flex items-center border border-gray-300 rounded-lg ml-4">
+            <div className="flex mb-5">
+              <span className="title-font font-medium text-2xl text-gray-900">
+                ₹{product.price}
+              </span>
+              <div className="flex ml-6">
                 <button
                   className="px-2 py-1 bg-gray-200 text-gray-700 rounded-l-lg hover:bg-gray-300 focus:outline-none"
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -230,7 +257,7 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
                   type="number"
                   value={quantity}
                   onChange={handleQuantityChange}
-                  className="w-16 text-center py-2 px-4 border-0 focus:ring-2 focus:ring-pink-300 focus:outline-none"
+                  className="w-12 text-center border-t-0 border-b-0 border-l-0 border-gray-300 focus:ring-0 focus:outline-none"
                   min="1"
                 />
                 <button
@@ -290,7 +317,6 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
     </section>
   );
 }
-
 
 
 export async function getServerSideProps(context) {
