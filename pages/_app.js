@@ -104,12 +104,12 @@ function MyApp({ Component, pageProps }) {
       />
       <Component
          user={user}  // Pass user state to Navbar
-         cart={cart}
-         addCart={addCart}
-         removeFromCart={removeFromCart}
-         clearCart={clearCart}
-         total={calculateTotal}
-         logout={logout}  // Pass logout function to Navbar
+        cart={cart}
+        addCart={addCart}
+        removeFromCart={removeFromCart}
+        clearCart={clearCart}
+        total={calculateTotal}
+        logout={logout}  // Pass logout function to Navbar
         {...pageProps}
       />
       <Footer />

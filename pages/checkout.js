@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
+import { ToastContainer, toast, Slide } from 'react-toastify';
+import { useRouter } from 'next/router';
 
 const Checkout = ({ cart, total, user }) => {
   const [formData, setFormData] = useState({
@@ -15,7 +17,50 @@ const Checkout = ({ cart, total, user }) => {
   const [paymentMethod, setPaymentMethod] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [expandedItem, setExpandedItem] = useState(null); // State to track which item's name is expanded
+  const [expandedItem, setExpandedItem] = useState({}); // State to track which item's name is expanded
+  const [service, setService] = useState('')
+  const [showFlash, setShowFlash] = useState(false);
+  const router = useRouter(); 
+
+  const checkServiceAvailability = async () => {
+    const enteredPin = formData.pinCode;  // Ensure you're using the correct pin from form data
+
+    if (!enteredPin || isNaN(enteredPin)) {
+      return;
+    }
+
+    try {
+      // Fetch the serviceable pin codes from your API
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/pincode`);
+      const pinjson = await response.json();
+
+      if (pinjson.includes(Number(enteredPin))) {
+        setService(true);  // Service available
+        toast.success('Your Pincode is Serviceable', {
+          position: "bottom-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          theme: "light",
+        });
+        setShowFlash(true);
+      } else {
+        setService(false);  // Service not available
+        toast.error('Sorry! Your Pincode is not Serviceable', {
+          position: "bottom-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          theme: "light",
+        });
+        setShowFlash(true);
+      }
+
+      setTimeout(() => {
+        setShowFlash(false);
+      }, 1500);
+    } catch (error) {
+      console.error('Error checking pincode service availability:', error);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -55,34 +100,43 @@ const Checkout = ({ cart, total, user }) => {
     setLoading(true);
     setError('');
 
-    // Prepare the order data
-    const orderData = {
-      userId: user._id, // Assuming `user._id` contains the user ID
-      products: Object.keys(cart).map((key) => ({
-        productId: cart[key].id, // Assuming each cart item has an `id`
-        quantity: cart[key].qty,
-      })),
+    const totalAmount = calculateTotal(); // Ensure total is calculated
+
+    // Generate a random 10-digit orderId
+    const orderId = Date.now();  // Generates a 10-digit number
+
+    // Log to confirm the orderId and amount are correct
+    console.log('Order Details:', {
+      email: formData.email,
+      orderId,  // Ensure orderId is being set here
       address: formData.address,
-      amount: total,
-      paymentMethod,
-    };
+      amount: totalAmount,
+      products: cart,
+    });
+    console.log(cart);
 
-    console.log('Order data:', orderData);  // Add this line to log the order data
-
-    // Send the order data to the API
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/order`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/Order`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(orderData),
+        body: JSON.stringify({
+          email: formData.email,
+          orderId,  // Send the random orderId
+          address: formData.address,
+          amount: totalAmount,  // Send the calculated total
+          products: cart,
+        }),
       });
 
       const data = await response.json();
+      console.log('Order Response:', data);
+
       if (response.ok) {
         alert('Order placed successfully!');
-        // Redirect or clear cart here
+        // Redirect to the /order page
+        router.push('/order');  // Redirect to order page after success
       } else {
         throw new Error(data.message || 'Failed to place the order');
       }
@@ -92,6 +146,8 @@ const Checkout = ({ cart, total, user }) => {
       setLoading(false);
     }
   };
+
+
 
   const calculateTotal = () => {
     let sum = 0;
@@ -107,6 +163,19 @@ const Checkout = ({ cart, total, user }) => {
 
   return (
     <div className="w-full bg-[#ededed] p-4 md:p-8">
+      <ToastContainer
+        position="bottom-center"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="light"
+        transition={Slide}
+      />
       <Head>
         <meta
           name="viewport"
@@ -244,11 +313,13 @@ const Checkout = ({ cart, total, user }) => {
                     placeholder="Enter your pin code"
                     value={formData.pinCode}
                     onChange={handleChange}
+                    onBlur={checkServiceAvailability} // Call check on blur
                     required
                     disabled={!user}
                   />
                 </div>
               </div>
+
 
               {/* Review Cart Items */}
               <div>
@@ -262,23 +333,21 @@ const Checkout = ({ cart, total, user }) => {
                       const truncatedName = item.name.length > 20 ? `${item.name.slice(0, 20)}` : item.name;
                       return (
                         <div key={key} className="flex justify-between items-center">
-                          <div>
-                            <span>Image</span>
+                          <div className='md:w-1/2 w-40'>
                             <span
                               className="font-medium text-gray-800 cursor-pointer"
-                             
                             >
-                              {expandedItem === key ? item.name : truncatedName}
+                              {expandedItem[key] ? item.name : truncatedName}
                             </span>
-                            {!expandedItem && item.name.length > 20 && (
+                            {!expandedItem[key] && item.name.length > 20 && (
                               <button
                                 className="mx-2 text-blue-500 text-sm"
-                                onClick={() => setExpandedItem(key)}
+                                onClick={() => setExpandedItem((prev) => ({ ...prev, [key]: true }))}
                               >
                                 More...
                               </button>
                             )}
-                            {expandedItem === key && (
+                            {expandedItem[key] && (
                               <div className="mt-2 text-sm text-gray-600">{item.desc}</div>
                             )}
                           </div>
@@ -288,39 +357,77 @@ const Checkout = ({ cart, total, user }) => {
                     })
                   )}
                 </div>
+
               </div>
 
               {/* Payment Method */}
-              <div>
-                <label className="block text-lg font-semibold text-gray-700">Payment Method</label>
-                <div className="space-x-6">
-                  <label>
+              <div className="space-y-6">
+                <label className="block text-xl font-semibold text-gray-700">Payment Method</label>
+                <div className="flex flex-col sm:flex-row sm:space-x-6">
+                  {/* Cash on Delivery option */}
+                  <label className="flex items-center space-x-2 mb-4 sm:mb-0">
                     <input
                       type="radio"
                       name="paymentMethod"
                       value="Cash on Delivery"
                       checked={paymentMethod === 'Cash on Delivery'}
                       onChange={() => setPaymentMethod('Cash on Delivery')}
+                      className="h-4 w-4 text-blue-500 focus:ring-blue-500"
                       disabled={!user}
                     />
-                    <span className="ml-2">Cash on Delivery</span>
+                    <span className="text-gray-700 text-lg font-medium">Cash on Delivery</span>
                   </label>
-                  <label>
+
+                  {/* Credit Card option (Disabled) */}
+                  <label className="flex items-center space-x-2 mb-4 sm:mb-0">
                     <input
                       type="radio"
                       name="paymentMethod"
                       value="Credit Card"
                       checked={paymentMethod === 'Credit Card'}
                       onChange={() => setPaymentMethod('Credit Card')}
-                      disabled={!user}
+                      className="h-4 w-4 text-blue-500 focus:ring-blue-500"
+                      disabled
                     />
-                    <span className="ml-2">Credit Card</span>
+                    <span className="text-gray-500 text-lg font-medium">
+                      Credit Card (Coming Soon)
+                    </span>
+                  </label>
+
+                  {/* UPI option (Disabled) */}
+                  <label className="flex items-center space-x-2 mb-4 sm:mb-0">
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value="UPI"
+                      checked={paymentMethod === 'UPI'}
+                      onChange={() => setPaymentMethod('UPI')}
+                      className="h-4 w-4 text-blue-500 focus:ring-blue-500"
+                      disabled
+                    />
+                    <span className="text-gray-500 text-lg font-medium">
+                      UPI (Coming Soon)
+                    </span>
                   </label>
                 </div>
+
+                {/* Disabled message for Cash on Delivery */}
+                {!user && (
+                  <p className="text-sm text-gray-500 mt-2">Please log in to enable payment options.</p>
+                )}
+                {!user && paymentMethod === 'Credit Card' && (
+                  <p className="text-sm text-red-500 mt-2">
+                    Online payments are currently unavailable. Please select Cash on Delivery.
+                  </p>
+                )}
+                {!user && paymentMethod === 'UPI' && (
+                  <p className="text-sm text-red-500 mt-2">
+                    Online payments are currently unavailable. Please select Cash on Delivery.
+                  </p>
+                )}
               </div>
 
               {error && <p className="text-red-600">{error}</p>}
-
               {/* Order Summary */}
               <div className="mt-6 flex justify-between items-center">
                 <span className="text-lg font-semibold text-gray-800">Total:</span>
@@ -330,12 +437,13 @@ const Checkout = ({ cart, total, user }) => {
               <div className="mt-6">
                 <button
                   type="submit"
-                  className={`w-full py-4 bg-pink-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-                  disabled={loading}
+                  className={`w-full py-4 bg-pink-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 ${loading || !service ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  disabled={loading || !service}  // Disable button if loading or service is not available
                 >
                   {loading ? 'Processing...' : 'Place Order'}
                 </button>
               </div>
+
             </form>
           </>
         )}

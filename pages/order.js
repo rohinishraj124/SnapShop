@@ -1,6 +1,5 @@
 import React from 'react';
-import Order from '../models/Order';
-import mongoose from 'mongoose';
+import { useRouter } from 'next/router';
 
 const order = () => {
   return (
@@ -75,23 +74,5 @@ const order = () => {
     </section>
   );
 };
-export async function getServerSideProps(context) {
-  // Connect to MongoDB if not already connected
-  if (!mongoose.connections[0].readyState) {
-    await mongoose.connect(process.env.MONGO_URI);
-  }
-
-  let orders = await Order.find({});
-
-
-
-
-  // Return product and organized variants as props
-  return {
-    props: {
-      orders: orders
-    },
-  };
-}
 
 export default order;
