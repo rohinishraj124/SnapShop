@@ -2,13 +2,34 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import { useRouter } from 'next/router';
+import { HiEye, HiEyeOff } from 'react-icons/hi'; // Import eye icons
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false); // Track remember me state
+  const [passwordVisible, setPasswordVisible] = useState(false); // Track password visibility
   const Router = useRouter();
+
+  // Check if the email and password are saved in localStorage when the component mounts
+  useEffect(() => {
+    const savedEmail = localStorage.getItem('email');
+    const savedPassword = localStorage.getItem('password');
+    const savedRememberMe = localStorage.getItem('rememberMe') === 'true';
+
+    if (savedEmail && savedPassword && savedRememberMe) {
+      setEmail(savedEmail);
+      setPassword(savedPassword);
+      setRememberMe(true);
+    }
+    
+    const token = localStorage.getItem('token');
+    if (token) {
+      Router.push('/'); 
+    }
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -29,6 +50,18 @@ const Login = () => {
       if (response.ok) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('name', data.name);
+
+        // If remember me is checked, store the email and password in localStorage
+        if (rememberMe) {
+          localStorage.setItem('email', email);
+          localStorage.setItem('password', password);
+          localStorage.setItem('rememberMe', 'true');
+        } else {
+          localStorage.removeItem('email');
+          localStorage.removeItem('password');
+          localStorage.removeItem('rememberMe');
+        }
+
         toast.success('Login successful!', {
           position: "top-center",
           autoClose: 1000,
@@ -75,13 +108,6 @@ const Login = () => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      Router.push('/'); 
-    }
-  }, []);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -130,25 +156,38 @@ const Login = () => {
               placeholder="Enter your email"
             />
           </div>
-          <div>
+          <div className="relative">
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
               Password
             </label>
             <input
               id="password"
-              type="password"
+              type={passwordVisible ? 'text' : 'password'} // Toggle password visibility
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
               className="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:ring-pink-500 focus:border-pink-500"
               placeholder="Enter your password"
             />
+            <button
+              type="button"
+              onClick={() => setPasswordVisible(!passwordVisible)} // Toggle the visibility
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 mt-3"
+            >
+              {passwordVisible ? (
+                <HiEyeOff className="w-6 h-6 text-gray-500" />
+              ) : (
+                <HiEye className="w-6 h-6 text-gray-500" />
+              )}
+            </button>
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <input
                 id="remember"
                 type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
                 className="w-4 h-4 text-pink-500 border-gray-300 rounded focus:ring-pink-500"
               />
               <label htmlFor="remember" className="ml-2 text-sm text-gray-600">

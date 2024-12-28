@@ -4,44 +4,41 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import { useRouter } from 'next/router';
 import LoadingBar from "react-top-loading-bar";
+
 function MyApp({ Component, pageProps }) {
   const [cart, setCart] = useState({});
   const [user, setUser] = useState(null);
-  const router = useRouter();
   const [progress, setProgress] = useState(0);
+  const router = useRouter();
 
-  // On first load, try to load the cart and user token
+  // Load cart and user on initial load
   useEffect(() => {
-    router.events.on('routeChangeStart', () => {
-      setProgress(40);
-    })
-    router.events.on('routeChangeComplete', () => {
-      setProgress(100);
-    })
-    try {
-      if (typeof window !== 'undefined' && localStorage.getItem('cart')) {
-        const storedCart = JSON.parse(localStorage.getItem('cart'));
-        setCart(storedCart);
+    router.events.on('routeChangeStart', () => setProgress(40));
+    router.events.on('routeChangeComplete', () => setProgress(100));
+
+    // Load cart from localStorage if it exists
+    if (typeof window !== 'undefined') {
+      const storedCart = localStorage.getItem('cart');
+      if (storedCart) {
+        setCart(JSON.parse(storedCart));
       }
-    } catch (err) {
-      console.error('Error loading cart from localStorage:', err);
+      
+      // Load user token from localStorage if it exists
+      const token = localStorage.getItem('token');
+      if (token) {
+        setUser(token);
+      }
     }
+  }, [router.events]);
 
-    // Check if there's a token in localStorage, if so, set the user state
-    const token = localStorage.getItem('token');
-    if (token) {
-      setUser(token); // Set user from token if present
-    }
-  }, []);
-
-  // Save cart to localStorage
+  // Save cart to localStorage whenever it changes
   const saveCart = (myCart) => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('cart', JSON.stringify(myCart));
     }
   };
 
-  // Add item to cart
+  // Add item to the cart
   const addCart = (itemCode, qty, price, name, size, variant) => {
     let myCart = { ...cart };
     if (itemCode in myCart) {
@@ -53,7 +50,7 @@ function MyApp({ Component, pageProps }) {
     saveCart(myCart);
   };
 
-  // Remove item from cart
+  // Remove item from the cart
   const removeFromCart = (itemCode, qty) => {
     let myCart = { ...cart };
     if (itemCode in myCart) {
@@ -66,22 +63,22 @@ function MyApp({ Component, pageProps }) {
     saveCart(myCart);
   };
 
-  // Clear all items from cart
+  // Clear the cart
   const clearCart = () => {
     setCart({});
     saveCart({});
   };
 
-  // Calculate total cart value
-  const calculateTotal = (myCart) => {
+  // Calculate the total value of the cart
+  const calculateTotal = () => {
     let sum = 0;
-    for (let item in myCart) {
-      sum += myCart[item].price * myCart[item].qty;
+    for (let item in cart) {
+      sum += cart[item].price * cart[item].qty;
     }
     return sum;
   };
 
-  // Logout function to remove token and set user state to null
+  // Logout function
   const logout = () => {
     localStorage.removeItem('token');
     setUser(null);
@@ -90,7 +87,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-    <LoadingBar
+      <LoadingBar
         color="#ff2d55"
         progress={progress}
         onLoaderFinished={() => setProgress(0)}
@@ -106,11 +103,13 @@ function MyApp({ Component, pageProps }) {
         logout={logout}  // Pass logout function to Navbar
       />
       <Component
-        cart={cart}
-        addCart={addCart}
-        removeFromCart={removeFromCart}
-        clearCart={clearCart}
-        total={calculateTotal}
+         user={user}  // Pass user state to Navbar
+         cart={cart}
+         addCart={addCart}
+         removeFromCart={removeFromCart}
+         clearCart={clearCart}
+         total={calculateTotal}
+         logout={logout}  // Pass logout function to Navbar
         {...pageProps}
       />
       <Footer />

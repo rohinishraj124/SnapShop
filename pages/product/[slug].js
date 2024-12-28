@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { ToastContainer, toast, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import mongoose from 'mongoose';
-import Product from '../../models/Product';
-import { ToastContainer, toast , Slide  } from 'react-toastify';
+import Product from '@/models/Product';
 
-export default function Page({ addCart, product, variants, clearCart }) {
+export default function Page({ addCart, product, variants, clearCart, user }) {
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
@@ -23,6 +24,93 @@ export default function Page({ addCart, product, variants, clearCart }) {
       }
     }
   }, [selectedColor, selectedSize]);
+
+  const handleAddToCart = () => {
+    if (!user) {
+      toast.error('Please log in to add products to your cart.', {
+        position: "bottom-center",
+        autoClose: 1000, // 1 second auto-close
+        hideProgressBar: true,
+        theme: "light",
+      });
+      return;
+    }
+    addCart(
+      product._id,
+      quantity,
+      product.price,
+      product.title,
+      selectedSize,
+      selectedColor
+    );
+    alert('Product added to cart!');
+  };
+  
+
+const handleBuyNow = () => {
+  if (!user) {
+    toast.error('Please log in to proceed to checkout.', {
+      position: "bottom-center",
+      autoClose: 1000,
+      hideProgressBar: true,
+      theme: "light",
+    });
+    return;
+  }
+  
+
+  // Clear the cart before adding the selected item
+  clearCart();
+
+  // Add the selected product to the cart for checkout
+  addCart(
+    product._id,
+    quantity,
+    product.price,
+    product.title,
+    selectedSize,
+    selectedColor
+  );
+
+  // Redirect to checkout page
+  router.push('/checkout');
+};
+
+
+  const onChange = (e) => {
+    setPin(e.target.value);
+  };
+
+  const checkServiceAvailability = async () => {
+    if (!pin || isNaN(pin)) return;
+    let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/pincode`);
+    let pinjson = await response.json();
+    const enteredPin = Number(pin);
+    if (pinjson.includes(enteredPin)) {
+      setService(true);
+      toast.success('Your Pincode is Serviceable', {
+        position: "bottom-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        theme: "light",
+      });
+      setPin('');
+    } else {
+      setService(false);
+      toast.error('Sorry! Your Pincode is not Serviceable', {
+        position: "bottom-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        theme: "light",
+      });
+      setPin('');
+    }
+    setShowFlash(true);
+
+    setTimeout(() => {
+      setShowFlash(false);
+    }, 1500);
+  };
 
   const handleColorSelect = (color) => {
     setSelectedColor(color);
@@ -42,77 +130,6 @@ export default function Page({ addCart, product, variants, clearCart }) {
     setQuantity(Number(event.target.value));
   };
 
-  const handleAddToCart = () => {
-    addCart(
-      product._id,
-      quantity,
-      product.price,
-      product.title,
-      selectedSize,
-      selectedColor
-    );
-    alert('Product added to cart');
-  };
-
-  const handleBuyNow = () => {
-    clearCart();
-    addCart(
-      product._id,
-      quantity,
-      product.price,
-      product.title,
-      selectedSize,
-      selectedColor
-    );
-    router.push('/checkout');
-  };
-
-  const onChange = (e) => {
-    setPin(e.target.value);
-  };
-
-  const checkServiceAvailability = async () => {
-    if (!pin || isNaN(pin)) return;
-    let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/pincode`);
-    let pinjson = await response.json();
-    const enteredPin = Number(pin);
-    if (pinjson.includes(enteredPin)) {
-      setService(true);
-      toast.success('Your Pincode is Serviceable', {
-        position: "bottom-center",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Slide,
-      });
-      setPin('');
-    } else {
-      setService(false);
-      toast.error('Sorry ! Your Pincode is not Serviceable', {
-        position: "bottom-center",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Slide,
-      });
-      setPin('');
-    }
-    setShowFlash(true);
-
-    setTimeout(() => {
-      setShowFlash(false);
-    }, 1500);
-  };
-
-  // Check if buttons should be disabled
   const isButtonDisabled = !selectedColor || !selectedSize;
 
   return (
@@ -150,8 +167,7 @@ export default function Page({ addCart, product, variants, clearCart }) {
                   <svg
                     key={index}
                     xmlns="http://www.w3.org/2000/svg"
-                    className={`w-4 h-4 ${index < product.rating ? 'text-pink-500' : 'text-gray-300'
-                      }`}
+                    className={`w-4 h-4 ${index < product.rating ? 'text-pink-500' : 'text-gray-300'}`}
                     fill="currentColor"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -166,7 +182,6 @@ export default function Page({ addCart, product, variants, clearCart }) {
                 ))}
               </div>
             </div>
-
             <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
               <div className="flex">
                 <span className="mr-3">Color</span>
@@ -228,7 +243,6 @@ export default function Page({ addCart, product, variants, clearCart }) {
                 </button>
               </div>
 
-              {/* Add to Cart Button */}
               <button
                 onClick={handleAddToCart}
                 className={`ml-auto mt-4 sm:mt-0 w-full sm:w-auto bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-pink-300 sm:h-auto ${isButtonDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -237,17 +251,14 @@ export default function Page({ addCart, product, variants, clearCart }) {
                 Add to Cart
               </button>
 
-              {/* Buy Now Button */}
-              <Link
-                className={`ml-auto text-center mt-4 sm:mt-0 w-full sm:w-auto bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white font-bold py-2.5 px-5 rounded-lg shadow-md transition duration-300 transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-pink-300 sm:h-auto ${isButtonDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-                href="#"
+              <button
                 onClick={handleBuyNow}
+                className="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300 sm:ml-4 mt-4 sm:mt-0"
               >
                 Buy Now
-              </Link>
+              </button>
             </div>
-
-            <div className="mt-8">
+        <div className="mt-8">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Check Delivery Availability</h2>
               <div className="flex items-center space-x-4">
                 <input
@@ -274,11 +285,11 @@ export default function Page({ addCart, product, variants, clearCart }) {
             </div>
           </div>
         </div>
+        
       </div>
     </section>
   );
 }
-
 
 
 
@@ -292,8 +303,6 @@ export async function getServerSideProps(context) {
   // Fetch the product based on the slug
   let products = await Product.findOne({ slug: context.query.slug });
   let variants = await Product.find({ title: products.title });
-  console.log("Variants:", variants);
-  console.log("Product:", products);
 
   let colorSizeSlug = {};
 

@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { HiMenu, HiX } from 'react-icons/hi';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { ToastContainer, toast, Slide } from 'react-toastify';
+import { useRouter } from 'next/router';
 
 const Navbar = ({ user, cart, addCart, removeFromCart, total, clearCart, logout }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,19 +14,17 @@ const Navbar = ({ user, cart, addCart, removeFromCart, total, clearCart, logout 
   const AccountDropdown = ({ logout }) => {
     const [isDropdownVisible, setDropdownVisible] = useState(false);
     const dropdownRef = useRef(null);
-  
-    // Toggle dropdown visibility
+
     const toggleDropdown = () => {
       setDropdownVisible((prev) => !prev);
     };
-  
-    // Close dropdown when clicking outside
+
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setDropdownVisible(false);
       }
     };
-  
+
     useEffect(() => {
       document.addEventListener('mousedown', handleClickOutside);
       return () => {
@@ -36,6 +34,7 @@ const Navbar = ({ user, cart, addCart, removeFromCart, total, clearCart, logout 
 
     const handleLogout = () => {
       logout();
+      clearCart();  // Clear the cart
       toast.success('Logout successful!', {
         position: "top-center",
         autoClose: 1000,
@@ -43,58 +42,109 @@ const Navbar = ({ user, cart, addCart, removeFromCart, total, clearCart, logout 
         closeOnClick: false,
         pauseOnHover: false,
         draggable: true,
-        progress: undefined,
         theme: "light",
         transition: Slide,
-        });
-
+      });
+    
       setDropdownVisible(false);
     };
+    
 
     return (
       <div className="relative" ref={dropdownRef}>
-      <button
-        className="text-gray-600 hover:text-pink-500 flex items-center"
-        onClick={toggleDropdown}
-      >
-        <FaUser className="w-6 h-6" />
-      </button>
+        <button
+          className="text-gray-600 hover:text-pink-500 flex items-center"
+          onClick={toggleDropdown}
+        >
+          <FaUser className="w-6 h-6" />
+        </button>
 
-      {isDropdownVisible && (
-        <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg z-50">
-          <ul className="py-2 text-gray-800">
-            <li className="px-4 py-2 hover:bg-pink-200 cursor-pointer"><Link href={"/account"}>My Account</Link></li>
-            <li className="px-4 py-2 hover:bg-pink-200 cursor-pointer">
-              <Link href="/order">Orders</Link>
-            </li>
-            <li
-              className="px-4 py-2 hover:bg-pink-200 cursor-pointer"
-              onClick={logout}
+        {isDropdownVisible && (
+          <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg z-50">
+            <ul className="py-2 text-gray-800">
+              <li className="px-4 py-2 hover:bg-pink-200 cursor-pointer">
+                <Link href="/account">My Account</Link>
+              </li>
+              <li className="px-4 py-2 hover:bg-pink-200 cursor-pointer">
+                <Link href="/order">Orders</Link>
+              </li>
+              <li
+                className="px-4 py-2 hover:bg-pink-200 cursor-pointer"
+                onClick={handleLogout}
+              >
+                Logout
+              </li>
+            </ul>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const CartItem = ({ item, removeFromCart, addCart }) => {
+    const [isTextExpanded, setIsTextExpanded] = useState(false);
+
+    const handleToggleText = () => {
+      setIsTextExpanded((prev) => !prev);
+    };
+
+    const truncatedName = item.name.length > 20 ? `${item.name.slice(0, 20)}...` : item.name;
+
+    return (
+      <div className="flex justify-between items-center">
+        <div>
+          <p className="text-gray-800 font-bold">
+            {isTextExpanded ? item.name : truncatedName}
+          </p>
+          {item.name.length > 20 && !isTextExpanded && (
+            <button
+              className="text-blue-500 text-sm"
+              onClick={handleToggleText}
             >
-              Logout
-            </li>
-          </ul>
+              More...
+            </button>
+          )}
+          <p className="text-gray-600 font-semibold text-sm">{item.size}/{item.variant}</p>
+          <p className="text-gray-600 text-sm font-semibold">
+            ${item.price.toFixed(2)} x {item.qty}
+          </p>
         </div>
-      )}
-    </div>
+        <div className="flex items-center space-x-2">
+          <button
+            className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
+            onClick={() => removeFromCart(item.key, 1)}
+            aria-label={`Remove ${item.name} from cart`}
+          >
+            –
+          </button>
+          <span>{item.qty}</span>
+          <button
+            className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
+            onClick={() => addCart(item.key, 1, item.price, item.name, item.size, item.variant)}
+            aria-label={`Add ${item.name} to cart`}
+          >
+            +
+          </button>
+        </div>
+      </div>
     );
   };
 
   return (
     <nav className="bg-white shadow-md w-full z-50 h-15 sticky top-0">
       <ToastContainer
-          position="top-center"
-          autoClose={1000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick={false}
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover={false}
-          theme="light"
-          transition={Slide}
-        />
+        position="top-center"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="light"
+        transition={Slide}
+      />
       <div className="container mx-auto px-4 flex items-center py-4">
         <div className="flex items-center md:hidden">
           <button
@@ -146,12 +196,14 @@ const Navbar = ({ user, cart, addCart, removeFromCart, total, clearCart, logout 
       </div>
       <div
         className={`fixed left-0 top-0 w-64 bg-white h-full transform transition-transform duration-300 ease-in-out z-50 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        aria-hidden={!menuOpen}
       >
         <div className="flex p-4 border-b">
           <Link href="/"><div className="text-gray-800 text-2xl font-bold">SnapShop</div></Link>
           <button
             className="text-gray-600 focus:outline-none ml-auto"
             onClick={() => setMenuOpen(false)}
+            aria-label="Close menu"
           >
             <HiX className="w-6 h-6" />
           </button>
@@ -165,12 +217,14 @@ const Navbar = ({ user, cart, addCart, removeFromCart, total, clearCart, logout 
       <div
         ref={cartRef}
         className={`fixed right-0 top-0 h-full bg-white w-80 overflow-y-scroll transform transition-transform duration-300 ease-in-out z-50 ${cartOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        aria-hidden={!cartOpen}
       >
         <div className="flex p-4 border-b">
           <div className="text-gray-800 text-2xl font-bold">Cart</div>
           <button
             className="text-gray-600 focus:outline-none ml-auto"
             onClick={() => setCartOpen(false)}
+            aria-label="Close cart"
           >
             <HiX className="w-6 h-6" />
           </button>
@@ -180,29 +234,12 @@ const Navbar = ({ user, cart, addCart, removeFromCart, total, clearCart, logout 
             <p className="text-gray-600 text-center">Your Cart is empty</p>
           ) : (
             Object.keys(cart).map((key) => (
-              <div key={key} className="flex justify-between items-center">
-                <div>
-                  <p className="text-gray-800 font-bold">{cart[key].name}</p>
-                  <p className="text-gray-600 text-sm font-semibold">
-                    ${cart[key].price.toFixed(2)} x {cart[key].qty}
-                  </p>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <button
-                    className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
-                    onClick={() => removeFromCart(key, 1)}
-                  >
-                    –
-                  </button>
-                  <span>{cart[key].qty}</span>
-                  <button
-                    className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
-                    onClick={() => addCart(key, 1, cart[key].price, cart[key].name, cart[key].size, cart[key].variant)}
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
+              <CartItem
+                key={key}
+                item={cart[key]}
+                removeFromCart={removeFromCart}
+                addCart={addCart}
+              />
             ))
           )}
         </div>
@@ -221,6 +258,7 @@ const Navbar = ({ user, cart, addCart, removeFromCart, total, clearCart, logout 
           <button
             className="w-full mt-4 bg-pink-500 text-white py-2 rounded hover:bg-pink-600"
             onClick={clearCart}
+            aria-label="Clear cart"
           >
             Clear Cart
           </button>

@@ -30,17 +30,17 @@ export default function Home() {
 
   const Categories = [
     {
-      title: "men",
+      title:"men",
       images: ["/categories/men1.jpg", "/categories/men2.jpg", "/categories/men3.jpg"],
       url: "/men"
     },
     {
-      title: "women",
+      title:"women",
       images: ["/categories/women1.jpg", "/categories/women2.jpg", "/categories/women3.jpg"],
       url: "/women"
     },
     {
-      title: "kids",
+      title:"kids",
       images: ["/categories/kids1.jpg", "/categories/kids2.jpg", "/categories/kids3.jpg"],
       url: "/kids"
     }
@@ -133,17 +133,17 @@ export default function Home() {
           Discover amazing products at unbeatable prices. Your one-stop online shop for everything you need.
         </p>
         <button
-          aria-label="Shop Now"
-          className="bg-[#fffdfd] text-pink-600 font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-pink-100 hover:scale-105 transition-transform"
-          onClick={() => {
-            const section = document.querySelector('.categories');
-            if (section) {
-              section.scrollIntoView({ behavior: 'smooth' });
-            }
-          }}
-        >
-          Shop Now
-        </button>
+  aria-label="Shop Now"
+  className="bg-[#fffdfd] text-pink-600 font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-pink-100 hover:scale-105 transition-transform"
+  onClick={() => {
+    const section = document.querySelector('.categories');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  }}
+>
+  Shop Now
+</button>
       </motion.div>
 
       <div className="bg-[#aba4a4] h-0.5 w-full rounded-full"></div>
@@ -152,7 +152,7 @@ export default function Home() {
       <section className="categories text-gray-600 body-font">
         <div className="container px-5 py-24 mx-auto">
 
-          <div className="flex flex-wrap w-full mb-20 flex-col items-center text-center">
+        <div className="flex flex-wrap w-full mb-20 flex-col items-center text-center">
             <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
               Categories
             </h1>
@@ -166,29 +166,29 @@ export default function Home() {
                 onMouseLeave={() => setIsHovered(false)}
               >
                 <Link href={item.url}>
-                  <div className="border border-gray-200 p-2 rounded-lg relative group h-full transition-transform duration-500 ease-in-out hover:scale-105">
-                    {/* Set aspect ratio container */}
-                    <div
-                      className="relative w-full"
-                      style={{ paddingBottom: "150%", overflow: "hidden" }}
-                    >
-                      {/* Hover changes image */}
-                      <Image
-                        src={
-                          isHovered
-                            ? item.images[(currentImage.index) % item.images.length]
-                            : item.images[currentImage.index % item.images.length]
-                        }
-                        alt={item.title}
-                        layout="fill"
-                        objectFit="cover"
-                        className="transition-all duration-500 ease-in-out transform group-hover:scale-110 opacity-100 hover:opacity-90"
-                      />
-                    </div>
-                    <h3 className="text-center text-lg text-gray-900 font-medium title-font p-3 mb-2 mt-4">
-                      {item.title}
-                    </h3>
+                <div className="border border-gray-200 p-2 rounded-lg relative group h-full transition-transform duration-500 ease-in-out hover:scale-105">
+                  {/* Set aspect ratio container */}
+                  <div
+                    className="relative w-full"
+                    style={{ paddingBottom: "150%", overflow: "hidden" }}
+                  >
+                    {/* Hover changes image */}
+                    <Image
+                      src={
+                        isHovered
+                          ? item.images[(currentImage.index) % item.images.length]
+                          : item.images[currentImage.index % item.images.length]
+                      }
+                      alt={item.title}
+                      layout="fill"
+                      objectFit="cover"
+                      className="transition-all duration-500 ease-in-out transform group-hover:scale-110 opacity-100 hover:opacity-90"
+                    />
                   </div>
+                  <h3 className="text-center text-lg text-gray-900 font-medium title-font p-3 mb-2 mt-4">
+                    {item.title}
+                  </h3>
+                </div>
                 </Link>
               </div>
             ))}
