@@ -97,34 +97,24 @@ const Checkout = ({ cart, total, user , clearCart }) => {
         progress: undefined,
         theme: "light",
         transition: Slide,
-        });
+      });
       return;
     }
-
+  
     const formError = validateForm();
     if (formError) {
       setError(formError);
       return;
     }
-
+  
     setLoading(true);
     setError('');
-
+  
     const totalAmount = calculateTotal(); // Ensure total is calculated
-
+  
     // Generate a random 10-digit orderId
     const orderId = Date.now();  // Generates a 10-digit number
-
-    // Log to confirm the orderId and amount are correct
-    // console.log('Order Details:', {
-    //   email: formData.email,
-    //   orderId,  // Ensure orderId is being set here
-    //   address: formData.address,
-    //   amount: totalAmount,
-    //   products: cart,
-    // });
-    // console.log(cart);
-
+  
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/Order`, {
         method: 'POST',
@@ -139,15 +129,13 @@ const Checkout = ({ cart, total, user , clearCart }) => {
           products: cart,
         }),
       });
-
+  
       const data = await response.json();
-      // console.log('Order Response:', data);
-
+  
       if (response.ok) {
         alert('Order placed successfully!');
-        // Redirect to the /order page
-        clearCart()
-        router.push('/order');  // Redirect to order page after success
+        clearCart();
+        router.push(`/order`);
       } else {
         throw new Error(data.message || 'Failed to place the order');
       }
@@ -157,6 +145,7 @@ const Checkout = ({ cart, total, user , clearCart }) => {
       setLoading(false);
     }
   };
+  
 
 
 

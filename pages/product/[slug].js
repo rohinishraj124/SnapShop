@@ -44,37 +44,41 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
       selectedColor
     );
     alert('Product added to cart!');
-  };
-  
-
-const handleBuyNow = () => {
-  if (!user) {
-    toast.error('Please log in to proceed to checkout.', {
+    toast.success('Product added to cart!', {
       position: "bottom-center",
       autoClose: 1000,
-      hideProgressBar: true,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
       theme: "light",
-    });
-    return;
-  }
-  
+      transition: Slide,
+      });
+  };
 
-  // Clear the cart before adding the selected item
-  clearCart();
 
-  // Add the selected product to the cart for checkout
-  addCart(
-    product._id,
-    quantity,
-    product.price,
-    product.title,
-    selectedSize,
-    selectedColor
-  );
-
-  // Redirect to checkout page
-  router.push('/checkout');
-};
+  const handleBuyNow = () => {
+    if (!user) {
+      toast.error('Please log in to proceed to checkout.', {
+        position: "bottom-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+        theme: "light",
+      });
+      return;
+    }
+    clearCart();
+    addCart(
+      product._id,
+      quantity,
+      product.price,
+      product.title,
+      selectedSize,
+      selectedColor
+    );
+    router.push('/checkout');
+  };
 
 
   const onChange = (e) => {
@@ -253,12 +257,13 @@ const handleBuyNow = () => {
 
               <button
                 onClick={handleBuyNow}
-                className="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300 sm:ml-4 mt-4 sm:mt-0"
+                className={`ml-auto mt-4 sm:mt-0 w-full sm:w-auto bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-pink-300 sm:h-auto ${isButtonDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={isButtonDisabled}
               >
                 Buy Now
               </button>
             </div>
-        <div className="mt-8">
+            <div className="mt-8">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Check Delivery Availability</h2>
               <div className="flex items-center space-x-4">
                 <input
@@ -285,7 +290,7 @@ const handleBuyNow = () => {
             </div>
           </div>
         </div>
-        
+
       </div>
     </section>
   );

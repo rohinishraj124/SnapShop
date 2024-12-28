@@ -67,7 +67,7 @@ const Navbar = ({ user, cart, addCart, removeFromCart, total, clearCart, logout 
                 <Link href="/account">My Account</Link>
               </li>
               <li className="px-4 py-2 hover:bg-pink-200 cursor-pointer">
-                <Link href="/order">Orders</Link>
+                <Link href="/orders">Orders</Link>
               </li>
               <li
                 className="px-4 py-2 hover:bg-pink-200 cursor-pointer"
@@ -124,7 +124,7 @@ const Navbar = ({ user, cart, addCart, removeFromCart, total, clearCart, logout 
           )}
           <p className="text-gray-600 font-semibold text-sm">{item.size}/{item.variant}</p>
           <p className="text-gray-600 text-sm font-semibold">
-            ${item.price.toFixed(2)} x {item.qty}
+            ₹{item.price.toFixed(2)} x {item.qty}
           </p>
         </div>
         <div className="flex items-center space-x-2">
@@ -264,7 +264,7 @@ const Navbar = ({ user, cart, addCart, removeFromCart, total, clearCart, logout 
         </div>
         <div className="p-4 border-t">
           <p className="text-gray-800 font-bold text-right">
-            Total: ${total(cart).toFixed(2)}
+            Total: ₹{total(cart).toFixed(2)}
           </p>
           <Link href="/checkout">
             <button

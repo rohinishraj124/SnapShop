@@ -5,62 +5,29 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [user, setUser] = useState(null); // State for storing user data
   const router = useRouter();
 
-  // Fetch orders for the logged-in user
   useEffect(() => {
     const fetchOrders = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        return router.push('/');
+      }
+
       try {
-        setLoading(true);
-        
-        // Retrieve user token or user ID from localStorage
-        const userToken = localStorage.getItem('token'); // Assume 'token' is the user token
-        if (!userToken) {
-          // If no token, redirect to login page
-          router.push('/login');
-          return;
-        }
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/myorder`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ token }),
+        });
 
-        setUser(userToken);
-
-        // Simulate fetching orders data (replace with an API call if needed)
-        const storedOrders = localStorage.getItem('orders');
-        
-        // If there's no orders in localStorage, simulate some dummy orders
-        if (storedOrders) {
-          const allOrders = JSON.parse(storedOrders);
-          // Filter orders for the logged-in user (replace with actual user-specific logic)
-          const userOrders = allOrders.filter(order => order.userToken === userToken);
-          setOrders(userOrders);
-        } else {
-          const dummyOrders = [
-            {
-              id: 1,
-              userToken: 'user1', // This should match the logged-in user's token
-              customerName: 'John Doe',
-              items: ['Product A', 'Product B'],
-              totalAmount: 50.00,
-              status: 'Delivered',
-              date: '2024-12-01',
-            },
-            {
-              id: 2,
-              userToken: 'user2', // Different user token
-              customerName: 'Jane Smith',
-              items: ['Product C', 'Product D'],
-              totalAmount: 80.00,
-              status: 'Pending',
-              date: '2024-12-10',
-            },
-          ];
-          localStorage.setItem('orders', JSON.stringify(dummyOrders));
-          // Filter orders for the logged-in user
-          const userOrders = dummyOrders.filter(order => order.userToken === userToken);
-          setOrders(userOrders);
-        }
-      } catch (err) {
-        setError('Failed to load orders');
+        const data = await response.json();
+        setOrders(data.orders || []);
+      } catch (error) {
+        setError('Error fetching orders');
+        console.error('Error fetching orders:', error);
       } finally {
         setLoading(false);
       }
@@ -69,39 +36,66 @@ const Orders = () => {
     fetchOrders();
   }, [router]);
 
-  if (loading) return <div className="text-center py-8">Loading...</div>;
+  if (loading) return <div className="text-center py-8">{process.env.NEXT_PUBLIC_LOADING_TEXT || 'Loading...'}</div>;
   if (error) return <div className="text-center text-red-500 py-8">{error}</div>;
+
+  const headers = [
+    'Order ID',
+    'Email',
+    'Products',
+    'Total Amount',
+    'Status',
+    'Order Date'
+  ];
+
+  const handleRowClick = (id) => {
+    router.push(`order?id=${id}`);
+  };
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Your Orders</h1>
+      <h1 className="text-2xl font-bold mb-4">{process.env.NEXT_PUBLIC_ORDERS_HEADER || 'Your Orders'}</h1>
       {orders.length === 0 ? (
-        <p>No orders found.</p>
+        <p>{process.env.NEXT_PUBLIC_NO_ORDERS_TEXT || 'No orders found.'}</p>
       ) : (
-        <table className="min-w-full bg-white border border-gray-200 shadow-md rounded-lg">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Order ID</th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Customer Name</th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Items</th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Total Amount</th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Status</th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Order Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order) => (
-              <tr key={order.id} className="border-t border-gray-200 hover:bg-gray-50">
-                <td className="px-6 py-4 text-sm font-medium text-gray-700">{order.id}</td>
-                <td className="px-6 py-4 text-sm font-medium text-gray-700">{order.customerName}</td>
-                <td className="px-6 py-4 text-sm text-gray-600">{order.items.join(', ')}</td>
-                <td className="px-6 py-4 text-sm text-gray-700">${order.totalAmount.toFixed(2)}</td>
-                <td className="px-6 py-4 text-sm text-gray-700">{order.status}</td>
-                <td className="px-6 py-4 text-sm text-gray-700">{order.date}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="space-y-4">
+          {orders.map((order) => (
+            <div
+              key={order._id}
+              className="bg-white p-4 rounded-lg shadow-md border border-gray-200 hover:bg-gray-50 cursor-pointer"
+              onClick={() => handleRowClick(order._id)} // Handle row click
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="flex flex-col">
+                  <span className="font-semibold text-gray-700">Order ID:</span>
+                  <span>{order.orderId}</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-semibold text-gray-700">Email:</span>
+                  <span>{order.email}</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-semibold text-gray-700">Products:</span>
+                  {order.products.map((product, index) => (
+                    <span key={index}>{product.name || 'Unnamed product'}</span>
+                  ))}
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-semibold text-gray-700">Total Amount:</span>
+                  <span>{typeof order.amount === 'number' ? order.amount.toFixed(2) : 'N/A'}</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-semibold text-gray-700">Status:</span>
+                  <span>{order.status}</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-semibold text-gray-700">Order Date:</span>
+                  <span>{new Date(order.createdAt).toLocaleString()}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
