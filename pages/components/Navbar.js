@@ -9,6 +9,7 @@ const Navbar = ({ user, cart, addCart, removeFromCart, total, clearCart, logout 
   const [menuOpen, setMenuOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const cartRef = useRef(null);
+  const menuRef = useRef(null);
   const router = useRouter();
 
   const AccountDropdown = ({ logout }) => {
@@ -19,36 +20,36 @@ const Navbar = ({ user, cart, addCart, removeFromCart, total, clearCart, logout 
       setDropdownVisible((prev) => !prev);
     };
 
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setDropdownVisible(false);
-      }
-    };
-
-    useEffect(() => {
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
-    }, []);
-
     const handleLogout = () => {
       logout();
-      clearCart();  // Clear the cart
+      clearCart(); // Clear the cart
       toast.success('Logout successful!', {
-        position: "top-center",
+        position: 'top-center',
         autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: false,
         pauseOnHover: false,
         draggable: true,
-        theme: "light",
+        theme: 'light',
         transition: Slide,
       });
-    
+
       setDropdownVisible(false);
     };
-    
+
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          setDropdownVisible(false);
+        }
+      };
+
+      document.addEventListener('mousedown', handleClickOutside);
+
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, [dropdownRef]);
 
     return (
       <div className="relative" ref={dropdownRef}>
@@ -80,6 +81,23 @@ const Navbar = ({ user, cart, addCart, removeFromCart, total, clearCart, logout 
       </div>
     );
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpen(false); // Close the menu
+      }
+      if (cartRef.current && !cartRef.current.contains(event.target)) {
+        setCartOpen(false); // Close the cart
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [menuRef, cartRef]);
 
   const CartItem = ({ item, removeFromCart, addCart }) => {
     const [isTextExpanded, setIsTextExpanded] = useState(false);
@@ -195,8 +213,9 @@ const Navbar = ({ user, cart, addCart, removeFromCart, total, clearCart, logout 
         </div>
       </div>
       <div
-        className={`fixed left-0 top-0 w-64 bg-white h-full transform transition-transform duration-300 ease-in-out z-50 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
-        aria-hidden={!menuOpen}
+        ref={menuRef}
+        className={`fixed left-0 top-0 w-64 bg-white h-full transform transition-transform duration-300 ease-in-out z-50 ${menuOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
       >
         <div className="flex p-4 border-b">
           <Link href="/"><div className="text-gray-800 text-2xl font-bold">SnapShop</div></Link>
@@ -251,14 +270,16 @@ const Navbar = ({ user, cart, addCart, removeFromCart, total, clearCart, logout 
             <button
               className={`w-full bg-pink-500 text-white py-2 rounded hover:bg-pink-600 ${Object.keys(cart).length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
               disabled={Object.keys(cart).length === 0}
+              onClick={() => setCartOpen(false)}
             >
               Checkout
             </button>
           </Link>
           <button
             className="w-full mt-4 bg-pink-500 text-white py-2 rounded hover:bg-pink-600"
-            onClick={clearCart}
+            onClick={clearCart }
             aria-label="Clear cart"
+            
           >
             Clear Cart
           </button>

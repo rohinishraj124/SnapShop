@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import { useRouter } from 'next/router';
 
-const Checkout = ({ cart, total, user }) => {
+const Checkout = ({ cart, total, user , clearCart }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -87,7 +87,17 @@ const Checkout = ({ cart, total, user }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
-      alert('You must be logged in to place an order.');
+      toast.error('You must be logged in to place an order.', {
+        position: "bottom-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+        });
       return;
     }
 
@@ -106,14 +116,14 @@ const Checkout = ({ cart, total, user }) => {
     const orderId = Date.now();  // Generates a 10-digit number
 
     // Log to confirm the orderId and amount are correct
-    console.log('Order Details:', {
-      email: formData.email,
-      orderId,  // Ensure orderId is being set here
-      address: formData.address,
-      amount: totalAmount,
-      products: cart,
-    });
-    console.log(cart);
+    // console.log('Order Details:', {
+    //   email: formData.email,
+    //   orderId,  // Ensure orderId is being set here
+    //   address: formData.address,
+    //   amount: totalAmount,
+    //   products: cart,
+    // });
+    // console.log(cart);
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/Order`, {
@@ -131,11 +141,12 @@ const Checkout = ({ cart, total, user }) => {
       });
 
       const data = await response.json();
-      console.log('Order Response:', data);
+      // console.log('Order Response:', data);
 
       if (response.ok) {
         alert('Order placed successfully!');
         // Redirect to the /order page
+        clearCart()
         router.push('/order');  // Redirect to order page after success
       } else {
         throw new Error(data.message || 'Failed to place the order');
