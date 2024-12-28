@@ -5,6 +5,7 @@ import { ToastContainer, toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import mongoose from 'mongoose';
 import Product from '@/models/Product';
+import showToast from '@/utils/toastfile';
 
 export default function Page({ addCart, product, variants, clearCart, user }) {
   const [quantity, setQuantity] = useState(1);
@@ -27,12 +28,7 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
 
   const handleAddToCart = () => {
     if (!user) {
-      toast.error('Please log in to add products to your cart.', {
-        position: "bottom-center",
-        autoClose: 1000, // 1 second auto-close
-        hideProgressBar: true,
-        theme: "light",
-      });
+      showToast({error: 'Please log in to proceed to checkout.'});
       return;
     }
     addCart(
@@ -44,28 +40,13 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
       selectedColor
     );
     alert('Product added to cart!');
-    toast.success('Product added to cart!', {
-      position: "bottom-center",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: false,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      transition: Slide,
-      });
+    showToast({success: 'Product added to cart!'});
   };
 
 
   const handleBuyNow = () => {
     if (!user) {
-      toast.error('Please log in to proceed to checkout.', {
-        position: "bottom-center",
-        autoClose: 1000,
-        hideProgressBar: true,
-        theme: "light",
-      });
+      showToast({error: 'Please log in to proceed to checkout.'});
       return;
     }
     clearCart();
@@ -92,21 +73,11 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
     const enteredPin = Number(pin);
     if (pinjson.includes(enteredPin)) {
       setService(true);
-      toast.success('Your Pincode is Serviceable', {
-        position: "bottom-center",
-        autoClose: 1000,
-        hideProgressBar: false,
-        theme: "light",
-      });
+      showToast({ success: 'Your Pincode is Serviceable' });
       setPin('');
     } else {
       setService(false);
-      toast.error('Sorry! Your Pincode is not Serviceable', {
-        position: "bottom-center",
-        autoClose: 1000,
-        hideProgressBar: false,
-        theme: "light",
-      });
+      showToast({ error: 'Sorry! Your Pincode is not Serviceable' });
       setPin('');
     }
     setShowFlash(true);

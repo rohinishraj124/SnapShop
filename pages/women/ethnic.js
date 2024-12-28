@@ -4,7 +4,6 @@ import Product from '../../models/Product';
 import mongoose from 'mongoose';
 
 const ethnic = ({ products }) => {
-  console.log(products);
   return (
     <section className="text-gray-600 body-font bg-gradient-to-b from-white to-gray-100">
       <div className="container px-5 py-24 mx-auto">

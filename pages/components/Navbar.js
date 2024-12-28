@@ -4,6 +4,7 @@ import { HiMenu, HiX } from 'react-icons/hi';
 import Link from 'next/link';
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import { useRouter } from 'next/router';
+import showToast from '../../utils/toastfile';
 
 const Navbar = ({ user, cart, addCart, removeFromCart, total, clearCart, logout }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -23,16 +24,7 @@ const Navbar = ({ user, cart, addCart, removeFromCart, total, clearCart, logout 
     const handleLogout = () => {
       logout();
       clearCart(); // Clear the cart
-      toast.success('Logout successful!', {
-        position: 'top-center',
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: true,
-        theme: 'light',
-        transition: Slide,
-      });
+      showToast({ success: 'Logout successful' });
 
       setDropdownVisible(false);
     };

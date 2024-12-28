@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import { useRouter } from 'next/router';
 import { HiEye, HiEyeOff } from 'react-icons/hi'; // Import eye icons
+import showToast from '@/utils/toastfile';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -35,7 +36,7 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-
+  
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
         method: 'POST',
@@ -44,13 +45,13 @@ const Login = () => {
         },
         body: JSON.stringify({ email, password }),
       });
-
+  
       const data = await response.json();
-
+  
       if (response.ok) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('name', data.name);
-
+  
         // If remember me is checked, store the email and password in localStorage
         if (rememberMe) {
           localStorage.setItem('email', email);
@@ -61,53 +62,27 @@ const Login = () => {
           localStorage.removeItem('password');
           localStorage.removeItem('rememberMe');
         }
-
-        toast.success('Login successful!', {
-          position: "top-center",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Slide,
-        });
+  
+        showToast({ success: 'Login successful' });
         setEmail('');
         setPassword('');
         setTimeout(() => {
-          window.location.href = '/'; 
+          window.location.href = '/'; // Redirect to the home page after login
         }, 1500); // Allow the toast to show before redirecting
       } else {
+        // If the email is not found or there's another error, show the error message
         setError(data.error || 'Login failed. Please try again.');
-        toast.error(data.error || 'Login failed. Please try again.', {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        showToast({ error: data.error || 'Login failed. Please try again.' });
       }
     } catch (error) {
       console.error('Error:', error);
       setError('An error occurred. Please try again later.');
-      toast.error('An error occurred. Please try again later.', {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      showToast({ error: 'An error occurred. Please try again later.' });
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

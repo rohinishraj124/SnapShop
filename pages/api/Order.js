@@ -4,11 +4,10 @@ import connectDB from "@/middleware/mongoose";
 const handler = async (req, res) => {
   if (req.method === 'POST') {
     const { email, orderId, address, amount, products } = req.body;
-    console.log('Received Order Data:', req.body);
 
     // Validate if all required fields are present
-    if (!email || !orderId || !address || !amount || !products) {
-      return res.status(400).json({ message: 'All fields are required' });
+    if (!email || !orderId || !address || !amount || !products || typeof products !== 'object') {
+      return res.status(400).json({ message: 'All fields are required, and products must be an object' });
     }
 
     try {
@@ -27,13 +26,11 @@ const handler = async (req, res) => {
         products: productArray, // Save the products as an array of objects
       });
 
-      // Log the order object before saving to DB
-      console.log('Saving Order:', order);
-
       // Save the order to the database
-      await order.save();
+      const savedOrder = await order.save();
 
-      res.status(200).json({ success: 'Order placed successfully' });
+      // Return the saved order's _id in the response
+      res.status(200).json({ success: 'Order placed successfully', _id: savedOrder._id });
     } catch (error) {
       // Log the error if there is an issue during the save
       console.error('Error while saving order:', error);

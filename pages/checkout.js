@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Head from 'next/head';
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import { useRouter } from 'next/router';
+import showToast from '@/utils/toastfile';
 
 const Checkout = ({ cart, total, user , clearCart }) => {
   const [formData, setFormData] = useState({
@@ -36,21 +37,11 @@ const Checkout = ({ cart, total, user , clearCart }) => {
 
       if (pinjson.includes(Number(enteredPin))) {
         setService(true);  // Service available
-        toast.success('Your Pincode is Serviceable', {
-          position: "bottom-center",
-          autoClose: 1000,
-          hideProgressBar: false,
-          theme: "light",
-        });
+        showToast({ success: 'Your Pincode is Serviceable' });
         setShowFlash(true);
       } else {
         setService(false);  // Service not available
-        toast.error('Sorry! Your Pincode is not Serviceable', {
-          position: "bottom-center",
-          autoClose: 1000,
-          hideProgressBar: false,
-          theme: "light",
-        });
+        showToast({ error: 'Sorry! Your Pincode is not Serviceable' });
         setShowFlash(true);
       }
 
@@ -73,13 +64,25 @@ const Checkout = ({ cart, total, user , clearCart }) => {
   // Helper function to validate form
   const validateForm = () => {
     if (!formData.name || !formData.email || !formData.address || !formData.city || !formData.state || !formData.pinCode || !formData.mobile) {
+      showToast({ error: 'All delivery details are required.' });
       return "All delivery details are required.";
     }
     if (!paymentMethod) {
+      showToast({ error: 'Please select a payment method.' });
       return "Please select a payment method.";
+
+    }
+    if(formData.mobile.length !== 10){
+      showToast({ error: 'Please enter a valid mobile number.' });
+      return "Please enter a valid mobile number.";
     }
     if (Object.keys(cart).length === 0) {
+      showToast({ error: 'Your cart is empty.' });
       return "Your cart is empty.";
+    }
+    if(formData.pinCode.length !== 6){
+      showToast({ error: 'Please enter a valid pincode.' });
+      return "Please enter a valid pincode.";
     }
     return null; // No errors
   };
@@ -87,17 +90,7 @@ const Checkout = ({ cart, total, user , clearCart }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
-      toast.error('You must be logged in to place an order.', {
-        position: "bottom-center",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Slide,
-      });
+      showToast({ error: 'Please log in to proceed to checkout.' });
       return;
     }
   
@@ -110,10 +103,8 @@ const Checkout = ({ cart, total, user , clearCart }) => {
     setLoading(true);
     setError('');
   
-    const totalAmount = calculateTotal(); // Ensure total is calculated
-  
-    // Generate a random 10-digit orderId
-    const orderId = Date.now();  // Generates a 10-digit number
+    const totalAmount = calculateTotal(); 
+    const orderId = Date.now(); 
   
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/Order`, {
@@ -123,19 +114,20 @@ const Checkout = ({ cart, total, user , clearCart }) => {
         },
         body: JSON.stringify({
           email: formData.email,
-          orderId,  // Send the random orderId
+          orderId, 
           address: formData.address,
-          amount: totalAmount,  // Send the calculated total
+          amount: totalAmount, 
           products: cart,
         }),
       });
   
       const data = await response.json();
+      console.log(data);
   
       if (response.ok) {
         alert('Order placed successfully!');
         clearCart();
-        router.push(`/order`);
+        router.push(`/order?id=${data._id}`); // Use `_id` for redirection
       } else {
         throw new Error(data.message || 'Failed to place the order');
       }
@@ -146,9 +138,7 @@ const Checkout = ({ cart, total, user , clearCart }) => {
     }
   };
   
-
-
-
+  
   const calculateTotal = () => {
     let sum = 0;
     for (let item in cart) {

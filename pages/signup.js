@@ -2,7 +2,7 @@ import React, { useState , useEffect } from 'react';
 import Link from 'next/link';
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import { set } from 'mongoose';
-
+import showToast from '@/utils/toastfile';
 const Router = require('next/router');
 
 const Signup = () => {
@@ -17,17 +17,7 @@ const Signup = () => {
     setError(''); // Reset error state
 
     if (password !== confirmPassword) {
-      toast.error('Passwords do not match!', {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Slide,
-        });
+      showToast({ error: 'Passwords do not match!' });
       setError('Passwords do not match!');
       return;
     }
@@ -43,33 +33,13 @@ const Signup = () => {
     const result = await response.json();
 
     if (response.ok) {
-      toast.success('Signup successful! , Redirecting to login page', {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Slide,
-        });
+      showToast({ success: 'Account created successfully! Please login.' });
         setTimeout(() => {
           Router.push('/login');
         }, 2000);
     } else {
       setError(result.error || 'Something went wrong!');
-      toast.error(result.error, {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Slide,
-        });
+      showToast({ error: result.error || 'Something went wrong!' });
     }
   };
 
