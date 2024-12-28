@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import mongoose from 'mongoose';
 import Product from '@/models/Product';
 import showToast from '@/utils/toastfile';
-
+import mongoose from 'mongoose';
 export default function Page({ addCart, product, variants, clearCart, user }) {
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState(null);
@@ -16,6 +14,21 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
   const [pin, setPin] = useState('');
   const [showFlash, setShowFlash] = useState(false);
   const router = useRouter();
+
+  // Trigger toast on page load if no color is selected
+  useEffect(() => {
+    if (!selectedColor) {
+      toast.warning('Please select a color!', {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "light",
+      });
+    }
+  }, [selectedColor]);
 
   useEffect(() => {
     if (selectedColor) {
@@ -28,7 +41,11 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
 
   const handleAddToCart = () => {
     if (!user) {
-      showToast({error: 'Please log in to proceed to checkout.'});
+      showToast({ error: 'Please log in to proceed to checkout.' });
+      return;
+    }
+    if (!selectedColor || !selectedSize) {
+      toast.error('Please select both color and size!');
       return;
     }
     addCart(
@@ -40,13 +57,16 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
       selectedColor
     );
     alert('Product added to cart!');
-    showToast({success: 'Product added to cart!'});
+    showToast({ success: 'Product added to cart!' });
   };
-
 
   const handleBuyNow = () => {
     if (!user) {
-      showToast({error: 'Please log in to proceed to checkout.'});
+      showToast({ error: 'Please log in to proceed to checkout.' });
+      return;
+    }
+    if (!selectedColor || !selectedSize) {
+      toast.error('Please select both color and size!');
       return;
     }
     clearCart();
@@ -60,7 +80,6 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
     );
     router.push('/checkout');
   };
-
 
   const onChange = (e) => {
     setPin(e.target.value);
@@ -98,6 +117,10 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
   };
 
   const handleSizeSelect = (e) => {
+    if (!selectedColor) {
+      toast.error('Please select color');
+      return;
+    }
     setSelectedSize(e.target.value);
   };
 
@@ -177,6 +200,7 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
                     className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-pink-500 text-base pl-3 pr-10"
                     onChange={handleSizeSelect}
                     value={selectedSize || ''}
+                    disabled={!selectedColor}
                   >
                     <option value="" disabled>
                       Select Size
@@ -192,7 +216,6 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
                 </div>
               </div>
             </div>
-
             <div className="flex flex-col sm:flex-row items-center mt-6">
               <span className="title-font font-semibold text-2xl text-gray-900 m-4">₹{product.price.toFixed(2)}</span>
 
@@ -217,23 +240,25 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
                   +
                 </button>
               </div>
+            </div>
 
+            <div className="mt-6">
               <button
                 onClick={handleAddToCart}
-                className={`ml-auto mt-4 sm:mt-0 w-full sm:w-auto bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-pink-300 sm:h-auto ${isButtonDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`bg-pink-500 text-white px-6 py-3 rounded-lg mr-4 focus:outline-none focus:ring-2 focus:ring-pink-300 ${isButtonDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                 disabled={isButtonDisabled}
               >
                 Add to Cart
               </button>
-
               <button
                 onClick={handleBuyNow}
-                className={`ml-auto mt-4 sm:mt-0 w-full sm:w-auto bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-pink-300 sm:h-auto ${isButtonDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`bg-pink-500 text-white px-6 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-300 ${isButtonDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                 disabled={isButtonDisabled}
               >
                 Buy Now
               </button>
             </div>
+
             <div className="mt-8">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Check Delivery Availability</h2>
               <div className="flex items-center space-x-4">
@@ -261,12 +286,10 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
             </div>
           </div>
         </div>
-
       </div>
     </section>
   );
 }
-
 
 
 
