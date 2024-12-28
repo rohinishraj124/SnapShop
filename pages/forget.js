@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Head from 'next/head';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -24,6 +25,9 @@ const ForgotPassword = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-8 px-4">
+      <Head>
+        <title>Forgot Password</title>
+      </Head>
 
       <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
         <svg

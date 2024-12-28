@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { motion } from "framer-motion";
+import Head from "next/head";
 
 export default function Home() {
   const [currentImage, setCurrentImage] = useState({ index: 0 });
@@ -88,6 +89,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
+      <Head>
+        <title>SnapShop</title>
+      </Head>
       <motion.div
         initial="hidden"
         whileInView="visible"

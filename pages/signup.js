@@ -4,7 +4,7 @@ import { ToastContainer, toast, Slide } from 'react-toastify';
 import { set } from 'mongoose';
 import showToast from '@/utils/toastfile';
 const Router = require('next/router');
-
+import Head from 'next/head';
 const Signup = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -51,7 +51,9 @@ const Signup = () => {
     }, []);
 
   return (
+
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <Head><title>Sign Up</title></Head>
       <ToastContainer
         position="top-center"
         autoClose={1000}

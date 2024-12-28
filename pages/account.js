@@ -325,10 +325,12 @@
 
 
 import React from 'react'
+import Head from 'next/head'
 
 const Account = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <Head><title>Your Account</title></Head>
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg text-center">
         <h2 className="text-4xl font-extrabold text-gray-800 mb-4">Your Account</h2>
         <p className="text-xl text-gray-600">

@@ -4,7 +4,7 @@ import { ToastContainer, toast, Slide } from 'react-toastify';
 import { useRouter } from 'next/router';
 import { HiEye, HiEyeOff } from 'react-icons/hi'; // Import eye icons
 import showToast from '@/utils/toastfile';
-
+import Head from 'next/head';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -86,6 +86,9 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <Head>
+        <title>Login</title>
+      </Head>
       <ToastContainer
         position="top-center"
         autoClose={1000}

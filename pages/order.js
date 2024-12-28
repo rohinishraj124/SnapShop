@@ -2,6 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import Order from '../models/Order';
 import mongoose from 'mongoose';
+import Head from 'next/head';
 
 const MyOrder = ({ order }) => {
   const router = useRouter();
@@ -22,6 +23,9 @@ const MyOrder = ({ order }) => {
 
   return (
     <section className="bg-gray-100 py-12 px-6">
+      <Head>
+        <title>Order Confirmation</title>
+      </Head>
       <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-8">
         <h2 className="text-indigo-600 text-sm font-semibold uppercase tracking-wide">SnapShop</h2>
         <h1 className="text-3xl font-bold text-gray-800 mt-2 mb-6">Order ID: <span className="text-indigo-500">{order.orderId}</span></h1>

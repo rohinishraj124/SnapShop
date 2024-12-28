@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-
+import Head from 'next/head';
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -55,6 +55,7 @@ const Orders = () => {
 
   return (
     <div className="container mx-auto p-4">
+      <Head><title>Orders</title></Head>
       <h1 className="text-3xl font-bold text-center mb-6 text-gray-800 animate-fade-in">
         {process.env.NEXT_PUBLIC_ORDERS_HEADER || 'Your Orders'}
       </h1>

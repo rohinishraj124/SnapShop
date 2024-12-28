@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import { useRouter } from 'next/router';
 import showToast from '@/utils/toastfile';
+import Head from 'next/head';
 
 const Checkout = ({ cart, total, user , clearCart }) => {
   const [formData, setFormData] = useState({
@@ -153,6 +154,7 @@ const Checkout = ({ cart, total, user , clearCart }) => {
 
   return (
     <div className="w-full bg-[#ededed] p-4 md:p-8">
+      <Head><title>Checkout</title></Head>
       <ToastContainer
         position="bottom-center"
         autoClose={1000}
