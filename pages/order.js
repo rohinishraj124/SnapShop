@@ -26,7 +26,7 @@ const MyOrder = ({ order }) => {
         <h2 className="text-indigo-600 text-sm font-semibold uppercase tracking-wide">SnapShop</h2>
         <h1 className="text-3xl font-bold text-gray-800 mt-2 mb-6">Order ID: <span className="text-indigo-500">{order.orderId}</span></h1>
         <h2 className="text-xl font-semibold text-gray-700 mb-4">Your Order has been placed successfully.</h2>
-        <h3 className="text-lg font-medium text-gray-600 mb-2">Payment Method:</h3>
+        <h3 className="text-lg font-medium text-gray-600 mb-2">Payment Method: Cash on Delivery</h3>
         <p className="text-gray-500 mb-6">Order Details:</p>
 
         <div className="overflow-x-auto">

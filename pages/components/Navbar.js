@@ -228,9 +228,9 @@ const Navbar = ({ user, cart, addCart, removeFromCart, total, clearCart, logout 
           </button>
         </div>
         <div className="flex flex-col p-4 space-y-4">
-          <Link href="/men" className="text-gray-600 hover:text-pink-500">Men</Link>
-          <Link href="/women" className="text-gray-600 hover:text-pink-500">Women</Link>
-          <Link href="/kids" className="text-gray-600 hover:text-pink-500">Kids</Link>
+          <Link onClick={() => setMenuOpen(false)} href="/men" className="text-gray-600 hover:text-pink-500">Men</Link>
+          <Link onClick={() => setMenuOpen(false)} href="/women" className="text-gray-600 hover:text-pink-500">Women</Link>
+          <Link onClick={() => setMenuOpen(false)} href="/kids" className="text-gray-600 hover:text-pink-500">Kids</Link>
         </div>
       </div>
       <div

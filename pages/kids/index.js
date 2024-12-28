@@ -4,7 +4,7 @@ import Link from 'next/link';
 const Kids = () => {
   return (
     <section className="flex flex-col justify-center items-center text-gray-600 body-font">
-      <h3 className="text-2xl font-bold text-center mt-6">Categories To Bag</h3>
+      <h2 className="text-3xl font-bold text-center mt-6">Kids Section</h2>
       <div className="flex justify-center mb-8">
         <img
           className="mt-5 rounded-4 p-6"
