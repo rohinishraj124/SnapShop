@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import { useRouter } from 'next/router';
 import LoadingBar from "react-top-loading-bar";
+import ErrorBoundary from './errorBoundary';
 
 function MyApp({ Component, pageProps }) {
   const [cart, setCart] = useState({});
@@ -22,7 +23,7 @@ function MyApp({ Component, pageProps }) {
       if (storedCart) {
         setCart(JSON.parse(storedCart));
       }
-      
+
       // Load user token from localStorage if it exists
       const token = localStorage.getItem('token');
       if (token) {
@@ -87,32 +88,34 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <LoadingBar
-        color="#ff2d55"
-        progress={progress}
-        onLoaderFinished={() => setProgress(0)}
-        waitingTime={500}
-      />
-      <Navbar
-        user={user}  // Pass user state to Navbar
-        cart={cart}
-        addCart={addCart}
-        removeFromCart={removeFromCart}
-        clearCart={clearCart}
-        total={calculateTotal}
-        logout={logout}  // Pass logout function to Navbar
-      />
-      <Component
-         user={user}  // Pass user state to Navbar
-        cart={cart}
-        addCart={addCart}
-        removeFromCart={removeFromCart}
-        clearCart={clearCart}
-        total={calculateTotal}
-        logout={logout}  // Pass logout function to Navbar
-        {...pageProps}
-      />
-      <Footer />
+      <ErrorBoundary>
+        <LoadingBar
+          color="#ff2d55"
+          progress={progress}
+          onLoaderFinished={() => setProgress(0)}
+          waitingTime={500}
+        />
+        <Navbar
+          user={user}  // Pass user state to Navbar
+          cart={cart}
+          addCart={addCart}
+          removeFromCart={removeFromCart}
+          clearCart={clearCart}
+          total={calculateTotal}
+          logout={logout}  // Pass logout function to Navbar
+        />
+        <Component
+          user={user}  // Pass user state to Navbar
+          cart={cart}
+          addCart={addCart}
+          removeFromCart={removeFromCart}
+          clearCart={clearCart}
+          total={calculateTotal}
+          logout={logout}  // Pass logout function to Navbar
+          {...pageProps}
+        />
+        <Footer />
+      </ErrorBoundary >
     </>
   );
 }

@@ -22,34 +22,25 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
 
   // Trigger toast on page load if no color is selected
   useEffect(() => {
-    if (!selectedColor && !toastId) {
-      const id = toast.warning('Please select a color!', {
-        position: "bottom-center",
-        autoClose: 3000, // 3 seconds auto close
-        hideProgressBar: true,
-        closeOnClick: false,
+    if (!selectedColor && !toast.isActive(toastId)) {
+      const id = toast.warn('Please select a color!', {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
         pauseOnHover: false,
-        draggable: false,
+        draggable: true,
+        progress: undefined,
         theme: "light",
-        onClose: () => {
-          // Log when toast is manually closed
-          console.log('Toast closed!');
-          setToastId(null); // Reset toastId once closed
-        }
+        transition: Slide,
+        onClose: () => setToastId(null),
       });
-
-      // Store the toast ID for manual dismissal
+  
       setToastId(id);
-
-      // Manually dismiss the toast after 3 seconds
-      setTimeout(() => {
-        if (toastId) {
-          toast.dismiss(toastId); // Dismiss toast after 3 seconds
-          setToastId(null); // Clear the toastId after dismiss
-        }
-      }, 3000);
     }
-  }, [selectedColor, toastId]);
+  }, [selectedColor]);
+  
+  
 
   useEffect(() => {
     if (selectedColor) {
@@ -65,13 +56,13 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
       showToast({ error: 'Please log in to proceed to checkout.' });
       return;
     }
-  
+
     // Check if color and size are selected first
     if (!selectedColor || !selectedSize) {
       toast.error('Please select both color and size!');
       return;
     }
-  
+
     // Proceed with adding to the cart after validation
     addCart(
       product._id,
@@ -81,11 +72,11 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
       selectedSize,
       selectedColor
     );
-  
+
     // Show success toast once product is added to the cart
     showToast({ success: 'Product added to cart!' });
   };
-  
+
   const handleBuyNow = () => {
     if (!user) {
       showToast({ error: 'Please log in to proceed to checkout.' });
@@ -143,10 +134,6 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
   };
 
   const handleSizeSelect = (e) => {
-    if (!selectedColor) {
-      toast.error('Please select color');
-      return;
-    }
     setSelectedSize(e.target.value);
   };
 
@@ -162,13 +149,13 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
         <title>{product.title}</title>
       </Head>
       <ToastContainer
-        position="bottom-center"
-        autoClose={3000}
+        position="top-center"
+        autoClose={1000}
         hideProgressBar={false}
         newestOnTop={false}
-        closeOnClick={true}
+        closeOnClick
         rtl={false}
-        pauseOnFocusLoss
+        pauseOnFocusLoss={false}
         draggable
         pauseOnHover={false}
         theme="light"
