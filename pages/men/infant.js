@@ -2,11 +2,12 @@ import React from 'react';
 import Link from 'next/link';
 import Product from '../../models/Product';
 import mongoose from 'mongoose';
-
+import Head from 'next/head';
 const kids = ({ products }) => {
   console.log(products);
   return (
     <section className="text-gray-600 body-font bg-gradient-to-b from-white to-gray-100">
+      <Head><title>Men Infant</title></Head>
       <div className="container px-5 py-24 mx-auto">
         <h1 className="text-3xl font-bold text-center mb-12 text-gray-800">Discover Our Products</h1>
         {/* Grid setup */}

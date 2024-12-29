@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Product from '@/models/Product';
 import showToast from '@/utils/toastfile';
 import mongoose from 'mongoose';
+import Head from 'next/head';
 
 export default function Page({ addCart, product, variants, clearCart, user }) {
   const [quantity, setQuantity] = useState(1);
@@ -157,6 +158,9 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
 
   return (
     <section className="text-gray-600 body-font overflow-hidden">
+      <Head>
+        <title>{product.title}</title>
+      </Head>
       <ToastContainer
         position="bottom-center"
         autoClose={3000}

@@ -1,9 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
-
+import Head from 'next/head';
 const Kids = () => {
   return (
     <section className="flex flex-col justify-center items-center text-gray-600 body-font">
+      <Head><title>Kids Section</title></Head>
       <h2 className="text-3xl font-bold text-center mt-6">Kids Section</h2>
       <div className="flex justify-center mb-8">
         <img

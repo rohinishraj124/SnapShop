@@ -3,7 +3,6 @@ import Head from 'next/head';
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import { useRouter } from 'next/router';
 import showToast from '@/utils/toastfile';
-import Head from 'next/head';
 
 const Checkout = ({ cart, total, user , clearCart }) => {
   const [formData, setFormData] = useState({
