@@ -24,7 +24,7 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
   useEffect(() => {
     if (!selectedColor && !toast.isActive(toastId)) {
       const id = toast.warn('Please select a color!', {
-        position: "top-center",
+        position: "bottom-center",
         autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -74,7 +74,17 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
     );
 
     // Show success toast once product is added to the cart
-    showToast({ success: 'Product added to cart!' });
+    toast.success('Product added to cart', {
+      position: "bottom-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Slide,
+      });
   };
 
   const handleBuyNow = () => {
