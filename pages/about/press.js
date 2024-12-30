@@ -81,10 +81,10 @@ const Press = () => {
                 <div className="flex justify-center">
                     <div className="bg-white shadow-lg rounded-lg p-8 text-center">
                         <h3 className="text-2xl font-bold text-pink-500">Press Contact</h3>
-                        <p className="mt-4 text-lg text-gray-600">Jane Doe</p>
+                        <p className="mt-4 text-lg text-gray-600">Rohinish Raj</p>
                         <p className="mt-2 text-lg text-gray-600">Head of Public Relations</p>
                         <p className="mt-4 text-lg text-gray-600">Email: <a href="mailto:press@snapshop.com" className="text-purple-700">press@snapshop.com</a></p>
-                        <p className="mt-2 text-lg text-gray-600">Phone: (123) 456-7890</p>
+                        <p className="mt-2 text-lg text-gray-600">Phone: 8521671402</p>
                     </div>
                 </div>
             </section>

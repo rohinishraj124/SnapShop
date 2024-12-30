@@ -46,7 +46,7 @@ const ReturnPage = () => {
       </section>
 
       {/* Coming Soon Section */}
-      <section className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white py-8 shadow-md rounded-lg mx-5 mb-12">
+      <section className="bg-gray-100 text-red-500 font-semibold py-8 shadow-md rounded-lg mx-5 mb-12">
         <div className="container mx-auto px-5 text-center">
           <p className="text-xl sm:text-2xl font-semibold tracking-wide">
             Our return service will be available soon!

@@ -59,7 +59,7 @@ const OurStory = () => {
                         {[
                             { year: "2024", description: "Founded SnapShop and launched our first collection." },
                             { year: "2025", description: "Aim to reached 100,000 customers worldwide." },
-                            { year: "2023", description: "Try to expand support to over 50 small businesses globally." },
+                            { year: "2026", description: "Try to expand support to over 50 small businesses globally." },
                         ].map((milestone, index) => (
                             <div
                                 key={index}
@@ -82,15 +82,15 @@ const OurStory = () => {
         <div className="bg-white shadow-lg rounded-lg p-6 text-center transform transition hover:scale-105">
             <div className="relative w-32 h-32 mx-auto mb-6">
                 <Image
-                    src="/team-1.jpg" // Replace with the image path of the member
+                    src="/mypic.jpg" // Replace with the image path of the member
                     alt="Team Member"
                     layout="fill"
                     objectFit="cover"
                     className="rounded-full"
                 />
             </div>
-            <h3 className="text-xl font-bold text-gray-800">Member Name</h3>
-            <p className="text-gray-500">Role</p>
+            <h3 className="text-xl font-bold text-gray-800">Rohinish Raj</h3>
+            <p className="text-gray-500">Founder & CEO</p>
         </div>
     </div>
 </section>
