@@ -1,8 +1,13 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { toast } from 'react-toastify'; // Import toast
 
 const Footer = () => {
+    const handleHover = () => {
+        toast.info('This feature is coming soon!');
+    };
+
     return (
         <footer className="text-gray-600 body-font bg-[#ededed]">
             <div className="bg-[#aba4a4] h-0.5 w-full rounded-full"></div>
@@ -47,16 +52,21 @@ const Footer = () => {
                         <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">ABOUT</h2>
                         <nav className="list-none mb-10">
                             <li>
-                                <Link href="#" className="text-gray-600 hover:text-pink-800">Our Story</Link>
+                                <Link href="/about/story" className="text-gray-600 hover:text-pink-800">Our Story</Link>
                             </li>
                             <li>
-                                <Link href="#" className="text-gray-600 hover:text-pink-800">Careers</Link>
+                                <Link href="/about/career" 
+                                      aria-disabled="true" 
+                                      className="text-gray-400 cursor-not-allowed"
+                                      onMouseEnter={handleHover}> {/* Hover effect */}
+                                    Careers
+                                </Link>
                             </li>
                             <li>
-                                <Link href="#" className="text-gray-600 hover:text-pink-800">Press</Link>
+                                <Link href="/about/press" className="text-gray-600 hover:text-pink-800">Press</Link>
                             </li>
                             <li>
-                                <Link href="#" className="text-gray-600 hover:text-pink-800">Blog</Link>
+                                <Link href="/about/blog" className="text-gray-600 hover:text-pink-800">Blog</Link>
                             </li>
                         </nav>
                     </div>
@@ -64,16 +74,13 @@ const Footer = () => {
                         <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">SUPPORT</h2>
                         <nav className="list-none mb-10">
                             <li>
-                                <Link href="#" className="text-gray-600 hover:text-pink-800">Contact Us</Link>
+                                <Link href="/support/contactus" className="text-gray-600 hover:text-pink-800">Contact Us</Link>
                             </li>
                             <li>
-                                <Link href="#" className="text-gray-600 hover:text-pink-800">FAQs</Link>
+                                <Link href="/support/faqs" className="text-gray-600 hover:text-pink-800">FAQs</Link>
                             </li>
                             <li>
-                                <Link href="#" className="text-gray-600 hover:text-pink-800">Shipping</Link>
-                            </li>
-                            <li>
-                                <Link href="#" className="text-gray-600 hover:text-pink-800">Returns</Link>
+                                <Link href="/support/return" className="text-gray-600 hover:text-pink-800">Returns</Link>
                             </li>
                         </nav>
                     </div>
@@ -81,16 +88,32 @@ const Footer = () => {
                         <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">FOLLOW US</h2>
                         <nav className="list-none mb-10">
                             <li>
-                                <Link href="#" className="text-gray-600 hover:text-pink-800">Facebook</Link>
+                                <Link href="#" 
+                                      className="text-gray-400 cursor-not-allowed"
+                                      onMouseEnter={handleHover}> {/* Hover effect */}
+                                    Facebook
+                                </Link>
                             </li>
                             <li>
-                                <Link href="#" className="text-gray-600 hover:text-pink-800">Instagram</Link>
+                                <Link href="#" 
+                                      className="text-gray-400 cursor-not-allowed"
+                                      onMouseEnter={handleHover}> {/* Hover effect */}
+                                    Instagram
+                                </Link>
                             </li>
                             <li>
-                                <Link href="#" className="text-gray-600 hover:text-pink-800">Twitter</Link>
+                                <Link href="#" 
+                                      className="text-gray-400 cursor-not-allowed"
+                                      onMouseEnter={handleHover}> {/* Hover effect */}
+                                    Twitter
+                                </Link>
                             </li>
                             <li>
-                                <Link href="#" className="text-gray-600 hover:text-pink-800">LinkedIn</Link>
+                                <Link href="#" 
+                                      className="text-gray-400 cursor-not-allowed"
+                                      onMouseEnter={handleHover}> {/* Hover effect */}
+                                    LinkedIn
+                                </Link>
                             </li>
                         </nav>
                     </div>
@@ -99,7 +122,7 @@ const Footer = () => {
             <div className="#ededed-100">
                 <div className="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
                     <p className="text-gray-500 text-sm text-center sm:text-left">
-                        © 2024 SnapShop —
+                        © 2024 SnapShop — 
                         <Link href="https://twitter.com/knyttneve" rel="noopener noreferrer" className="text-gray-600 ml-1" target="_blank">
                             @SnapShop
                         </Link>
