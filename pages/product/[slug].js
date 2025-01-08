@@ -171,7 +171,7 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
         theme="light"
         transition={Slide}
       />
-      <div className="container px-5 py-14 mx-auto">
+      <div className="container px-5 py-24 mx-auto dark:bg-gray-900 max-w-none w-full h-screen">
         <div className="lg:w-full mx-auto flex lg:flex-nowrap flex-wrap">
           <img
             alt="ecommerce"
@@ -179,13 +179,13 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
             src={image}
           />
           <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-            <h3 className="text-l title-font text-gray-500 tracking-widest">SnapShop</h3>
-            <h2 className="text-gray-900 text-2xl title-font font-medium mb-1">
+            <h3 className="text-l title-font text-gray-900 dark:text-gray-300 tracking-widest">SnapShop</h3>
+            <h2 className="text-gray-900 dark:text-gray-300 text-2xl title-font font-medium mb-1">
               {product.title} ({selectedSize}/{selectedColor})
             </h2>
-            <p className="leading-relaxed">{product.desc}</p>
+            <p className="leading-relaxed text-gray-900 dark:text-gray-300">{product.desc}</p>
             <div className="flex items-center">
-              <span className="mr-2">Rating:</span>
+              <span className="mr-2 text-gray-900 dark:text-gray-300">Rating:</span>
               <div className="flex items-center">
                 {Array.from({ length: 5 }, (_, index) => (
                   <svg
@@ -208,7 +208,7 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
             </div>
             <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
               <div className="flex">
-                <span className="mr-3">Color</span>
+                <span className="mr-3 text-gray-900 dark:text-gray-300">Color</span>
                 {Object.keys(variants || {}).map((color, index) => (
                   <button
                     key={index}
@@ -220,7 +220,7 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
               </div>
 
               <div className="flex ml-6 items-center">
-                <span className="mr-3">Size</span>
+                <span className="mr-3 text-gray-900 dark:text-gray-300">Size</span>
                 <div className="relative">
                   <select
                     className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-pink-500 text-base pl-3 pr-10"
@@ -244,12 +244,12 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
             </div>
 
             <div className="flex mb-5">
-              <span className="title-font font-medium text-2xl text-gray-900">
+              <span className="title-font font-medium text-2xl text-gray-900 dark:text-gray-300">
                 ₹{product.price}
               </span>
               <div className="flex ml-6">
                 <button
-                  className="px-2 py-1 bg-gray-200 text-gray-700 rounded-l-lg hover:bg-gray-300 focus:outline-none"
+                  className="px-2 py-1 bg-gray-200 text-gray-700 rounded-l-lg hover:bg-gray-300 focus:outline-none text-center"
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
                 >
                   -
@@ -288,7 +288,7 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
             </div>
 
             <div className="mt-8">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Check Delivery Availability</h2>
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-300 mb-4">Check Delivery Availability</h2>
               <div className="flex items-center space-x-4">
                 <input
                   type="text"

@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 const OurStory = () => {
     return (
-        <div className="bg-gray-50 text-gray-700">
+        <div className="bg-gray-50 text-gray-700 dark:bg-gray-900 dark:text-gray-300">
             {/* Hero Section */}
             <section className="relative bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 text-white">
                 <div className="container mx-auto py-24 px-5 text-center">
@@ -16,7 +16,7 @@ const OurStory = () => {
                 </div>
                 <div className="absolute inset-0 opacity-20">
                     <Image
-                        src="/our-story-hero.jpg" // Replace with your image path
+                        src="/our-story-hero.jpg"
                         alt="Our Story Hero"
                         layout="fill"
                         objectFit="cover"
@@ -28,7 +28,7 @@ const OurStory = () => {
             <section className="container mx-auto py-20 px-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                     <div data-aos="fade-right">
-                        <h2 className="text-4xl font-bold text-purple-700 mb-6">
+                        <h2 className="text-4xl font-bold text-purple-700 dark:text-purple-400 mb-6">
                             Where It All Began
                         </h2>
                         <p className="leading-relaxed text-lg mb-4">
@@ -40,7 +40,7 @@ const OurStory = () => {
                     </div>
                     <div className="relative w-full h-80 sm:h-[500px] shadow-lg rounded-lg overflow-hidden" data-aos="fade-left">
                         <Image
-                            src="/begin.jpg" // Replace with your image path
+                            src="/begin.jpg"
                             alt="Our Beginnings"
                             layout="fill"
                             objectFit="cover"
@@ -50,9 +50,9 @@ const OurStory = () => {
             </section>
 
             {/* Milestones Section */}
-            <section className="bg-gradient-to-b from-gray-50 to-gray-100 py-20">
+            <section className="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-20">
                 <div className="container mx-auto px-5">
-                    <h2 className="text-4xl font-extrabold text-center text-purple-700 mb-12">
+                    <h2 className="text-4xl font-extrabold text-center text-purple-700 dark:text-purple-400 mb-12">
                         Key Milestones
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -63,9 +63,9 @@ const OurStory = () => {
                         ].map((milestone, index) => (
                             <div
                                 key={index}
-                                className="bg-white shadow-md rounded-lg p-8 text-center transform transition hover:scale-105"
+                                className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-8 text-center transform transition hover:scale-105"
                             >
-                                <h3 className="text-3xl font-bold text-pink-500">{milestone.year}</h3>
+                                <h3 className="text-3xl font-bold text-pink-500 dark:text-pink-400">{milestone.year}</h3>
                                 <p className="mt-4 text-lg">{milestone.description}</p>
                             </div>
                         ))}
@@ -74,30 +74,29 @@ const OurStory = () => {
             </section>
 
             {/* Team Section */}
-<section className="container mx-auto py-20 px-5">
-    <h2 className="text-4xl font-extrabold text-center text-purple-700 mb-12">
-        Meet the Team
-    </h2>
-    <div className="flex justify-center">
-        <div className="bg-white shadow-lg rounded-lg p-6 text-center transform transition hover:scale-105">
-            <div className="relative w-32 h-32 mx-auto mb-6">
-                <Image
-                    src="/mypic.jpg" // Replace with the image path of the member
-                    alt="Team Member"
-                    layout="fill"
-                    objectFit="cover"
-                    className="rounded-full"
-                />
-            </div>
-            <h3 className="text-xl font-bold text-gray-800">Rohinish Raj</h3>
-            <p className="text-gray-500">Founder & CEO</p>
-        </div>
-    </div>
-</section>
-
+            <section className="container mx-auto py-20 px-5">
+                <h2 className="text-4xl font-extrabold text-center text-purple-700 dark:text-purple-400 mb-12">
+                    Meet the Team
+                </h2>
+                <div className="flex justify-center">
+                    <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 text-center transform transition hover:scale-105">
+                        <div className="relative w-32 h-32 mx-auto mb-6">
+                            <Image
+                                src="/mypic.jpg"
+                                alt="Team Member"
+                                layout="fill"
+                                objectFit="cover"
+                                className="rounded-full"
+                            />
+                        </div>
+                        <h3 className="text-xl font-bold text-gray-800 dark:text-gray-300">Rohinish Raj</h3>
+                        <p className="text-gray-500 dark:text-gray-400">Founder & CEO</p>
+                    </div>
+                </div>
+            </section>
 
             {/* Call to Action */}
-            <section className="bg-gradient-to-r from-purple-600 to-pink-500 text-white py-16">
+            <section className="bg-gradient-to-r from-purple-600 to-pink-500 dark:from-purple-700 dark:to-pink-600 text-white py-16">
                 <div className="container mx-auto text-center">
                     <h2 className="text-4xl font-bold mb-4">Join Us on This Journey</h2>
                     <p className="mb-8 text-lg">

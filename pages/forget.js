@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 
-const ForgotPassword = () => {
+const ForgotPassword = ({theme}) => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
@@ -24,12 +24,12 @@ const ForgotPassword = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-8 px-4">
+    <div className="min-h-screen flex items-center justify-center dark:bg-gray-900 py-8 px-4">
       <Head>
         <title>Forgot Password</title>
       </Head>
 
-      <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+      <div className="w-full max-w-md p-6 dark:bg-gray-800 rounded-lg shadow-lg">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -42,14 +42,14 @@ const ForgotPassword = () => {
         >
           <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
         </svg>
-        <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">Forgot Password</h2>
-        <p className="text-gray-600 text-sm text-center mb-6">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-300 mb-4 text-center">Forgot Password</h2>
+        <p className="text-gray-900 dark:text-gray-300 text-sm text-center mb-6">
           Enter your email address below, and we’ll send you a link to reset your password.
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-gray-700 font-semibold mb-2">
+            <label htmlFor="email" className="block text-gray-900 dark:text-gray-300 font-semibold mb-2">
               Email Address
             </label>
             <input

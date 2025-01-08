@@ -152,7 +152,7 @@ const Checkout = ({ cart, total, user , clearCart }) => {
   };
 
   return (
-    <div className="w-full bg-[#ededed] p-4 md:p-8">
+    <div className="w-full dark:bg-gray-900 bg-[#ededed] p-4 md:p-8">
       <Head><title>Checkout</title></Head>
       <ToastContainer
         position="bottom-center"
@@ -173,22 +173,22 @@ const Checkout = ({ cart, total, user , clearCart }) => {
           content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0"
         />
       </Head>
-      <h2 className="text-4xl font-extrabold text-gray-800 text-center my-8">Checkout</h2>
+      <h2 className="text-4xl font-extrabold text-gray-900 dark:text-gray-300 text-center my-8">Checkout</h2>
 
       {/* Delivery Details Section */}
-      <div className="bg-white p-6 rounded-xl shadow-lg mb-8 w-full max-w-screen-lg mx-auto">
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg mb-8 w-full max-w-screen-lg mx-auto">
         {!user ? (
           <p className="text-center text-red-600 font-bold">
             You must be logged in to access the checkout.
           </p>
         ) : (
           <>
-            <h3 className="text-2xl font-semibold text-gray-800 mb-6">Delivery Details</h3>
+            <h3 className="text-2xl font-semibold text-gray-900 dark:text-gray-300 mb-6">Delivery Details</h3>
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Name and Email */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="name" className="block text-lg font-semibold text-gray-700">
+                  <label htmlFor="name" className="block text-lg font-semibold text-gray-900 dark:text-gray-300">
                     Full Name
                   </label>
                   <input
@@ -204,7 +204,7 @@ const Checkout = ({ cart, total, user , clearCart }) => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-lg font-semibold text-gray-700">
+                  <label htmlFor="email" className="block text-lg font-semibold text-gray-900 dark:text-gray-300">
                     Email Address
                   </label>
                   <input
@@ -223,7 +223,7 @@ const Checkout = ({ cart, total, user , clearCart }) => {
 
               {/* Address */}
               <div>
-                <label htmlFor="address" className="block text-lg font-semibold text-gray-700">
+                <label htmlFor="address" className="block text-lg font-semibold text-gray-900 dark:text-gray-300">
                   Address
                 </label>
                 <textarea
@@ -241,7 +241,7 @@ const Checkout = ({ cart, total, user , clearCart }) => {
               {/* City and Mobile */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="city" className="block text-lg font-semibold text-gray-700">
+                  <label htmlFor="city" className="block text-lg font-semibold text-gray-900 dark:text-gray-300">
                     City
                   </label>
                   <input
@@ -257,7 +257,7 @@ const Checkout = ({ cart, total, user , clearCart }) => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="mobile" className="block text-lg font-semibold text-gray-700">
+                  <label htmlFor="mobile" className="block text-lg font-semibold text-gray-900 dark:text-gray-300">
                     Mobile Number
                   </label>
                   <input
@@ -277,7 +277,7 @@ const Checkout = ({ cart, total, user , clearCart }) => {
               {/* State and Pin Code */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="state" className="block text-lg font-semibold text-gray-700">
+                  <label htmlFor="state" className="block text-lg font-semibold text-gray-900 dark:text-gray-300">
                     State
                   </label>
                   <input
@@ -293,7 +293,7 @@ const Checkout = ({ cart, total, user , clearCart }) => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="pinCode" className="block text-lg font-semibold text-gray-700">
+                  <label htmlFor="pinCode" className="block text-lg font-semibold text-gray-900 dark:text-gray-300">
                     Pin Code
                   </label>
                   <input
@@ -314,10 +314,10 @@ const Checkout = ({ cart, total, user , clearCart }) => {
 
               {/* Review Cart Items */}
               <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-4">Review Cart Items</h3>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-300 mb-4">Review Cart Items</h3>
                 <div className="space-y-4">
                   {Object.keys(cart).length === 0 ? (
-                    <p className="text-gray-600">Your cart is empty</p>
+                    <p className="text-gray-900 dark:text-gray-300">Your cart is empty</p>
                   ) : (
                     Object.keys(cart).map((key) => {
                       const item = cart[key];
@@ -326,7 +326,7 @@ const Checkout = ({ cart, total, user , clearCart }) => {
                         <div key={key} className="flex justify-between items-center">
                           <div className='md:w-1/2 w-40'>
                             <span
-                              className="font-medium text-gray-800 cursor-pointer"
+                              className="font-medium text-gray-900 dark:text-gray-300 cursor-pointer"
                             >
                               {expandedItem[key] ? item.name : truncatedName}
                             </span>
@@ -342,7 +342,7 @@ const Checkout = ({ cart, total, user , clearCart }) => {
                               <div className="mt-2 text-sm text-gray-600">{item.desc}</div>
                             )}
                           </div>
-                          <span className="text-gray-800">{`₹${item.price} x ${item.qty}`}</span>
+                          <span className="text-gray-900 dark:text-gray-300">{`₹${item.price} x ${item.qty}`}</span>
                         </div>
                       );
                     })
@@ -353,7 +353,7 @@ const Checkout = ({ cart, total, user , clearCart }) => {
 
               {/* Payment Method */}
               <div className="space-y-6">
-                <label className="block text-xl font-semibold text-gray-700">Payment Method</label>
+                <label className="block text-xl font-semibold text-gray-900 dark:text-gray-300">Payment Method</label>
                 <div className="flex flex-col sm:flex-row sm:space-x-6">
                   {/* Cash on Delivery option */}
                   <label className="flex items-center space-x-2 mb-4 sm:mb-0">
@@ -366,7 +366,7 @@ const Checkout = ({ cart, total, user , clearCart }) => {
                       className="h-4 w-4 text-blue-500 focus:ring-blue-500"
                       disabled={!user}
                     />
-                    <span className="text-gray-700 text-lg font-medium">Cash on Delivery</span>
+                    <span className="text-gray-900 dark:text-gray-300 text-lg font-medium">Cash on Delivery</span>
                   </label>
 
                   {/* Credit Card option (Disabled) */}
@@ -421,8 +421,8 @@ const Checkout = ({ cart, total, user , clearCart }) => {
               {error && <p className="text-red-600">{error}</p>}
               {/* Order Summary */}
               <div className="mt-6 flex justify-between items-center">
-                <span className="text-lg font-semibold text-gray-800">Total:</span>
-                <span className="text-lg text-gray-800">{`₹${calculateTotal()}`}</span>
+                <span className="text-lg font-semibold text-gray-900 dark:text-gray-300">Total:</span>
+                <span className="text-lg text-gray-900 dark:text-gray-300">{`₹${calculateTotal()}`}</span>
               </div>
 
               <div className="mt-6">

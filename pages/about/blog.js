@@ -18,7 +18,7 @@ const Blog = () => {
     };
 
     return (
-        <div className="bg-gray-50 text-gray-700">
+        <div className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-300">
             {/* Hero Section */}
             <section className="relative bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 text-white">
                 <div className="container mx-auto py-24 px-5 text-center">
@@ -44,7 +44,7 @@ const Blog = () => {
                 <h2 className="text-4xl font-extrabold text-center text-purple-700 mb-12">
                     Latest Posts
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 ">
                     {[{
                         title: "How SnapShop is Changing the E-Commerce Landscape",
                         date: "December 2024",
@@ -61,7 +61,7 @@ const Blog = () => {
                         imageUrl: "/blog3.jpeg", // Replace with your image path
                         excerpt: "What’s next for personalized shopping? In this blog, we explore the future trends and technologies shaping the shopping experience at SnapShop.",
                     }].map((post, index) => (
-                        <div key={index} className="bg-white shadow-xl rounded-lg overflow-hidden transform transition duration-300 hover:scale-105">
+                        <div key={index} className="bg-white dark:bg-gray-800 shadow-xl rounded-lg overflow-hidden transform transition duration-300 hover:scale-105">
                             <div className="relative w-full h-64">
                                 <Image
                                     src={post.imageUrl}
@@ -72,9 +72,9 @@ const Blog = () => {
                                 />
                             </div>
                             <div className="p-6">
-                                <h3 className="text-2xl font-bold text-gray-800 mb-4">{post.title}</h3>
-                                <p className="text-gray-500 text-sm mb-4">{post.date}</p>
-                                <p className="text-lg text-gray-600 mb-6">{post.excerpt}</p>
+                                <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-300 mb-4">{post.title}</h3>
+                                <p className="text-gray-500 dark:text-gray-300 text-sm mb-4">{post.date}</p>
+                                <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">{post.excerpt}</p>
                             </div>
                         </div>
                     ))}
@@ -82,14 +82,14 @@ const Blog = () => {
             </section>
 
             {/* Featured Post Section */}
-            <section className="bg-gradient-to-b from-gray-50 to-gray-100 py-20">
+            <section className="bg-gradient-to-b from-gray-50 to-gray-100 py-20 dark:from-gray-900 dark:to-gray-800">
                 <div className="container mx-auto text-center">
                     <h2 className="text-4xl font-extrabold text-purple-700 mb-12">
                         Featured Post
                     </h2>
-                    <div className="bg-white shadow-xl rounded-lg p-8 max-w-3xl mx-auto transform transition hover:scale-105">
-                        <h3 className="text-3xl font-bold text-gray-800 mb-4">The Impact of Technology on E-Commerce</h3>
-                        <p className="text-gray-500 mb-4">January 2024</p>
+                    <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-8 max-w-3xl mx-auto transform transition hover:scale-105">
+                        <h3 className="text-3xl font-bold text-gray-800 dark:text-gray-300 mb-4">The Impact of Technology on E-Commerce</h3>
+                        <p className="text-gray-500 dark:text-gray-400 mb-4">January 2024</p>
                         <div className="relative w-full h-64 mb-6">
                             <Image
                                 src="/blog4.jpg" // Replace with your featured image path
@@ -99,12 +99,13 @@ const Blog = () => {
                                 className="rounded-lg"
                             />
                         </div>
-                        <p className="text-lg text-gray-600 mb-6">
+                        <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
                             Technology continues to reshape the e-commerce world. In this post, we dive deep into the latest advancements and their effect on consumer behavior.
                         </p>
                     </div>
                 </div>
             </section>
+
 
             {/* Call to Action Section */}
             <section className="bg-gradient-to-r from-purple-600 to-pink-500 text-white py-16">
@@ -116,11 +117,11 @@ const Blog = () => {
                     <div className="max-w-sm mx-auto">
                         <input
                             type="email"
-                            
+
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="Enter your email"
-                            className="w-full p-4 text-lg text-center rounded-full text-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-700"
+                            className="w-full p-4 text-lg text-center rounded   -full text-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-700"
                         />
                         <button
                             onClick={handleSubscribe}
@@ -133,7 +134,7 @@ const Blog = () => {
             </section>
 
             {/* Toast Container */}
-            <ToastContainer 
+            <ToastContainer
                 position="top-center"
                 autoClose={3000}
                 hideProgressBar

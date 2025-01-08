@@ -324,28 +324,33 @@
 // export default MyAccount;
 
 
-import React from 'react'
-import Head from 'next/head'
+import React from 'react';
+import Head from 'next/head';
 
 const Account = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <Head><title>Your Account</title></Head>
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg text-center">
-        <h2 className="text-4xl font-extrabold text-gray-800 mb-4">Your Account</h2>
-        <p className="text-xl text-gray-600">
-          Your account will be displayed soon. Stay tuned!
-        </p>
-        <div className="mt-6">
-          <div className="flex justify-center items-center space-x-4">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-r from-yellow-500 to-red-500 flex justify-center items-center text-white text-2xl font-semibold">
-              <span>🔒</span>
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
+            <Head>
+                <title>Your Account</title>
+            </Head>
+            <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg max-w-lg text-center">
+                <h2 className="text-4xl font-extrabold text-gray-900 dark:text-gray-300 mb-4">
+                    Your Account
+                </h2>
+                <p className="text-xl text-gray-600 dark:text-gray-400">
+                    Your account will be displayed soon. Stay tuned!
+                </p>
+                <div className="mt-6">
+                    <div className="flex justify-center items-center space-x-4">
+                        <div className="w-16 h-16 rounded-full bg-gradient-to-r from-yellow-500 to-red-500 flex justify-center items-center text-white text-2xl font-semibold">
+                            <span>🔒</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  )
-}
+    );
+};
 
-export default Account
+export default Account;
+

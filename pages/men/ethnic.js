@@ -7,54 +7,56 @@ import Head from 'next/head';
 const ethnic = ({ products }) => {
   console.log(products);
   return (
-    <section className="text-gray-600 body-font bg-gradient-to-b from-white to-gray-100">
-      <Head><title>Men Ethnic</title></Head>
-      <div className="container px-5 py-24 mx-auto">
-        <h1 className="text-3xl font-bold text-center mb-12 text-gray-800">Discover Our Products</h1>
-        {/* Grid setup */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
-          {Object.keys(products).map((product) => (
-            <Link key={products[product]._id} href={`/product/${products[product].slug}`}>
-              <div className="cursor-pointer bg-white shadow-md rounded-lg p-4 hover:shadow-xl hover:scale-105 transform transition duration-300 ease-in-out">
-                {/* Product image */}
-                <div className="relative h-48 rounded overflow-hidden">
-                  <img
-                    alt="ecommerce"
-                    className="m-auto h-[30vh]  block object-cover object-center"
-                    src={products[product].img}
-                  />
+    <section className="text-gray-900 dark:text-gray-300  body-font bg-gradient-to-b from-white to-gray-100 min-h-screen w-full flex items-center justify-center">
+  <Head><title>Men Ethnic</title></Head>
+  <div className="container px-5 py-24 mx-auto dark:bg-gray-900 max-w-none w-full h-screen">
+    <h1 className="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-gray-300">
+      Discover Our Products
+    </h1>
+    {/* Grid setup */}  
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
+      {Object.keys(products).map((product) => (
+        <Link key={products[product]._id} href={`/product/${products[product].slug}`}>
+          <div className="cursor-pointer bg-white dark:bg-gray-800 ml-6 shadow-md rounded-lg p-4 hover:shadow-xl hover:scale-105 transform transition duration-300 ease-in-out">
+            {/* Product image */}
+            <div className="relative h-48 rounded overflow-hidden">
+              <img
+                alt="ecommerce"
+                className="m-auto h-[30vh] block object-cover object-center rounded-lg"
+                src={products[product].img}
+              />
+            </div>
+            {/* Product details */}
+            <div className="text-center mt-4">
+              <h3 className="text-gray-900 dark:text-gray-300 text-xs tracking-widest title-font mb-1 uppercase">
+                {products[product].category}
+              </h3>
+              <h2 className="text-gray-900 dark:text-gray-300 title-font text-lg font-semibold">
+                {products[product].title.length > 20 ? `${products[product].title.slice(0, 20)}...` : products[product].title}
+              </h2>
+              <p className="mt-2 text-green-600 font-bold">₹{products[product].price}</p>
+              {/* Display Color as circles */}
+              <div className="mt-4">
+                <p className="text-gray-900 dark:text-gray-300 text-sm">Color:</p>
+                <div className="flex items-center justify-center space-x-2 mt-2">
+                  {products[product].color.map((color, index) => (
+                    <div
+                      key={index}
+                      style={{ backgroundColor: color }}
+                      className="w-6 h-6 rounded-full border-2 border-white"
+                    />
+                  ))}
                 </div>
-                {/* Product details */}
-                <div className="text-center mt-4">
-                  <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1 uppercase">
-                    {products[product].category}
-                  </h3>
-                  <h2 className="text-gray-900 title-font text-lg font-semibold">
-                    {products[product].title.length > 20 ? `${products[product].title.slice(0, 20)}...` : products[product].title}
-                  </h2>
-                  <p className="mt-2 text-green-600 font-bold">₹{products[product].price}</p>
-
-                  {/* Display Color as circles */}
-                  <div className="mt-4">
-                    <p className="text-gray-500 text-sm">Color:</p>
-                    <div className="flex items-center justify-center space-x-2 mt-2">
-                      {products[product].color.map((color, index) => (
-                        <div
-                          key={index}
-                          style={{ backgroundColor: color }}
-                          className="w-6 h-6 rounded-full border-2 border-white"
-                        />
-                      ))}
-                    </div>
-                    <p className="text-gray-500 text-sm mt-2">Size: {products[product].size.join(', ')}</p>
-                  </div>
-                </div>
+                <p className="text-gray-900 dark:text-gray-300 text-sm mt-2">Size: {products[product].size.join(', ')}</p>
               </div>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </section>
+            </div>
+          </div>
+        </Link>
+      ))}
+    </div>
+  </div>
+</section>
+
   );
 };
 

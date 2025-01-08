@@ -6,8 +6,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { motion } from "framer-motion";
 import Head from "next/head";
+import { ToastContainer, toast, Bounce } from "react-toastify";
 
-export default function Home() {
+export default function Home({ theme, toggleTheme }) {
   const [currentImage, setCurrentImage] = useState({ index: 0 });
   const [isHovered, setIsHovered] = useState(false);
 
@@ -33,21 +34,20 @@ export default function Home() {
     {
       title: "men",
       images: ["/categories/men1.jpg", "/categories/men2.jpg", "/categories/men3.jpg"],
-      url: "/men"
+      url: "/men",
     },
     {
       title: "women",
       images: ["/categories/women1.jpg", "/categories/women2.jpg", "/categories/women3.jpg"],
-      url: "/women"
+      url: "/women",
     },
     {
       title: "kids",
       images: ["/categories/kids1.jpg", "/categories/kids2.jpg", "/categories/kids3.jpg"],
-      url: "/kids"
-    }
-  ]
+      url: "/kids",
+    },
+  ];
 
-  // Featured collections with images
   const featuredCollections = [
     {
       title: "Tshirts",
@@ -75,20 +75,32 @@ export default function Home() {
     },
   ];
 
-  // Automatically switch images every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prev) => {
-        const nextIndex = (prev.index + 1) % 3; // assuming 3 images in each collection
+        const nextIndex = (prev.index + 1) % 3;
         return { ...prev, index: nextIndex };
       });
     }, 3000);
 
-    return () => clearInterval(interval); // Clear interval on component unmount
+    return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className={`min-h-screen flex flex-col ${theme === "dark" ? "bg-gray-900 text-white" : "bg-gray-50 text-black"}`}>
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
       <Head>
         <title>SnapShop</title>
       </Head>
@@ -97,7 +109,7 @@ export default function Home() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.5 }}
         variants={fadeInVariants}
-        className="flex flex-col items-center justify-center bg-[#fffdfd] text-black pb-24 pt-24 px-8"
+        className="flex flex-col items-center text-gray-600 dark:text-gray-300 justify-center pb-24 pt-24 px-8"
       >
         <div className="w-full max-w-4xl">
           <Slider {...sliderSettings}>
@@ -130,19 +142,19 @@ export default function Home() {
             </div>
           </Slider>
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold mt-10 mb-6 text-center">
+        <h1 className="text-4xl text-gray-900 dark:text-gray-300 md:text-5xl font-bold mt-10 mb-6 text-center">
           Welcome to SnapShop!
         </h1>
-        <p className="text-lg md:text-xl text-center max-w-2xl mb-8 leading-relaxed">
+        <p className="text-lg md:text-xl text-gray-900 dark:text-gray-300 text-center max-w-2xl mb-8 leading-relaxed">
           Discover amazing products at unbeatable prices. Your one-stop online shop for everything you need.
         </p>
         <button
           aria-label="Shop Now"
-          className="bg-[#fffdfd] text-pink-600 font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-pink-100 hover:scale-105 transition-transform"
+          className="bg-[#fffdfd]  text-pink-600 font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-pink-100 hover:scale-105 transition-transform"
           onClick={() => {
-            const section = document.querySelector('.categories');
+            const section = document.querySelector(".categories");
             if (section) {
-              section.scrollIntoView({ behavior: 'smooth' });
+              section.scrollIntoView({ behavior: "smooth" });
             }
           }}
         >
@@ -152,12 +164,11 @@ export default function Home() {
 
       <div className="bg-[#aba4a4] h-0.5 w-full rounded-full"></div>
 
-      {/* Featured Collections */}
       <section className="categories text-gray-600 body-font">
         <div className="container px-5 py-24 mx-auto">
 
           <div className="flex flex-wrap w-full mb-20 flex-col items-center text-center">
-            <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
+            <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900 dark:text-gray-300">
               Categories
             </h1>
           </div>
@@ -186,10 +197,10 @@ export default function Home() {
                         alt={item.title}
                         layout="fill"
                         objectFit="cover"
-                        className="transition-all duration-500 ease-in-out transform group-hover:scale-110 opacity-100 hover:opacity-90"
+                        className="transition-all duration-500 ease-in-out transform group-hover:scale-110 opacity-100 hover:opacity-90 rounded-lg"
                       />
                     </div>
-                    <h3 className="text-center text-lg text-gray-900 font-medium title-font p-3 mb-2 mt-4">
+                    <h3 className="text-center text-lg text-gray-900 dark:text-gray-300 font-medium title-font p-3 mb-2 mt-4">
                       {item.title}
                     </h3>
                   </div>
@@ -200,10 +211,11 @@ export default function Home() {
 
 
           <div className="flex flex-wrap w-full mb-20 mt-20 flex-col items-center text-center">
-            <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
+            <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900 dark:text-gray-300">
               SnapShop Featured Collections
             </h1>
           </div>
+
           <div className="flex flex-wrap -m-4">
             {featuredCollections.map((item, index) => (
               <div
@@ -211,6 +223,25 @@ export default function Home() {
                 className="sm:w-1/2 md:w-[20em] p-4 w-[11em] m-auto"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
+                onClick={() => {
+                  toast.info(`Go to ${item.title} section from your categories.`, {
+                    position: "top-center",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                  });
+
+                  // Scroll to the section
+                  const section = document.querySelector('.categories');
+                  if (section) {
+                    section.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
               >
                 <div className="border border-gray-200 p-2 rounded-lg relative group h-full transition-transform duration-500 ease-in-out hover:scale-105">
                   {/* Set aspect ratio container */}
@@ -228,10 +259,10 @@ export default function Home() {
                       alt={item.title}
                       layout="fill"
                       objectFit="cover"
-                      className="transition-all duration-500 ease-in-out transform group-hover:scale-110 opacity-100 hover:opacity-90"
+                      className="transition-all duration-500 ease-in-out transform group-hover:scale-110 opacity-100 hover:opacity-90 rounded-lg"
                     />
                   </div>
-                  <h3 className="text-center text-lg text-gray-900 font-medium title-font p-3 mb-2 mt-4">
+                  <h3 className="text-center text-lg text-gray-900 dark:text-gray-300 font-medium title-font p-3 mb-2 mt-4">
                     {item.title}
                   </h3>
                 </div>
@@ -248,8 +279,8 @@ export default function Home() {
                   <path d="M14 6a2 2 0 1 0 -4 0c0 1.667 .67 3 2 4h-.008l7.971 4.428a2 2 0 0 1 1.029 1.749v.823a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-.823a2 2 0 0 1 1.029 -1.749l7.971 -4.428"></path>
                 </svg>
               </div>
-              <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Premium Tshirts</h2>
-              <p class="leading-relaxed text-base text-center">Our T-Shirts are 100% made of cotton.</p>
+              <h2 class="text-lg text-gray-900 dark:text-gray-300 font-medium title-font mb-2">Premium Tshirts</h2>
+              <p class="leading-relaxed text-base text-gray-900 dark:text-gray-300 text-center">Our T-Shirts are 100% made of cotton.</p>
             </div>
           </div>
           <div class="xl:w-1/3 md:w-1/2 p-4 m-auto">
@@ -259,8 +290,8 @@ export default function Home() {
                   <path d="M624 352h-16V243.9c0-12.7-5.1-24.9-14.1-33.9L494 110.1c-9-9-21.2-14.1-33.9-14.1H416V48c0-26.5-21.5-48-48-48H112C85.5 0 64 21.5 64 48v48H8c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h272c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H40c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h208c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H8c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h208c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H64v128c0 53 43 96 96 96s96-43 96-96h128c0 53 43 96 96 96s96-43 96-96h48c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zM160 464c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm320 0c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm80-208H416V144h44.1l99.9 99.9V256z"></path>
                 </svg>
               </div>
-              <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Free Shipping</h2>
-              <p class="leading-relaxed text-base text-center">We ship all over India for FREE.</p>
+              <h2 class="text-lg text-gray-900 dark:text-gray-300font-medium title-font mb-2">Free Shipping</h2>
+              <p class="leading-relaxed text-base text-gray-900 dark:text-gray-300 text-center">We ship all over India for FREE.</p>
             </div>
           </div>
           <div class="xl:w-1/3 md:w-1/2 p-4 m-auto">
@@ -269,12 +300,12 @@ export default function Home() {
                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 320 512" class="text-3xl" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                   <path d="M308 96c6.627 0 12-5.373 12-12V44c0-6.627-5.373-12-12-12H12C5.373 32 0 37.373 0 44v44.748c0 6.627 5.373 12 12 12h85.28c27.308 0 48.261 9.958 60.97 27.252H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h158.757c-6.217 36.086-32.961 58.632-74.757 58.632H12c-6.627 0-12 5.373-12 12v53.012c0 3.349 1.4 6.546 3.861 8.818l165.052 152.356a12.001 12.001 0 0 0 8.139 3.182h82.562c10.924 0 16.166-13.408 8.139-20.818L116.871 319.906c76.499-2.34 131.144-53.395 138.318-127.906H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-58.69c-3.486-11.541-8.28-22.246-14.252-32H308z"></path></svg>
               </div>
-              <h2 class="text-lg text-gray-900 font-medium title-font mb-2"> Exciting Offers</h2>
-              <p class="leading-relaxed text-base text-center">We provide amazing offers & discounts on our products.</p>
+              <h2 class="text-lg text-gray-900 dark:text-gray-300 font-medium title-font mb-2"> Exciting Offers</h2>
+              <p class="leading-relaxed text-gray-900 dark:text-gray-300 text-base text-center">We provide amazing offers & discounts on our products.</p>
             </div>
           </div>
         </div>
       </section >
-    </div >
+    </div>
   );
 }

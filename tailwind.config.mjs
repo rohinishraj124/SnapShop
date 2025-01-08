@@ -8,11 +8,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        // Define these variables in your CSS file
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
       },
     },
   },
+  darkMode: 'class', // Enable dark mode using the class strategy
   plugins: [],
 };
-

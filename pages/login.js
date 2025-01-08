@@ -5,7 +5,8 @@ import { useRouter } from 'next/router';
 import { HiEye, HiEyeOff } from 'react-icons/hi'; // Import eye icons
 import showToast from '@/utils/toastfile';
 import Head from 'next/head';
-const Login = () => {
+
+const Login = ({ theme, toggleTheme }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
@@ -25,10 +26,10 @@ const Login = () => {
       setPassword(savedPassword);
       setRememberMe(true);
     }
-    
+
     const token = localStorage.getItem('token');
     if (token) {
-      Router.push('/'); 
+      Router.push('/');
     }
   }, []);
 
@@ -36,7 +37,7 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-  
+
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
         method: 'POST',
@@ -45,13 +46,13 @@ const Login = () => {
         },
         body: JSON.stringify({ email, password }),
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('name', data.name);
-  
+
         // If remember me is checked, store the email and password in localStorage
         if (rememberMe) {
           localStorage.setItem('email', email);
@@ -62,7 +63,7 @@ const Login = () => {
           localStorage.removeItem('password');
           localStorage.removeItem('rememberMe');
         }
-  
+
         showToast({ success: 'Login successful' });
         setEmail('');
         setPassword('');
@@ -82,10 +83,9 @@ const Login = () => {
       setLoading(false);
     }
   };
-  
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen dark:bg-gray-900">
       <Head>
         <title>Login</title>
       </Head>
@@ -99,10 +99,10 @@ const Login = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover={false}
-        theme="light"
+        theme={theme === 'dark' ? 'dark' : 'light'}
         transition={Slide}
       />
-      <div className="w-full max-w-sm p-6 space-y-8 bg-white rounded-lg shadow-md">
+      <div className="w-full max-w-sm p-6 space-y-8 bg-white dark:bg-gray-800 rounded-lg shadow-md">
         <div className="flex justify-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -117,11 +117,11 @@ const Login = () => {
             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
           </svg>
         </div>
-        <h2 className="text-2xl font-bold text-center text-gray-800">Login to Your Account</h2>
+        <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-gray-300">Login to Your Account</h2>
         {error && <div className="text-sm text-red-500 text-center">{error}</div>}
         <form className="space-y-4" onSubmit={handleLogin}>
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-900 dark:text-gray-300">
               Email Address
             </label>
             <input
@@ -130,12 +130,12 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:ring-pink-500 focus:border-pink-500"
+              className="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:ring-pink-500 focus:border-pink-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:focus:ring-pink-400 dark:focus:border-pink-400"
               placeholder="Enter your email"
             />
           </div>
           <div className="relative">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-900 dark:text-gray-300">
               Password
             </label>
             <input
@@ -144,7 +144,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:ring-pink-500 focus:border-pink-500"
+              className="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:ring-pink-500 focus:border-pink-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:focus:ring-pink-400 dark:focus:border-pink-400"
               placeholder="Enter your password"
             />
             <button
@@ -153,9 +153,9 @@ const Login = () => {
               className="absolute right-3 top-1/2 transform -translate-y-1/2 mt-3"
             >
               {passwordVisible ? (
-                <HiEyeOff className="w-6 h-6 text-gray-500" />
+                <HiEyeOff className="w-6 h-6 text-gray-900 dark:text-gray-300" />
               ) : (
-                <HiEye className="w-6 h-6 text-gray-500" />
+                <HiEye className="w-6 h-6 text-gray-900 dark:text-gray-300" />
               )}
             </button>
           </div>
@@ -168,7 +168,7 @@ const Login = () => {
                 onChange={(e) => setRememberMe(e.target.checked)}
                 className="w-4 h-4 text-pink-500 border-gray-300 rounded focus:ring-pink-500"
               />
-              <label htmlFor="remember" className="ml-2 text-sm text-gray-600">
+              <label htmlFor="remember" className="ml-2 text-sm text-gray-900 dark:text-gray-300">
                 Remember me
               </label>
             </div>
@@ -184,7 +184,7 @@ const Login = () => {
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
-        <p className="text-sm text-center text-gray-600">
+        <p className="text-sm text-center text-gray-900 dark:text-gray-300">
           Don't have an account?{' '}
           <Link href="/signup" className="text-pink-500 hover:underline">
             Sign up

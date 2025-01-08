@@ -22,32 +22,32 @@ const MyOrder = ({ order }) => {
   }
 
   return (
-    <section className="bg-gray-100 py-12 px-6">
+    <section className="bg-gray-100 dark:bg-gray-900 py-12 px-6">
       <Head>
         <title>Order Confirmation</title>
       </Head>
-      <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-8">
+      <div className="max-w-3xl mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8">
         <h2 className="text-indigo-600 text-sm font-semibold uppercase tracking-wide">SnapShop</h2>
-        <h1 className="text-3xl font-bold text-gray-800 mt-2 mb-6">Order ID: <span className="text-indigo-500">{order.orderId}</span></h1>
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">Your Order has been placed successfully.</h2>
-        <h3 className="text-lg font-medium text-gray-600 mb-2">Payment Method: Cash on Delivery</h3>
-        <p className="text-gray-500 mb-6">Order Details:</p>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-300 mt-2 mb-6">Order ID: <span className="text-indigo-500">{order.orderId}</span></h1>
+        <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-4">Your Order has been placed successfully.</h2>
+        <h3 className="text-lg font-medium text-gray-600 dark:text-gray-300 mb-2">Payment Method: Cash on Delivery</h3>
+        <p className="text-gray-500 dark:text-gray-300 mb-6">Order Details:</p>
 
         <div className="overflow-x-auto">
           <table className="table-auto w-full text-left whitespace-no-wrap">
             <thead>
               <tr>
-                <th className="px-4 py-2 text-gray-900 font-semibold">Item</th>
-                <th className="px-4 py-2 text-gray-900 font-semibold">Quantity</th>
-                <th className="px-4 py-2 text-gray-900 font-semibold">Price</th>
+                <th className="px-4 py-2 text-gray-900 dark:text-gray-300 font-semibold">Item</th>
+                <th className="px-4 py-2 text-gray-900 dark:text-gray-300 font-semibold">Quantity</th>
+                <th className="px-4 py-2 text-gray-900 dark:text-gray-300 font-semibold">Price</th>
               </tr>
             </thead>
             <tbody>
               {order.products.map((item) => (
                 <tr key={item._id.$oid} className="border-t">
-                  <td className="px-4 py-2 text-gray-800">{item.name}</td>
-                  <td className="px-4 py-2 text-gray-700">{item.qty}</td>
-                  <td className="px-4 py-2 text-gray-800">₹{(item.price).toFixed(2)}</td>
+                  <td className="px-4 py-2 text-gray-800 dark:text-gray-300">{item.name}</td>
+                  <td className="px-4 py-2 text-gray-800 dark:text-gray-300">{item.qty}</td>
+                  <td className="px-4 py-2 text-gray-800 dark:text-gray-300">₹{(item.price).toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>
@@ -55,8 +55,8 @@ const MyOrder = ({ order }) => {
         </div>
 
         <div className="flex justify-between items-center border-t border-gray-300 py-4 mt-6">
-          <span className="text-gray-600 font-medium">Total</span>
-          <span className="text-xl font-bold text-gray-900">₹{(order.amount).toFixed(2)}</span>
+          <span className="text-gray-900 dark:text-gray-300 font-medium">Total</span>
+          <span className="text-xl font-bold text-gray-900 dark:text-gray-300">₹{(order.amount).toFixed(2)}</span>
         </div>
 
         <div className="mt-8 flex justify-center">
