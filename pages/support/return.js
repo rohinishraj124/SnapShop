@@ -32,7 +32,7 @@ const ReturnPage = () => {
   if (!isClient) return null; // Prevent rendering until the page is loaded on the client-side
 
   return (
-    <div className="bg-gray-50 text-gray-800">
+    <div className="bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-pink-600 via-pink-500 to-pink-400 text-white py-16">
         <div className="container mx-auto px-5 text-center">
@@ -46,8 +46,8 @@ const ReturnPage = () => {
       </section>
 
       {/* Coming Soon Section */}
-      <section className="bg-gray-100 text-red-500 font-semibold py-8 shadow-md rounded-lg mx-5 mb-12">
-        <div className="container mx-auto px-5 text-center">
+      <section className="bg-gray-100 dark:bg-gray-800 text-red-500 font-semibold py-8 shadow-md rounded-lg mx-5 mb-12 mt-6">
+        <div className="container  mx-auto px-5 text-center">
           <p className="text-xl sm:text-2xl font-semibold tracking-wide">
             Our return service will be available soon!
           </p>
@@ -59,11 +59,11 @@ const ReturnPage = () => {
 
       {/* Return Form Section */}
       <section className="container mx-auto py-12 px-5">
-        <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-8">
+        <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8">
           <form onSubmit={handleSubmit}>
             <div className="space-y-4">
               <div>
-                <label htmlFor="orderNumber" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="orderNumber" className="block text-sm font-medium text-gray-900 dark:text-gray-300">
                   Order Number
                 </label>
                 <input
@@ -78,7 +78,7 @@ const ReturnPage = () => {
               </div>
 
               <div>
-                <label htmlFor="reason" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="reason" className="block text-sm font-medium text-gray-900 dark:text-gray-300">
                   Reason for Return
                 </label>
                 <select
@@ -98,7 +98,7 @@ const ReturnPage = () => {
               </div>
 
               <div>
-                <label htmlFor="comments" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="comments" className="block text-sm font-medium text-gray-900 dark:text-gray-300">
                   Additional Comments
                 </label>
                 <textarea
