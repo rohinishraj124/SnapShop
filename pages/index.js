@@ -16,13 +16,16 @@ export default function Home({ theme, toggleTheme }) {
   const sliderSettings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 1500, // Slow transition (increase for even slower effect)
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000,
-    arrows: true,
+    autoplaySpeed: 3000, // Time before changing slides
+    fade: true, // Enables smooth fading transition
+    cssEase: "ease-in-out", // Smooth easing
   };
+
+
 
   // Fade-in animation variants
   const fadeInVariants = {
@@ -113,34 +116,19 @@ export default function Home({ theme, toggleTheme }) {
       >
         <div className="w-full max-w-4xl">
           <Slider {...sliderSettings}>
-            <div className="relative">
-              <Image
-                src="/featured/image1.jpg"
-                alt="Slide 1"
-                width={800}
-                height={400}
-                className="rounded-lg object-contain w-full h-64 mx-auto"
-              />
-            </div>
-            <div className="relative">
-              <Image
-                src="/featured/image2.jpg"
-                alt="Slide 2"
-                width={800}
-                height={400}
-                className="rounded-lg object-contain w-full h-64 mx-auto"
-              />
-            </div>
-            <div className="relative">
-              <Image
-                src="/featured/image3.jpg"
-                alt="Slide 3"
-                width={800}
-                height={400}
-                className="rounded-lg object-contain w-full h-64 mx-auto"
-              />
-            </div>
+            {["image1.jpg", "image2.jpg", "image3.jpg"].map((img, index) => (
+              <div key={index} className="relative transition-opacity duration-1000 ease-in-out">
+                <Image
+                  src={`/featured/${img}`}
+                  alt={`Slide ${index + 1}`}
+                  width={800}
+                  height={400}
+                  className="rounded-lg object-contain w-full h-64 mx-auto"
+                />
+              </div>
+            ))}
           </Slider>
+
         </div>
         <h1 className="text-4xl text-gray-900 dark:text-gray-300 md:text-5xl font-bold mt-10 mb-6 text-center">
           Welcome to SnapShop!

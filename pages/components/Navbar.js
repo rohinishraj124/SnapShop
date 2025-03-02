@@ -56,7 +56,7 @@ const Navbar = ({
           className="text-gray-600 dark:text-gray-300 hover:text-pink-500 flex items-center"
           onClick={toggleDropdown}
         >
-          <FaUser className="w-6 h-6" />
+          <FaUser className="w-5 h-5" />
         </button>
         {isDropdownVisible && (
           <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-lg z-50">
@@ -143,7 +143,7 @@ const Navbar = ({
             className="text-gray-600 dark:text-gray-300 focus:outline-none"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            {menuOpen ? <HiX className="w-6 h-6" /> : <HiMenu className="w-6 h-6" />}
+            {menuOpen ? <HiX className="w-5 h-5" /> : <HiMenu className="w-5 h-5" />}
           </button>
         </div>
         <div className="flex items-center ml-2">
@@ -164,7 +164,7 @@ const Navbar = ({
           </Link>
         </div>
         <div className="hidden md:flex space-x-8 mx-auto">
-          <Link href="/men" className="text-gray-600 dark:text-gray-300 hover:text-pink-500">
+          <Link href="/men" className="text-gray-600 dark:text-gray-300 hover:text-pink-500 ">
             Men
           </Link>
           <Link href="/women" className="text-gray-600 dark:text-gray-300 hover:text-pink-500">
@@ -175,16 +175,10 @@ const Navbar = ({
           </Link>
         </div>
         <div className="flex items-center ml-auto space-x-4">
-          <button
-            onClick={toggleTheme}
-            className="text-gray-600 dark:text-gray-300 hover:text-pink-500"
-          >
-            {theme === 'light' ? <BsMoon className="w-6 h-6" /> : <BsSun className="w-6 h-6" />}
-          </button>
           {!user ? (
             <Link
               href="/login"
-              className="text-white bg-pink-500 hover:bg-pink-600 text-sm font-semibold py-1 px-4 rounded-lg"
+              className="text-white bg-pink-500 hover:bg-pink-600 text-sm font-semibold py-1 px-4 rounded-lg mx-4"
             >
               Login
             </Link>
@@ -195,7 +189,13 @@ const Navbar = ({
             className="text-gray-600 dark:text-gray-300 hover:text-pink-500"
             onClick={() => setCartOpen(!cartOpen)}
           >
-            <FaShoppingCart className="w-6 h-6" />
+            <FaShoppingCart className="w-5 h-5" />
+          </button>
+          <button
+            onClick={toggleTheme}
+            className="text-gray-600 dark:text-gray-300 hover:text-pink-500"
+          >
+            {theme === 'light' ? <BsMoon className="w-5 h-5" /> : <BsSun className="w-5 h-5" />}
           </button>
         </div>
       </div>
@@ -211,7 +211,7 @@ const Navbar = ({
             onClick={() => setMenuOpen(false)}
             aria-label="Close menu"
           >
-            <HiX className="w-6 h-6" />
+            <HiX className="w-5 h-5" />
           </button>
         </div>
         <div className="flex flex-col p-4 space-y-4">
@@ -234,7 +234,7 @@ const Navbar = ({
             onClick={() => setCartOpen(false)}
             aria-label="Close cart"
           >
-            <HiX className="w-6 h-6" />
+            <HiX className="w-5 h-5" />
           </button>
         </div>
         <div className="p-4 space-y-4">
