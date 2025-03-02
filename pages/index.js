@@ -11,27 +11,8 @@ import { ToastContainer, toast, Bounce } from "react-toastify";
 export default function Home({ theme, toggleTheme }) {
   const [currentImage, setCurrentImage] = useState({ index: 0 });
   const [isHovered, setIsHovered] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  // Slider settings
-  const sliderSettings = {
-    dots: true,
-    infinite: true,
-    speed: 1500, // Slow transition (increase for even slower effect)
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000, // Time before changing slides
-    fade: true, // Enables smooth fading transition
-    cssEase: "ease-in-out", // Smooth easing
-  };
-
-
-
-  // Fade-in animation variants
-  const fadeInVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeInOut" } },
-  };
 
   const Categories = [
     {
@@ -77,17 +58,62 @@ export default function Home({ theme, toggleTheme }) {
       images: ["/featured/casual1.jpg", "/featured/casual2.jpg", "/featured/casual3.jpg"],
     },
   ];
+  const allCollections = [...Categories, ...featuredCollections]; // Combine both sections
+  const [imageIndex, setImageIndex] = useState(allCollections.map(() => 0));
+
+  // Slider settings
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 1500, // Slow transition (increase for even slower effect)
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000, // Time before changing slides
+    fade: true, // Enables smooth fading transition
+    cssEase: "ease-in-out", // Smooth easing
+  };
+
+
+
+  // Fade-in animation variants
+  const fadeInVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeInOut" } },
+  };
+
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImage((prev) => {
-        const nextIndex = (prev.index + 1) % 3;
-        return { ...prev, index: nextIndex };
-      });
+      setImageIndex((prevIndexes) =>
+        prevIndexes.map((currentIndex, i) =>
+          (currentIndex + 1) % allCollections[i].images.length
+        )
+      );
     }, 3000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [allCollections]);
+
+  const handleCardClick = (title) => {
+    toast.info(`Go to ${title} section from your categories.`, {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+
+    // Scroll to the section
+    const section = document.querySelector(".categories");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  }
 
   return (
     <div className={`min-h-screen flex flex-col ${theme === "dark" ? "bg-gray-900 text-white" : "bg-gray-50 text-black"}`}>
@@ -160,42 +186,44 @@ export default function Home({ theme, toggleTheme }) {
               Categories
             </h1>
           </div>
-          <div className="flex flex-wrap -m-4">
+
+
+          <div className="flex flex-wrap -m-4 categories">
             {Categories.map((item, index) => (
-              <div
-                key={index}
-                className="sm:w-1/2 md:w-[20em] p-4 w-[11em] m-auto"
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-              >
-                <Link href={item.url}>
+              <Link key={index} href={item.url} passHref className="sm:w-1/2 md:w-[20em] p-4 w-[11em] m-auto">
+                <div
+                  className="sm:w-1/2 md:w-[20em] p-4 w-[11em] m-auto cursor-pointer"
+                  onMouseEnter={() => setHoveredIndex(index)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                >
                   <div className="border border-gray-200 p-2 rounded-lg relative group h-full transition-transform duration-500 ease-in-out hover:scale-105">
-                    {/* Set aspect ratio container */}
-                    <div
-                      className="relative w-full"
-                      style={{ paddingBottom: "150%", overflow: "hidden" }}
-                    >
-                      {/* Hover changes image */}
-                      <Image
-                        src={
-                          isHovered
-                            ? item.images[(currentImage.index) % item.images.length]
-                            : item.images[currentImage.index % item.images.length]
-                        }
-                        alt={item.title}
-                        layout="fill"
-                        objectFit="cover"
-                        className="transition-all duration-500 ease-in-out transform group-hover:scale-110 opacity-100 hover:opacity-90 rounded-lg"
-                      />
+                    <div className="relative w-full overflow-hidden" style={{ paddingBottom: "150%" }}>
+                      <div className="absolute inset-0 w-full h-full">
+                        {item.images.map((img, imgIdx) => (
+                          <Image
+                            key={imgIdx}
+                            src={img}
+                            alt={item.title}
+                            layout="fill"
+                            objectFit="cover"
+                            className={`absolute inset-0 rounded-lg transition-all duration-1000 ease-in-out ${imgIdx === imageIndex[index]
+                                ? "opacity-100 scale-100 z-10"
+                                : "opacity-0 scale-105 z-0"
+                              } ${hoveredIndex === index ? "scale-110 opacity-90" : ""}`}
+                          />
+                        ))}
+                      </div>
                     </div>
                     <h3 className="text-center text-lg text-gray-900 dark:text-gray-300 font-medium title-font p-3 mb-2 mt-4">
                       {item.title}
                     </h3>
                   </div>
-                </Link>
-              </div>
+                </div>
+              </Link>
             ))}
           </div>
+
+
 
 
           <div className="flex flex-wrap w-full mb-20 mt-20 flex-col items-center text-center">
@@ -205,57 +233,41 @@ export default function Home({ theme, toggleTheme }) {
           </div>
 
           <div className="flex flex-wrap -m-4">
-            {featuredCollections.map((item, index) => (
-              <div
-                key={index}
-                className="sm:w-1/2 md:w-[20em] p-4 w-[11em] m-auto"
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-                onClick={() => {
-                  toast.info(`Go to ${item.title} section from your categories.`, {
-                    position: "top-center",
-                    autoClose: 1000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                    transition: Bounce,
-                  });
-
-                  // Scroll to the section
-                  const section = document.querySelector('.categories');
-                  if (section) {
-                    section.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
-              >
-                <div className="border border-gray-200 p-2 rounded-lg relative group h-full transition-transform duration-500 ease-in-out hover:scale-105">
-                  {/* Set aspect ratio container */}
-                  <div
-                    className="relative w-full"
-                    style={{ paddingBottom: "150%", overflow: "hidden" }}
-                  >
-                    {/* Hover changes image */}
-                    <Image
-                      src={
-                        isHovered
-                          ? item.images[(currentImage.index) % item.images.length]
-                          : item.images[currentImage.index % item.images.length]
-                      }
-                      alt={item.title}
-                      layout="fill"
-                      objectFit="cover"
-                      className="transition-all duration-500 ease-in-out transform group-hover:scale-110 opacity-100 hover:opacity-90 rounded-lg"
-                    />
+            {featuredCollections.map((item, index) => {
+              const globalIndex = Categories.length + index; // Adjust index for shared state
+              return (
+                <div
+                  key={`featured-${index}`}
+                  className="sm:w-1/2 md:w-[20em] p-4 w-[11em] m-auto"
+                  onMouseEnter={() => setHoveredIndex(globalIndex)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                  onClick={() => handleCardClick(item.title)}
+                >
+                  <div className="border border-gray-200 p-2 rounded-lg relative group h-full transition-transform duration-500 ease-in-out hover:scale-105">
+                    <div className="relative w-full overflow-hidden" style={{ paddingBottom: "150%" }}>
+                      <div className="absolute inset-0 w-full h-full">
+                        {item.images.map((img, imgIdx) => (
+                          <Image
+                            key={imgIdx}
+                            src={img}
+                            alt={item.title}
+                            layout="fill"
+                            objectFit="cover"
+                            className={`absolute inset-0 rounded-lg transition-all duration-1000 ease-in-out ${imgIdx === imageIndex[globalIndex]
+                                ? "opacity-100 scale-100 z-10"
+                                : "opacity-0 scale-105 z-0"
+                              } ${hoveredIndex === globalIndex ? "scale-110 opacity-90" : ""}`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    <h3 className="text-center text-lg text-gray-900 dark:text-gray-300 font-medium title-font p-3 mb-2 mt-4">
+                      {item.title}
+                    </h3>
                   </div>
-                  <h3 className="text-center text-lg text-gray-900 dark:text-gray-300 font-medium title-font p-3 mb-2 mt-4">
-                    {item.title}
-                  </h3>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 

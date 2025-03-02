@@ -33,14 +33,15 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
         progress: undefined,
         theme: "light",
         transition: Slide,
-        onClose: () => setToastId(null),
       });
-  
-      setToastId(id);
+
+      setToastId((prevId) => id || prevId); // Ensure toastId is set correctly
     }
-  }, [selectedColor]);
-  
-  
+  }, [selectedColor, toastId, toast]);
+
+
+
+
 
   useEffect(() => {
     if (selectedColor) {
@@ -84,7 +85,7 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
       progress: undefined,
       theme: "light",
       transition: Slide,
-      });
+    });
   };
 
   const handleBuyNow = () => {
@@ -171,7 +172,7 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
         theme="light"
         transition={Slide}
       />
-      <div className="container px-5 py-24 mx-auto dark:bg-gray-900 max-w-none w-full h-screen">
+      <div className="container px-5 py-24 mx-auto dark:bg-gray-900 max-w-none w-full display-flex flex-col justify-center align-center">
         <div className="lg:w-full mx-auto flex lg:flex-nowrap flex-wrap">
           <img
             alt="ecommerce"
@@ -206,6 +207,7 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
                 ))}
               </div>
             </div>
+
             <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
               <div className="flex">
                 <span className="mr-3 text-gray-900 dark:text-gray-300">Color</span>
@@ -247,27 +249,29 @@ export default function Page({ addCart, product, variants, clearCart, user }) {
               <span className="title-font font-medium text-2xl text-gray-900 dark:text-gray-300">
                 ₹{product.price}
               </span>
-              <div className="flex ml-6">
+              <div className="flex items-center space-x-3 mx-6">
                 <button
-                  className="px-2 py-1 bg-gray-200 text-gray-700 rounded-l-lg hover:bg-gray-300 focus:outline-none text-center"
+                  className="w-10 h-10 bg-pink-500 text-white text-2xl font-bold rounded-full hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all flex items-center justify-center"
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
                 >
-                  -
+                  −
                 </button>
                 <input
                   type="number"
                   value={quantity}
                   onChange={handleQuantityChange}
-                  className="w-12 text-center border-t-0 border-b-0 border-l-0 border-gray-300 focus:ring-0 focus:outline-none"
+                  className="w-16 h-10 text-center text-lg font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-pink-300 focus:outline-none bg-gray-100 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                   min="1"
                 />
                 <button
-                  className="px-2 py-1 bg-gray-200 text-gray-700 rounded-r-lg hover:bg-gray-300 focus:outline-none"
+                  className="w-10 h-10 bg-pink-500 text-white text-2xl font-bold rounded-full hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all flex items-center justify-center"
                   onClick={() => setQuantity(quantity + 1)}
                 >
                   +
                 </button>
               </div>
+
+
             </div>
 
             <div className="mt-6">
