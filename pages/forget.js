@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import emailjs from 'emailjs-com';
 import Link from 'next/link';
 import Head from 'next/head';
-import contactConfig from './contactconfig.js';
+import contactConfig from '../utils/contactconfig.js';
 
 const ForgotPassword = ({ theme }) => {
   const [email, setEmail] = useState('');
